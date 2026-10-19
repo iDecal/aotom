@@ -229,6 +229,29 @@ nav .in{max-width:620px!important;grid-template-columns:1fr 1fr 72px 1fr 1fr!imp
 .product-tile .product-balance strong{color:var(--good)}
 .product-tile .product-price small{font-weight:500;font-size:11px;color:var(--ink2)}
 .product-tile>b{min-height:38px;display:block}
+
+/* ===== UX nâng cấp: ao đang nuôi nổi bật, dropdown gọn, lọc sản phẩm ===== */
+.pond-live{border:1.5px solid color-mix(in srgb,var(--accent) 24%,var(--line))!important;background:linear-gradient(180deg,color-mix(in srgb,var(--accent) 4%,var(--surface)),var(--surface));box-shadow:0 16px 34px -24px rgba(6,126,148,.28)!important}
+.pond-live .pond-head{background:linear-gradient(180deg,color-mix(in srgb,var(--accent) 7%,transparent),transparent)}
+.pond-section-group{display:flex;flex-direction:column;gap:10px;margin-bottom:16px}
+.pond-section-title{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:2px}
+.pond-section-title h3{font-size:16px;margin:0;display:flex;align-items:center;gap:8px}
+.pond-section-title small{font-size:12px;color:var(--ink2)}
+.pond-highlight-pill{display:inline-flex;align-items:center;gap:6px;padding:6px 10px;border-radius:999px;background:#EAF8F7;color:var(--accent);font-size:12px;font-weight:700}
+.pond-collapse{margin:0 16px 14px;border:1px solid var(--line);border-radius:15px;background:var(--bg);overflow:hidden}
+.pond-collapse summary{list-style:none;cursor:pointer;padding:12px 13px;display:flex;align-items:center;gap:8px;font-size:13px;font-weight:700;color:var(--ink)}
+.pond-collapse summary::-webkit-details-marker{display:none}
+.pond-collapse summary span{margin-left:auto;font-size:18px;line-height:1;color:var(--ink2);transition:transform .18s ease}
+.pond-collapse[open] summary span{transform:rotate(180deg)}
+.pond-collapse-body{padding:0 12px 12px;display:flex;flex-direction:column;gap:10px}
+.product-filter-wrap{display:flex;flex-direction:column;gap:10px;margin-bottom:12px}
+.product-filter-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.product-filter-wrap .inp input,.product-filter-wrap .inp select{font-size:14px}
+.product-filter-note{font-size:12px;color:var(--ink2)}
+.filter-chipline{display:flex;gap:8px;flex-wrap:wrap}
+.filter-chip{padding:7px 11px;border-radius:999px;border:1px solid var(--line);background:var(--surface2);font-size:12px;color:var(--ink2);font-weight:600}
+@media(max-width:390px){.product-filter-grid{grid-template-columns:1fr}.pond-collapse{margin:0 14px 12px}}
+
 </style>
 </head>
 <body>
@@ -908,7 +931,7 @@ function lastWaterLine(E){
 }
 /* ---------- dữ liệu và lưu trữ ---------- */
 var crops={}, loaded=false, mode='local', dbh=null, chain={};
-var ui={view:'home',pond:null,logLimit:30,delId:null,endAsk:false,scope:'cur'};
+var ui={view:'home',pond:null,logLimit:30,delId:null,endAsk:false,scope:'cur',menuSection:'menu',productFilterText:'',productFilterCategory:'all',productFilterStock:'all'};
 
 function lsRead(){try{var r=localStorage.getItem(KEY);return r?JSON.parse(r):{};}catch(e){return {};}}
 function lsWrite(){try{localStorage.setItem(KEY,JSON.stringify(crops));}catch(e){}}
@@ -1084,13 +1107,13 @@ function pondCard(p){
     return '<div class="pond-water-cell '+(x.s.lv||'good')+'"><div class="topline">'+si(p2.ic)+p2.l+'</div><b class="num">'+fmt(x.v,p2.d)+(p2.u&&p2.k!=='ph'?'<small>'+p2.u+'</small>':'')+'</b></div>';
   }
   var quick='<div class="pond-quick"><button class="qa feed-btn'+(doneF?' done':'')+'" data-act="form" data-k="feed" data-kind="feed" data-pond="'+p.id+'">'+(doneF?si('check'):ic('feed'))+'Cho ăn</button><button class="qa water-btn'+(doneW?' done':'')+'" data-act="form" data-k="water" data-kind="water" data-pond="'+p.id+'">'+(doneW?si('check'):ic('water'))+'Đo nước</button></div>';
-  return '<div class="card pond pond-compact st-'+st+'"><button class="pond-open" data-act="open" data-pond="'+p.id+'"><div class="pond-head"><div class="pond-iconbox">'+pondSvg(p.area,true)+'</div><div class="pond-main"><div class="pond-title-row"><h2>'+p.name+'</h2><span class="pond-day">'+si('cal')+'Ngày '+s.doc+'</span></div><div class="pond-meta">'+fmt(p.area)+' m² · '+fmt(c.qty)+' con · '+typeLabel(c)+'</div><div class="pond-badges"><span class="stt '+st+'">'+(st==='good'?'Nước ổn':st==='warn'?'Cần chú ý':'Nguy hiểm')+'</span></div></div></div>'+
-   '<div class="pond-body"><div class="pond-spec-grid">'+pondSpec(p)+'</div><div class="pond-kpi-grid">'+
+  return '<div class="card pond pond-compact pond-live st-'+st+'"><button class="pond-open" data-act="open" data-pond="'+p.id+'"><div class="pond-head"><div class="pond-iconbox">'+pondSvg(p.area,true)+'</div><div class="pond-main"><div class="pond-title-row"><h2>'+p.name+'</h2><span class="pond-day">'+si('cal')+'Ngày '+s.doc+'</span></div><div class="pond-meta">'+fmt(p.area)+' m² · '+fmt(c.qty)+' con · '+typeLabel(c)+'</div><div class="pond-badges"><span class="stt '+st+'">'+(st==='good'?'Nước ổn':st==='warn'?'Cần chú ý':'Nguy hiểm')+'</span><span class="pond-highlight-pill">● Đang nuôi</span></div></div></div>'+
+   '<div class="pond-body"><div class="pond-kpi-grid">'+
    '<div class="pond-kpi-card"><div class="label">'+si('shrimp')+'Cỡ tôm</div><b class="num">'+(s.w>=1?fmt(s.w,1):fmt(s.w,2))+'<small>g'+(s.measured?'':' ước')+'</small></b></div>'+
    '<div class="pond-kpi-card"><div class="label">'+si('grid')+'Mật độ</div><b class="num">'+fmt(s.density,0)+'<small>con/m²</small></b></div>'+
-   '<div class="pond-kpi-card"><div class="label">'+si('abw')+'Sinh khối</div><b class="num">'+fmt(s.biomass,0)+'<small>kg</small></b></div></div>'+
-   '<div class="pond-water-row">'+wcell('ph')+wcell('do')+wcell('temp')+'</div>'+
-   '<div class="pond-feed-card"><div class="pond-feed-line"><span>'+si('feed')+'Cho ăn hôm nay</span><strong class="num">'+fmt(s.fedToday,1)+' / '+fmt(s.rec,1)+' kg</strong></div><div class="bar"><i style="width:'+pct+'%"></i></div></div></div></button>'+quick+'</div>';
+   '<div class="pond-kpi-card"><div class="label">'+si('abw')+'Sinh khối</div><b class="num">'+fmt(s.biomass,0)+'<small>kg</small></b></div>'+
+   '</div><div class="pond-feed-card"><div class="pond-feed-line"><span>'+si('feed')+'Cho ăn hôm nay</span><strong class="num">'+fmt(s.fedToday,1)+' / '+fmt(s.rec,1)+' kg</strong></div><div class="bar"><i style="width:'+pct+'%"></i></div></div></div></button>'+
+   '<details class="pond-collapse"><summary>'+si('grid')+' Thông tin ao & chỉ số đã nhập <span>⌄</span></summary><div class="pond-collapse-body"><div class="pond-spec-grid">'+pondSpec(p)+'</div><div class="pond-water-row">'+wcell('ph')+wcell('do')+wcell('temp')+'</div></div></details>'+quick+'</div>';
 }
 /* ---------- thời tiết ao nuôi (Open-Meteo, không cần API key) ---------- */
 var WEATHER_KEY='aotom.weather.location.v1',weatherLocation=null,weatherData=null,weatherBusy=false,weatherError='',weatherFetched=0,weatherEdit=false;
@@ -1144,8 +1167,8 @@ function chooseWeatherCity(city){weatherBusy=true;weatherError='';render();fetch
 
 function homeView(){
   var t=new Date().toLocaleDateString('vi-VN',{weekday:'long',day:'numeric',month:'numeric'});
-  var al=[],act=0;
-  PONDS.forEach(function(p){var c=activeCrop(p.id);if(c){act++;var s=stats(c,p);alertsFor(c,p,s).forEach(function(a){a.pid=p.id;al.push(a);});}});
+  var al=[],act=0,activeP=[],emptyP=[];
+  PONDS.forEach(function(p){var c=activeCrop(p.id);if(c){act++;activeP.push(p);var s=stats(c,p);alertsFor(c,p,s).forEach(function(a){a.pid=p.id;al.push(a);});}else emptyP.push(p);});
   var order={bad:0,warn:1,info:2,good:3};al.sort(function(a,b){return order[a.lv]-order[b.lv];});
   var h='<div class="top"><div class="brand"><span class="logo">'+ic('shrimp')+'</span><div><div class="eyebrow">'+esc(t)+'</div><h1>Trại tôm thẻ</h1></div></div>'+
     '<div class="sync '+(mode==='local'?'loc':'')+'"><i></i>'+(mode==='local'?'Trên máy này':'Đã đồng bộ')+'</div></div>';
@@ -1158,7 +1181,15 @@ function homeView(){
   else if(!al.length)h+='<div class="alert good">'+ai('good')+'<div><b>Mọi thứ ổn</b><small>Chưa có chỉ số nào lệch.</small></div></div>';
   else h+='<div class="stack">'+al.slice(0,3).map(function(a){return '<button class="alert '+a.lv+'" data-act="open" data-pond="'+a.pid+'">'+ai(a.lv)+'<div><b>'+esc(a.t)+'</b><small>'+esc(a.s)+'</small></div></button>';}).join('')+'</div>';
   if(act)h+='<button class="link" data-act="advice" style="align-self:flex-start">'+(al.length>3?'Còn '+(al.length-3)+' mục nữa · ':'')+'Xem lời khuyên chi tiết</button>';
-  h+='</div><div class="section pond-section"><div class="section-heading"><h2 class="sec-h">'+si('pond')+'Danh sách ao nuôi</h2><span class="section-counter">'+PONDS.length+' ao</span></div><div class="stack">'+(PONDS.length?PONDS.map(pondCard).join(''):'<div class="empty">Chưa có ao nào. Hãy thêm thông tin ao nuôi đầu tiên.</div>')+'</div><button class="cta block add-pond-btn" data-act="pondadd"><span class="add-pond-plus">＋</span><span>Thêm ao nuôi</span></button></div>';
+  h+='</div><div class="section pond-section"><div class="section-heading"><h2 class="sec-h">'+si('pond')+'Danh sách ao nuôi</h2><span class="section-counter">'+PONDS.length+' ao</span></div>';
+  if(activeP.length){
+    h+='<div class="pond-section-group"><div class="pond-section-title"><h3>🔵 Ao đang nuôi</h3><small>'+activeP.length+' ao hoạt động</small></div><div class="stack">'+activeP.map(pondCard).join('')+'</div></div>';
+  }
+  if(emptyP.length){
+    h+='<div class="pond-section-group"><div class="pond-section-title"><h3>⚪ Ao trống / chờ thả</h3><small>'+emptyP.length+' ao</small></div><div class="stack">'+emptyP.map(pondCard).join('')+'</div></div>';
+  }
+  if(!PONDS.length)h+='<div class="empty">Chưa có ao nào. Hãy thêm thông tin ao nuôi đầu tiên.</div>';
+  h+='<button class="cta block add-pond-btn" data-act="pondadd"><span class="add-pond-plus">＋</span><span>Thêm ao nuôi</span></button></div>';
   return h;
 }
 
@@ -1540,7 +1571,7 @@ function inboundKg(i){if(i.stockKg!=null)return +i.stockKg||0;var u=(i.u||'').to
 function stockOf(name){var ins=0,outs=0;buyList().forEach(function(b){(b.items||[]).forEach(function(i){if(i.n===name)ins+=inboundKg(i);});});issues.forEach(function(e){if(e.product===name)outs+=+e.kg||0;});return {inKg:ins,outKg:outs,balance:Math.round((ins-outs)*1000)/1000};}
 function inventoryView(){
  var section=ui.menuSection||'menu', names=allProducts();
- var header='<div class="top menu-top"><div><div class="eyebrow">Quản lý trại nuôi</div><h1>'+({menu:'Menu',suppliers:'Nhà cung cấp',products:'Sản phẩm',stock:'Tồn kho',issues:'Xuất kho'}[section]||'Menu')+'</h1></div></div>';
+ var header='<div class="top menu-top"><div><div class="eyebrow">Quản lý trại nuôi</div><h1>'+({menu:'Menu',suppliers:'Nhà cung cấp',products:'Sản phẩm',stock:'Tồn kho'}[section]||'Menu')+'</h1></div></div>';
  var back='<button class="back" data-act="menuback">← Quay lại Menu</button>';
  if(section==='menu'){
    return header+'<div class="menu-welcome"><b>Danh mục & quản lý</b><span>Chọn mục cần làm để thao tác nhanh.</span></div>'+
@@ -1548,7 +1579,6 @@ function inventoryView(){
    ['suppliers','Nhà cung cấp','Danh sách đại lý, NCC', '🏪'],
    ['products','Sản phẩm','Thêm, chỉnh sửa danh mục','📦'],
    ['stock','Tồn kho','Theo dõi số kg còn lại','📊'],
-   
    ['buy','Nhập hàng','Phiếu nhập và công nợ','🧾'],
    ['guide','Tài liệu / Cẩm nang','Kiến thức nuôi tôm','📖']
    ].map(function(m){return '<button class="menu-tile" data-act="menusection" data-section="'+m[0]+'"><span class="menu-emoji">'+m[3]+'</span><span class="menu-tile-text"><b>'+m[1]+'</b><small>'+m[2]+'</small></span><span class="menu-chevron">›</span></button>';}).join('')+'</div>';
@@ -1558,10 +1588,15 @@ function inventoryView(){
    '<div class="section"><h2>Danh sách NCC · '+suppliers.length+'</h2><div class="stack">'+(suppliers.length?suppliers.map(function(v,i){var n=supplierName(v),phone=typeof v==='object'?v.phone||'':'',addr=typeof v==='object'?v.address||'':'';return '<div class="card menu-list-item"><div class="menu-item-body"><b>'+esc(n)+'</b><small>'+(phone?'☎ '+esc(phone):'Chưa có SĐT')+(addr?' · '+esc(addr):'')+'</small></div><button class="menu-edit" data-act="supplieredit" data-index="'+i+'">✎ <span>Sửa</span></button></div>';}).join(''):'<div class="empty">Chưa có nhà cung cấp. Hãy thêm để chọn nhanh khi nhập hàng.</div>')+'</div></div>';
  }
  if(section==='products'){
-   var groups={}; names.forEach(function(n){var p=products[n]||{},c=catalogItem(n),group=p.category||(c&&c[1])||'Khác';(groups[group]||(groups[group]=[])).push(n);});
+   var q=(ui.productFilterText||'').trim().toLocaleLowerCase('vi');
+   var catSel=ui.productFilterCategory||'all';
+   var stockSel=ui.productFilterStock||'all';
+   var allCats=[]; names.forEach(function(n){var p=products[n]||{},c=catalogItem(n),group=p.category||(c&&c[1])||'Khác'; if(allCats.indexOf(group)===-1)allCats.push(group);});
+   var filtered=names.filter(function(n){var p=products[n]||{},c=catalogItem(n),group=p.category||(c&&c[1])||'Khác',st=stockOf(n),ok=true; if(q){ok=ok&&n.toLocaleLowerCase('vi').indexOf(q)!==-1;} if(catSel!=='all'){ok=ok&&group===catSel;} if(stockSel==='instock'){ok=ok&&st.balance>0;} if(stockSel==='empty'){ok=ok&&st.balance<=0;} return ok;});
+   var groups={}; filtered.forEach(function(n){var p=products[n]||{},c=catalogItem(n),group=p.category||(c&&c[1])||'Khác';(groups[group]||(groups[group]=[])).push(n);});
+   var body=Object.keys(groups).sort(function(a,b){return a.localeCompare(b,'vi');}).map(function(group){return '<section class="product-category"><h3>'+esc(group)+' <small>('+groups[group].length+')</small></h3><div class="product-grid">'+groups[group].map(function(n){var p=products[n]||{},c=catalogItem(n),st=stockOf(n);return '<article class="card product-tile">'+(p.image?'<img class="product-photo" src="'+p.image+'" alt="Ảnh sản phẩm">':'<div class="product-photo product-placeholder">📦</div>')+'<b>'+esc(n)+'</b><div class="product-price"><strong>'+(Number(p.price)>0?mny(p.price):'Chưa có giá')+'<small> / '+esc(p.unit||((c&&c[2])||'kg'))+'</small></strong></div><div class="product-balance"><strong>'+fmt(st.balance,2)+' kg</strong></div><div class="product-actions"><button data-act="productedit" data-name="'+esc(n)+'">✎ Sửa</button><button data-act="productuse" data-name="'+esc(n)+'">↗ Dùng</button></div></article>';}).join('')+'</div></section>';}).join('');
    return header+back+'<button class="cta block menu-primary" data-act="productadd">＋ Thêm sản phẩm</button>'+
-    '<div class="section"><h2>Sản phẩm theo danh mục · '+names.length+'</h2>'+
-    Object.keys(groups).sort(function(a,b){return a.localeCompare(b,'vi');}).map(function(group){return '<section class="product-category"><h3>'+esc(group)+' <small>('+groups[group].length+')</small></h3><div class="product-grid">'+groups[group].map(function(n){var p=products[n]||{},c=catalogItem(n),st=stockOf(n);return '<article class="card product-tile">'+(p.image?'<img class="product-photo" src="'+p.image+'" alt="Ảnh sản phẩm">':'<div class="product-photo product-placeholder">📦</div>')+'<b>'+esc(n)+'</b><div class="product-price"><strong>'+(Number(p.price)>0?mny(p.price):'Chưa có giá')+'<small> / '+esc(p.unit||((c&&c[2])||'kg'))+'</small></strong></div><div class="product-balance"><strong>'+fmt(st.balance,2)+' kg</strong></div><div class="product-actions"><button data-act="productedit" data-name="'+esc(n)+'">✎ Sửa</button><button data-act="productuse" data-name="'+esc(n)+'">↗ Dùng</button></div></article>';}).join('')+'</div></section>';}).join('')+'</div>';
+    '<div class="section"><h2>Sản phẩm theo danh mục · '+filtered.length+'/'+names.length+'</h2><div class="product-filter-wrap"><div class="inp"><input data-role="product-filter-text" placeholder="Tìm tên sản phẩm..." value="'+esc(ui.productFilterText||'')+'"></div><div class="product-filter-grid"><div class="inp"><select data-role="product-filter-category"><option value="all">Tất cả danh mục</option>'+allCats.sort(function(a,b){return a.localeCompare(b,'vi');}).map(function(cat){return '<option value="'+esc(cat)+'"'+(catSel===cat?' selected':'')+'>'+esc(cat)+'</option>';}).join('')+'</select></div><div class="inp"><select data-role="product-filter-stock"><option value="all"'+(stockSel==='all'?' selected':'')+'>Tất cả tồn kho</option><option value="instock"'+(stockSel==='instock'?' selected':'')+'>Còn hàng</option><option value="empty"'+(stockSel==='empty'?' selected':'')+'>Sắp hết / hết</option></select></div></div><div class="filter-chipline"><span class="filter-chip">'+filtered.length+' sản phẩm phù hợp</span>'+(catSel!=='all'?'<span class="filter-chip">'+esc(catSel)+'</span>':'')+(stockSel==='instock'?'<span class="filter-chip">Chỉ còn hàng</span>':'')+(stockSel==='empty'?'<span class="filter-chip">Sắp hết / hết</span>':'')+'</div></div>'+(body||'<div class="empty">Không có sản phẩm phù hợp với bộ lọc.</div>')+'</div>';
  }
  if(section==='stock'){
    return header+back+'<div class="section"><h2>Tồn kho · '+names.length+' mặt hàng</h2><div class="stack">'+(names.length?names.map(function(n){var t=stockOf(n);return '<div class="card menu-list-item"><div class="menu-item-body"><b>'+esc(n)+'</b><small>Nhập '+fmt(t.inKg,2)+' · Đã sử dụng '+fmt(t.outKg,2)+' kg</small></div><div class="menu-item-side"><strong class="'+(t.balance<0?'stock-negative':'stock-positive')+'">'+fmt(t.balance,2)+' kg</strong><button class="menu-edit" data-act="productuse" data-name="'+esc(n)+'">↗ Dùng</button></div></div>';}).join(''):'<div class="empty">Chưa có sản phẩm trong kho.</div>')+'</div></div>'+
@@ -2035,6 +2070,21 @@ function onClick(ev){
   else if(a==='brpt'){var bl2=bFilter();if(bl2.length){pdfExport(reportHtml(bl2),'nhap-hang-'+(ui.buyScope==='all'?'tat-ca':ui.buyMonth)+'.pdf');}}
 }
 document.addEventListener('submit',function(ev){if(ev.target&&ev.target.id==='weather-city-form'){ev.preventDefault();var val=String(ev.target.elements.city.value||'').trim();if(val.length>=2)chooseWeatherCity(val);else toast('Nhập tên địa phương');}});
+
+document.addEventListener('input',function(ev){
+  var t=ev.target;
+  if(t&&t.getAttribute&&t.getAttribute('data-role')==='product-filter-text'){
+    ui.productFilterText=t.value||''; if(ui.view==='inventory'&&(ui.menuSection||'menu')==='products') render();
+  }
+});
+document.addEventListener('change',function(ev){
+  var t=ev.target;
+  if(!t||!t.getAttribute)return;
+  var role=t.getAttribute('data-role');
+  if(role==='product-filter-category'){ui.productFilterCategory=t.value||'all'; if(ui.view==='inventory') render();}
+  else if(role==='product-filter-stock'){ui.productFilterStock=t.value||'all'; if(ui.view==='inventory') render();}
+});
+
 document.addEventListener('click',onClick);
 document.addEventListener('keydown',function(e){if(e.key==='Escape')sheetClose();});
 
