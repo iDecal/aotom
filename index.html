@@ -381,6 +381,14 @@ nav .in{max-width:620px!important;grid-template-columns:1fr 1fr 72px 1fr 1fr!imp
 .buy-simple-list-title h2{font-size:16px;margin:0}
 .buy-simple-list-title span{font-size:12px;color:var(--ink2)}
 @media(max-width:360px){.menu-inline-back{font-size:11px}.menu-inline-head h1{font-size:18px}}
+
+.buy-simple-line{display:flex;flex-direction:column;gap:10px;padding:14px;border:1px solid var(--line);border-radius:16px;background:var(--surface)}
+.buy-qty-row{display:grid;grid-template-columns:minmax(0,1fr) 105px;gap:10px}
+.buy-unit{display:flex;align-items:center;justify-content:center;min-height:50px;border-radius:12px;background:var(--surface2);font-size:14px;font-weight:700;color:var(--ink)}
+.buy-price-hint{font-size:11px;color:var(--ink2);line-height:1.5}
+.buy-line-bottom{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.buy-line-bottom .lt{font-size:15px;font-weight:700}
+@media(max-width:350px){.buy-qty-row{grid-template-columns:minmax(0,1fr) 85px}}
 </style>
 </head>
 <body>
@@ -1911,70 +1919,66 @@ function openBuyDetail(id,confirmDel){
       var nb=JSON.parse(JSON.stringify(b));nb.paid=Math.min(t,(nb.paid||0)+v);buySave(nb);toast('Đã ghi trả tiền');openBuyDetail(id);});}
 }
 function knownItems(){var m={};buyList().slice().reverse().forEach(function(b){(b.items||[]).forEach(function(i){m[i.n.toLowerCase()]=i;});});return m;}
+function buyProductMeta(n){
+ var p=products[n]||{},c=catalogItem(n),old=knownItems()[String(n).toLowerCase()]||{};
+ return {unit:p.unit||(c&&c[2])||old.u||'kg',category:p.category||(c&&c[1])||old.c||'Khác',price:Number(p.price)||0,kgPerBag:Number(p.kgPerBag)||0};
+}
 function bLineHtml(){
-  return '<div class="bline"><div class="fld"><label>Chọn sản phẩm</label><div class="inp"><select name="quickitem">'+itemOptions()+'</select></div></div><div class="inp"><input name="n" list="bitm" placeholder="Tên hàng (chọn ở trên hoặc tự nhập)" autocomplete="off"></div>'+
-   '<div class="bl3"><div class="inp"><input name="q" type="text" inputmode="decimal" placeholder="Số lượng" autocomplete="off"></div><div class="inp"><input name="u" type="text" placeholder="ĐVT" value="kg" autocomplete="off"></div><div class="inp"><input name="p" type="text" inputmode="numeric" data-money="1" placeholder="Đơn giá (đ)" autocomplete="off"></div></div>'+
-   '<div class="fld"><label>Quy đổi số kg nhập kho (bắt buộc nếu đơn vị là bao/gói/chai)</label><div class="inp"><input name="stockkg" type="number" step="0.001" min="0" placeholder="Ví dụ: 20 kg cho 1 bao"></div></div>'+
-   '<div class="bl4"><div class="inp"><select name="c" aria-label="Nhóm hàng">'+categoryList().map(function(c){return '<option>'+c+'</option>';}).join('')+'</select></div><span class="lt num">0 đ</span><button type="button" class="del" data-act="bdelline">Bỏ</button></div>'+ 
-   '<div class="fld"><label>Ảnh mặt hàng (không bắt buộc)</label><input name="photo" type="file" accept="image/*" class="photo-file"><img class="photo-preview" alt="Ảnh mặt hàng" hidden><small class="hint">Ảnh được thu nhỏ trước khi lưu để tiết kiệm dung lượng.</small></div></div>';
+ return '<div class="bline buy-simple-line"><div class="fld"><label>Sản phẩm</label><div class="inp"><select name="quickitem" required><option value="">— Chọn sản phẩm —</option>'+allProducts().map(function(n){return '<option value="'+esc(n)+'">'+esc(n)+'</option>';}).join('')+'</select></div></div>'+
+ '<div class="buy-qty-row"><div class="fld"><label>Số lượng</label><div class="inp"><input name="q" type="number" min="0.001" step="any" inputmode="decimal" placeholder="Nhập số lượng" required></div></div><div class="fld"><label>Đơn vị</label><div class="buy-unit">—</div></div></div>'+
+ '<div class="buy-price-hint">Chọn sản phẩm để lấy giá/ĐVT từ danh mục.</div><div class="buy-line-bottom"><span class="lt num">0 đ</span><button type="button" class="del" data-act="bdelline">Bỏ</button></div></div>';
+}
+function syncBuyLine(l){
+ var n=l.querySelector('[name=quickitem]').value,m=buyProductMeta(n);
+ l.querySelector('.buy-unit').textContent=n?m.unit:'—';
+ l.querySelector('.buy-price-hint').textContent=!n?'Chọn sản phẩm để lấy giá/ĐVT từ danh mục.':m.price>0?('Giá theo danh mục: '+mny(m.price)+' / '+m.unit):'Sản phẩm chưa có giá. Hãy cập nhật giá trong Sản phẩm trước khi nhập.';
 }
 function bRecalc(){
-  var f=$('#bform');if(!f)return;var tot=0;
-  f.querySelectorAll('.bline').forEach(function(l){var q=num(l.querySelector('[name=q]').value),p=num(l.querySelector('[name=p]').value,true),t=(q&&p)?q*p:0;tot+=t;l.querySelector('.lt').textContent=mny(t);});
-  $('#bsum').textContent=mny(tot);
-  var pe=f.elements['paid'],method=f.elements['paymethod']?f.elements['paymethod'].value:'cash';
-  if(method==='cash'){pe.value=tot?Number(Math.round(tot)).toLocaleString('vi-VN'):'';pe.readOnly=true;}
-  else if(method==='debt'){pe.value='0';pe.readOnly=true;}
-  else {pe.readOnly=false;if(!f._paidTouched)pe.value='';}
-  var paid=num(pe.value,true)||0;$('#bdebt').textContent=tot>paid?'Còn nợ '+mny(tot-paid):(tot?'Trả đủ':'');
+ var f=$('#bform');if(!f)return;var tot=0;
+ f.querySelectorAll('.bline').forEach(function(l){var n=l.querySelector('[name=quickitem]').value,q=num(l.querySelector('[name=q]').value),p=buyProductMeta(n).price,t=n&&q>0?p*q:0;tot+=t;l.querySelector('.lt').textContent=mny(t);});
+ $('#bsum').textContent=mny(tot);
 }
 function openBuyForm(){
-  var sup={};suppliers.forEach(function(v){var n=supplierName(v);if(n)sup[n]=1;});buyList().forEach(function(b){if(b.supplier)sup[b.supplier]=1;});
-  var act=PONDS.filter(function(p){return activeCrop(p.id);});
-  var h='<div class="panel-h"><div><div class="eyebrow">Phiếu nhập hàng</div><h2>Nhập hàng mới</h2></div><button class="x" data-act="close" aria-label="Đóng">×</button></div>';
-  h+='<form id="bform" novalidate><div class="stack" style="gap:14px">'+
-   '<div class="fld"><label for="f_bs">1. Chọn đại lý / nơi mua</label><div class="inp"><select id="f_bs" name="agency" required><option value="">— Chọn đại lý trước —</option>'+Object.keys(sup).filter(function(n){return n!=='Mua bên ngoài';}).sort().map(function(n){return '<option value="'+esc(n)+'">'+esc(n)+'</option>';}).join('')+'<option value="Mua bên ngoài">Mua bên ngoài (không có đại lý)</option></select></div><div class="hint">Chưa có đại lý trong danh sách? Chọn “Mua bên ngoài”.</div></div>'+
-   '<button type="button" class="link" data-act="supplieradd">＋ Thêm nhà cung cấp</button>'+
-   '<div class="fld"><label for="f_bd">2. Ngày nhập</label><div class="inp"><input id="f_bd" name="d" type="date" value="'+todayStr()+'"></div></div>'+
-   '<div class="fld"><span class="lab">Hàng đã mua</span><div id="blines" class="stack">'+bLineHtml()+'</div></div>'+
-   '<button type="button" class="link" data-act="productadd">＋ Thêm sản phẩm vào danh mục</button>'+
-   '<button type="button" class="cta ghost block" data-act="baddline">'+si('plus')+'Thêm mặt hàng</button>'+
-   '<div class="btot"><span>Tổng tiền</span><b class="num" id="bsum">0 đ</b></div>'+
-   '<div class="fld"><label for="f_method">Thanh toán</label><div class="inp"><select id="f_method" name="paymethod"><option value="debt" selected>Công nợ (chưa trả)</option><option value="cash">Trả thẳng (trả đủ)</option><option value="part">Trả một phần</option></select></div></div>'+ 
-   '<div class="fld"><label for="f_paid">Đã trả</label><div class="inp"><input id="f_paid" name="paid" type="text" inputmode="numeric" data-money="1" autocomplete="off"><u>đ</u></div><div class="hint" id="bdebt"></div></div>'+
-   (act.length?'<div class="fld"><span class="lab">Tính vào chi phí ao</span><div class="opts"><label class="opt"><input type="radio" name="bpond" value="" checked><span>Không</span></label>'+act.map(function(p){return '<label class="opt"><input type="radio" name="bpond" value="'+p.id+'"><span>'+p.name+'</span></label>';}).join('')+'</div><div class="hint">Chọn ao để ghi nhận chi phí vào báo cáo của ao.</div></div>':'')+
-   '<div class="fld"><label for="f_bn">Ghi chú</label><div class="inp"><input id="f_bn" name="note" type="text" placeholder="Tùy chọn" autocomplete="off"></div></div>'+
-   '<div class="err" id="err" role="alert"></div><button class="cta block" type="submit">Lưu phiếu</button></div></form>';
-  sheetOpen(h);
-  var f=$('#bform');f._paidTouched=false;
-  f.addEventListener('input',function(ev){
-    var t=ev.target;
-    if(t.getAttribute&&t.getAttribute('data-money')){var dg=t.value.replace(/\D/g,'');t.value=dg?Number(dg).toLocaleString('vi-VN'):'';}
-    if(t.name==='paid')f._paidTouched=true;
-    bRecalc();
-  });
-  f.addEventListener('change',function(ev){var t=ev.target;
-    if(t.name==='quickitem'){var l=t.closest('.bline'),c=catalogItem(t.value),old=knownItems()[t.value.toLowerCase()];l.querySelector('[name=n]').value=t.value;l.querySelector('[name=c]').value=c?c[1]:(products[t.value]?products[t.value].category:(old?old.c:'Khác'));l.querySelector('[name=u]').value=products[t.value]&&products[t.value].unit?products[t.value].unit:(c?c[2]:(old?old.u:'cái'));if(old&&!l.querySelector('[name=p]').value)l.querySelector('[name=p]').value=Number(old.p).toLocaleString('vi-VN');if(products[t.value]&&products[t.value].price&&!l.querySelector('[name=p]').value)l.querySelector('[name=p]').value=Number(products[t.value].price).toLocaleString('vi-VN');}
-    if(t.name==='paymethod')f._paidTouched=false;
-    if(t.name==='photo'&&t.files&&t.files[0]){var file=t.files[0],line=t.closest('.bline');if(!file.type.startsWith('image/')){toast('Hãy chọn file ảnh.');return;}var img=new Image(),reader=new FileReader();reader.onload=function(){img.onload=function(){var cv=document.createElement('canvas'),scale=Math.min(1,420/Math.max(img.width,img.height));cv.width=Math.round(img.width*scale);cv.height=Math.round(img.height*scale);cv.getContext('2d').drawImage(img,0,0,cv.width,cv.height);var url=cv.toDataURL('image/jpeg',.65);line._photo=url;var preview=line.querySelector('.photo-preview');preview.src=url;preview.hidden=false;};img.src=reader.result;};reader.readAsDataURL(file);}
-    bRecalc();
-  });
-  f.addEventListener('submit',function(ev){ev.preventDefault();submitBuy(f);});
+ var sup={};suppliers.forEach(function(v){var n=supplierName(v);if(n)sup[n]=1;});buyList().forEach(function(b){if(b.supplier)sup[b.supplier]=1;});
+ var act=PONDS.filter(function(p){return activeCrop(p.id);});
+ var h='<div class="panel-h"><div><div class="eyebrow">Phiếu nhập hàng</div><h2>Nhập hàng mới</h2></div><button class="x" data-act="close" aria-label="Đóng">×</button></div>';
+ h+='<form id="bform" novalidate><div class="stack" style="gap:14px">'+
+ '<div class="fld"><label for="f_bs">Nhà cung cấp</label><div class="inp"><select id="f_bs" name="agency" required><option value="">— Chọn nhà cung cấp —</option>'+Object.keys(sup).filter(function(n){return n!=='Mua bên ngoài';}).sort().map(function(n){return '<option value="'+esc(n)+'">'+esc(n)+'</option>';}).join('')+'<option value="Mua bên ngoài">Mua bên ngoài</option></select></div></div>'+
+ '<button type="button" class="link" data-act="supplieradd">＋ Thêm nhà cung cấp</button>'+
+ '<div class="fld"><label for="f_bd">Ngày nhập</label><div class="inp"><input id="f_bd" name="d" type="date" value="'+todayStr()+'"></div></div>'+
+ '<div class="fld"><span class="lab">Sản phẩm nhập</span><div id="blines" class="stack">'+bLineHtml()+'</div></div>'+
+ '<button type="button" class="link" data-act="productadd">＋ Tạo sản phẩm trong danh mục</button>'+
+ '<button type="button" class="cta ghost block" data-act="baddline">'+si('plus')+'Thêm sản phẩm nhập</button>'+
+ '<div class="btot"><span>Tổng tiền (theo giá sản phẩm)</span><b class="num" id="bsum">0 đ</b></div>'+
+ '<div class="fld"><label for="f_method">Thanh toán</label><div class="inp"><select id="f_method" name="paymethod"><option value="debt" selected>Công nợ (chưa trả)</option><option value="cash">Trả thẳng (đã trả đủ)</option></select></div></div>'+
+ (act.length?'<div class="fld"><span class="lab">Tính vào chi phí ao</span><div class="opts"><label class="opt"><input type="radio" name="bpond" value="" checked><span>Không</span></label>'+act.map(function(p){return '<label class="opt"><input type="radio" name="bpond" value="'+p.id+'"><span>'+esc(p.name)+'</span></label>';}).join('')+'</div></div>':'')+
+ '<div class="fld"><label for="f_bn">Ghi chú</label><div class="inp"><input id="f_bn" name="note" type="text" placeholder="Tùy chọn" autocomplete="off"></div></div>'+
+ '<div class="err" id="err" role="alert"></div><button class="cta block" type="submit">Lưu phiếu nhập</button></div></form>';
+ sheetOpen(h);
+ var f=$('#bform');
+ f.addEventListener('input',function(ev){bRecalc();});
+ f.addEventListener('change',function(ev){if(ev.target.name==='quickitem')syncBuyLine(ev.target.closest('.bline'));bRecalc();});
+ f.addEventListener('submit',function(ev){ev.preventDefault();submitBuy(f);});
 }
 function submitBuy(f){
   var err=$('#err');function bad(m){err.textContent=m;}
   var items=[],tot=0,okAll=true;
   f.querySelectorAll('.bline').forEach(function(l){
-    var n=l.querySelector('[name=quickitem]').value.trim(),q=num(l.querySelector('[name=q]').value),p=num(l.querySelector('[name=p]').value,true);
-    if(!n&&!q&&!p)return;
-    if(!n||!q||q<=0||!p||p<=0){okAll=false;return;}
-    var u=l.querySelector('[name=u]').value.trim(),kgVal=l.querySelector('[name=stockkg]').value;if(kgVal===''&&u.toLowerCase()!=='kg'&&!(['bao','gói','chai','can','thùng'].indexOf(u.toLowerCase())!==-1&&products[n]&&Number(products[n].kgPerBag)>0)){okAll=false;return;}var stockKg=kgVal!==''?Number(kgVal):(['bao','gói','chai','can','thùng'].indexOf(u.toLowerCase())!==-1?q*Number(products[n].kgPerBag):u.toLowerCase()==='g'?q/1000:q);if(!Number.isFinite(stockKg)||stockKg<0){okAll=false;return;}items.push({n:n,c:l.querySelector('[name=c]').value,u:u,q:q,p:p,stockKg:stockKg,img:l._photo||''});tot+=q*p;
+    var n=l.querySelector('[name=quickitem]').value.trim(),q=num(l.querySelector('[name=q]').value);
+    if(!n&&!q)return;
+    var m=buyProductMeta(n),u=m.unit.toLowerCase().trim(),kg=0;
+    if(!n||!Number.isFinite(q)||q<=0||m.price<=0){okAll=false;return;}
+    if(u==='kg'||u==='kilogram')kg=q;
+    else if(u==='g')kg=q/1000;
+    else if(['bao','gói','chai','can','thùng'].indexOf(u)!==-1)kg=q*m.kgPerBag;
+    else if(m.kgPerBag>0)kg=q*m.kgPerBag;
+    if(!Number.isFinite(kg)||kg<=0){okAll=false;return;}
+    items.push({n:n,c:m.category,u:m.unit,q:q,p:m.price,stockKg:kg,img:''});tot+=q*m.price;
   });
-  if(!okAll)return bad('Mỗi mặt hàng cần tên, số lượng, đơn giá và số kg nhập kho nếu đơn vị không phải kg.');
-  if(!items.length)return bad('Chọn ít nhất một mặt hàng.');
-  if(!f.elements['agency'].value)return bad('Vui lòng chọn đại lý hoặc Mua bên ngoài trước khi lưu.');
-  var d=f.elements['d'].value||todayStr(),paid=num(f.elements['paid'].value,true)||0;
-  if(paid>Math.round(tot))return bad('Số đã trả lớn hơn tổng tiền.');
+  if(!okAll)return bad('Hãy chọn sản phẩm có giá và khối lượng quy đổi hợp lệ trong Danh mục, rồi nhập số lượng.');
+  if(!items.length)return bad('Chọn ít nhất một sản phẩm.');
+  if(!f.elements['agency'].value)return bad('Vui lòng chọn nhà cung cấp.');
+  var d=f.elements['d'].value||todayStr(),paid=f.elements['paymethod'].value==='cash'?Math.round(tot):0;
   var pr=f.querySelector('input[name=bpond]:checked'),pid=pr?pr.value:'',c=null;
   if(pid){c=activeCrop(pid);if(!c)return bad('Ao này chưa có vụ nuôi.');if(dayDiff(c.stockDate,d)<0)return bad('Ngày nhập trước ngày thả giống ('+dmy(c.stockDate)+').');}
   var same=buyList().filter(function(x){return x.d===d;}).length+1;
