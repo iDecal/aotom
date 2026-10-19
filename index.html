@@ -458,6 +458,27 @@ nav .in{max-width:620px!important;grid-template-columns:1fr 1fr 72px 1fr 1fr!imp
 .warehouse-warning-home b{font-size:13px}.warehouse-warning-home small{font-size:11px;line-height:1.6;color:#785934;overflow-wrap:anywhere}
 .warehouse-warning-home em{font-size:11px;font-weight:700;font-style:normal;color:#A56721}
 @media(max-width:390px){.warehouse-category-grid{gap:6px}.warehouse-category-card{min-height:100px;padding:10px 5px}.warehouse-category-card b{font-size:10px}.warehouse-category-card strong{font-size:24px}.warehouse-category-card small{font-size:9px}}
+
+/* Tin tức ngành tôm – giao diện mobile-first */
+.news-intro{border-radius:18px;background:linear-gradient(125deg,#1388A6,#0C728F);color:#fff;padding:17px;display:flex;flex-direction:column;gap:7px}
+.news-intro b{font-size:19px}.news-intro span{font-size:12px;line-height:1.6;color:#E5F8FC}
+.news-tools{display:flex;flex-direction:column;gap:12px}
+.news-topline{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.news-topline span{color:var(--ink2);font-size:11px}.news-topline button{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:8px 12px;font-size:12px;font-weight:700}
+.news-chips{display:flex;gap:7px;overflow:auto;padding-bottom:3px;scrollbar-width:none}
+.news-chips button{flex:none;background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:8px 12px;font-size:12px;font-weight:700;color:var(--ink2)}
+.news-chips button.on{color:#fff;background:#188BA9;border-color:#188BA9}
+.news-list{display:flex;flex-direction:column;gap:10px}
+.news-item{display:flex;flex-direction:column;gap:8px;background:var(--surface);padding:14px;border:1px solid var(--line);border-radius:16px;color:var(--ink);text-decoration:none;box-shadow:0 4px 14px rgba(10,55,75,.035)}
+.news-item-top{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.news-item-top span{font-size:11px;font-weight:700;background:#E9F7F8;color:#137588;padding:5px 8px;border-radius:7px}
+.news-item-top small{color:var(--ink2);font-size:10px;text-align:right}
+.news-item>b{font-size:14px;line-height:1.48}
+.news-item p{font-size:12px;line-height:1.65;color:var(--ink2);margin:0}
+.news-item strong{font-size:12px;color:#087EA4}
+.news-note,.news-footnote{font-size:12px;color:var(--ink2);line-height:1.6}
+.news-note{background:#FFF5E7;padding:10px 12px;border-radius:10px}
+
 </style>
 </head>
 <body>
@@ -1907,9 +1928,62 @@ function reportView(header,back){
  return h;
 }
 
+
+/* Tin ngành tôm: RSS công khai, không yêu cầu API key; bài dự phòng có nguồn dẫn rõ. */
+var NEWS_FEEDS=[
+ {id:'price',label:'Giá tôm',query:'"giá tôm thẻ" OR "giá tôm sú" Việt Nam khi:30d'},
+ {id:'market',label:'Thị trường',query:'thị trường tôm Việt Nam xuất khẩu giá 2026 khi:30d'},
+ {id:'tech',label:'Ngành tôm',query:'nuôi tôm công nghệ môi trường dịch bệnh Việt Nam khi:30d'}
+];
+var NEWS_FALLBACK=[
+ {title:'Điểm tin thị trường thủy sản thế giới ngày 16–19/10/2026',source:'VASEP',date:'2026-10-19',category:'market',url:'https://vasep.com.vn/',desc:'Tổng hợp diễn biến thương mại thủy sản quốc tế. Mở nguồn để xem thông tin mới.'},
+ {title:'Bản tin tuần Thương mại Thủy sản số 37/2026',source:'VASEP',date:'2026-10-09',category:'market',url:'https://vasep.com.vn/ban-tin-bao-cao/ban-tin-thuong-mai-thuy-san/bt-tuan-tmts-xuat-ban-nam-2026/ban-tin-tuan-thuong-mai-thuy-san-so-37-2026-27127.html',desc:'Phân tích thị trường tôm Trung Quốc và các biến động thị trường thủy sản.'},
+ {title:'VASEP Highlight tháng 8/2026: Tôm',source:'VASEP',date:'2026-08-28',category:'market',url:'https://vasep.com.vn/vasep-highlight-nha%CC%A3%CC%82n-di%CC%A3nh-thi%CC%A3-tru%CC%9Bo%CC%9B%CC%80ng-thuy%CC%89-sa%CC%89n/vasep-highlight-t8-2026-tom-d2248.html?trang=19',desc:'Những chuyển động xuất khẩu tôm và sức ép cạnh tranh tại thị trường quốc tế.'},
+ {title:'Xuất khẩu thủy sản chững lại, tôm chịu sức ép cạnh tranh lớn',source:'VASEP',date:'2026-08-10',category:'market',url:'https://vasep.com.vn/san-pham-xuat-khau/tin-tong-hop/xuat-nhap-khau/xuat-khau-thuy-san-chung-lai-tom-chiu-suc-ep-canh-tranh-lon-37785.html',desc:'Bối cảnh cạnh tranh tôm Việt Nam với nguồn cung Ecuador và Ấn Độ.'}
+];
+var newsState={category:'all',query:'',items:NEWS_FALLBACK.slice(),loading:false,updated:0,live:false,error:''};
+function newsSafeUrl(u){try{var x=new URL(u);return x.protocol==='https:'?x.href:'#';}catch(e){return '#';}}
+function newsDate(v){var d=new Date(v);return !isNaN(d.getTime())?d.toLocaleDateString('vi-VN'):'Chưa rõ ngày';}
+function newsView(header){
+ var filtered=newsState.items.filter(function(x){
+  var text=(x.title+' '+x.desc+' '+x.source).toLocaleLowerCase('vi');
+  return (newsState.category==='all'||newsState.category===x.category)&&text.indexOf(newsState.query.toLocaleLowerCase('vi'))!==-1;
+ });
+ var source=newsState.live?'Tin RSS công khai · tự cập nhật khi mở mục':'Bài đọc tham khảo · có ngày và nguồn';
+ return header+'<div class="news-intro"><b>🦐 Giá tôm & thị trường</b><span>Cập nhật giá thu mua, xuất khẩu và thông tin ngành tôm. Bấm vào tin để đọc bản gốc.</span></div>'+
+  '<div class="news-tools"><div class="news-topline"><span>'+source+'</span><button type="button" data-act="newsrefresh"'+(newsState.loading?' disabled':'')+'>⟳ '+(newsState.loading?'Đang tải…':'Làm mới')+'</button></div>'+
+  '<div class="news-chips">'+[{id:'all',label:'Tất cả'},{id:'price',label:'Giá tôm'},{id:'market',label:'Thị trường'},{id:'tech',label:'Ngành tôm'}].map(function(x){return '<button data-act="newscat" data-v="'+x.id+'" class="'+(newsState.category===x.id?'on':'')+'">'+x.label+'</button>';}).join('')+'</div>'+
+  '<div class="inp"><input data-role="newssearch" placeholder="Tìm bài viết về tôm…" value="'+esc(newsState.query)+'"></div></div>'+
+  (newsState.error?'<div class="news-note">'+esc(newsState.error)+'</div>':'')+
+  '<div class="news-list">'+(filtered.length?filtered.map(function(a){return '<a class="news-item" href="'+esc(newsSafeUrl(a.url))+'" target="_blank" rel="noopener noreferrer"><div class="news-item-top"><span>'+esc(a.category==='price'?'Giá tôm':a.category==='market'?'Thị trường':'Ngành tôm')+'</span><small>'+esc(a.source)+' · '+newsDate(a.date)+'</small></div><b>'+esc(a.title)+'</b><p>'+esc(a.desc||'Nhấn để xem bài viết đầy đủ tại nguồn.')+'</p><strong>Đọc tin gốc ↗</strong></a>';}).join(''):'<div class="empty">Chưa có bài viết phù hợp. Thử đổi bộ lọc hoặc làm mới.</div>')+'</div>'+
+  '<p class="news-footnote">Giá thu mua tôm thay đổi theo tỉnh, kích cỡ và thời điểm. Tin tức không phải bảng giá giao dịch trực tiếp; hãy xác nhận với thương lái hoặc đại lý trước khi bán.</p>';
+}
+function fetchShrimpNews(){
+ if(newsState.loading)return;
+ newsState.loading=true;newsState.error='';render();
+ var feeds=NEWS_FEEDS.map(function(f){
+  var rss='https://news.google.com/rss/search?q='+encodeURIComponent(f.query)+'&hl=vi&gl=VN&ceid=VN:vi';
+  return fetch('https://api.rss2json.com/v1/api.json?rss_url='+encodeURIComponent(rss),{cache:'no-store'})
+   .then(function(r){if(!r.ok)throw Error('HTTP '+r.status);return r.json();})
+   .then(function(d){if(d.status!=='ok'||!Array.isArray(d.items))throw Error('RSS không sẵn sàng');
+    return d.items.slice(0,14).map(function(x){var title=String(x.title||'').trim(),raw=x.link||'',origin=x.author||(d.feed&&d.feed.title)||'Báo điện tử';
+     return {title:title,source:String(origin).slice(0,85),category:f.id,url:raw,date:x.pubDate||'',desc:String(x.description||'').replace(/<[^>]*>/g,' ').replace(/\s+/g,' ').trim().slice(0,175)};
+    });
+   });
+ });
+ Promise.allSettled(feeds).then(function(results){
+  var entries=[];results.forEach(function(r){if(r.status==='fulfilled')entries=entries.concat(r.value);});
+  var seen={};entries=entries.filter(function(x){var k=x.title.toLocaleLowerCase('vi');if(!x.title||seen[k]||newsSafeUrl(x.url)==='#')return false;seen[k]=true;return true;})
+    .sort(function(a,b){return (Date.parse(b.date)||0)-(Date.parse(a.date)||0);}).slice(0,38);
+  newsState.loading=false;newsState.updated=Date.now();
+  if(entries.length){newsState.items=entries;newsState.live=true;newsState.error='';}
+  else{newsState.items=NEWS_FALLBACK.slice();newsState.live=false;newsState.error='Không kết nối được nguồn RSS. Đang hiển thị bài tham khảo đã xác minh; chọn Làm mới khi có mạng.';}
+  if(ui.view==='inventory'&&ui.menuSection==='news')render();
+ });
+}
 function inventoryView(){
  var section=ui.menuSection||'menu', names=allProducts(),warehouseNames=names.filter(function(n){return stockOf(n).inKg>0;});
- var title=({menu:'Menu',suppliers:'Nhà cung cấp',products:'Sản phẩm',stock:'Kho vật tư',reports:'Báo cáo'}[section]||'Menu');
+ var title=({menu:'Menu',suppliers:'Nhà cung cấp',products:'Sản phẩm',stock:'Kho vật tư',reports:'Báo cáo',news:'Giá tôm & thị trường'}[section]||'Menu');
  var header=section==='menu'?'<div class="top menu-top"><div><div class="eyebrow">Quản lý trại nuôi</div><h1>Menu</h1></div></div>':'<div class="menu-inline-head"><button class="menu-inline-back" data-act="menuback" aria-label="Quay lại Menu">← Quay lại Menu</button><h1>'+title+'</h1></div>';
  var back='';
  if(section==='menu'){
@@ -1919,6 +1993,7 @@ function inventoryView(){
    ['products','Sản phẩm','Thêm, chỉnh sửa danh mục','📦'],
    ['stock','Kho vật tư','Tồn kho, nhập hàng, công nợ','📦'],
    ['reports','Báo cáo','Lãi lỗ, chi phí, thức ăn…','📈'],
+   ['news','Giá tôm & thị trường','Giá thu mua, diễn biến thị trường','🦐'],
    ['guide','Tài liệu / Cẩm nang','Kiến thức nuôi tôm','📖']
    ].map(function(m){return '<button class="menu-tile" data-act="menusection" data-section="'+m[0]+'"><span class="menu-emoji">'+m[3]+'</span><span class="menu-tile-text"><b>'+m[1]+'</b><small>'+m[2]+'</small></span><span class="menu-chevron">›</span></button>';}).join('')+'</div>';
  }
@@ -1939,6 +2014,7 @@ function inventoryView(){
      '<div class="section"><div class="product-list-toolbar"><h2>Sản phẩm <small>'+filtered.length+'/'+names.length+'</small></h2><button class="filter-trigger'+(ui.productFilterOpen?' opened':'')+'" data-act="product-filter-toggle" aria-expanded="'+(ui.productFilterOpen?'true':'false')+'" aria-controls="product-filter-box">'+si('grid')+' Lọc'+(q||catSel!=='all'?' •':'')+'</button></div>'+
      '<div id="product-filter-box" '+(ui.productFilterOpen?'':'hidden')+'>'+filters+'</div>'+(body||'<div class="empty">Không có sản phẩm phù hợp với bộ lọc.</div>')+'</div>';
  }
+ if(section==='news')return newsView(header);
  if(section==='reports')return reportView(header,back);
  if(section==='stock'){
    var tab=ui.warehouseTab||'stock';
@@ -2427,7 +2503,9 @@ function onClick(ev){
   else if(a==='warehousetab'){ui.warehouseTab=el.getAttribute('data-v')||'stock';render();}
   else if(a==='menuback'){ui.menuSection='menu';render();window.scrollTo(0,0);}
   else if(a==='warehousewarning'){ui.view='inventory';ui.menuSection='stock';ui.warehouseTab='stock';render();window.scrollTo(0,0);}
-  else if(a==='menusection'){var s=el.getAttribute('data-section');if(s==='buy'){ui.view='inventory';ui.menuSection='stock';ui.warehouseTab='buy';render();window.scrollTo(0,0);}else if(s==='guide'){ui.view='kb';render();window.scrollTo(0,0);}else{ui.menuSection=s;render();window.scrollTo(0,0);}}
+  else if(a==='newsrefresh'){fetchShrimpNews();}
+  else if(a==='newscat'){newsState.category=el.getAttribute('data-v')||'all';render();}
+  else if(a==='menusection'){var s=el.getAttribute('data-section');if(s==='buy'){ui.view='inventory';ui.menuSection='stock';ui.warehouseTab='buy';render();window.scrollTo(0,0);}else if(s==='guide'){ui.view='kb';render();window.scrollTo(0,0);}else{ui.menuSection=s;render();window.scrollTo(0,0);if(s==='news'&&(!newsState.updated||Date.now()-newsState.updated>15*60*1000))fetchShrimpNews();}}
   else if(a==='issueadd')openIssueForm();
   else if(a==='productinfo')openProductInfo(el.getAttribute('data-name'));
   else if(a==='productuse')openIssueForm(el.getAttribute('data-name'));
@@ -2511,6 +2589,15 @@ cu.then(function(db){
   },function(){startLocal();dbh=null;});
 }).catch(function(){startLocal();});
 })();
+
+document.addEventListener('input',function(ev){
+ if(ev.target&&ev.target.getAttribute('data-role')==='newssearch'){
+  var el=ev.target, start=el.selectionStart,end=el.selectionEnd;
+  newsState.query=el.value;render();
+  var next=document.querySelector('[data-role="newssearch"]');
+  if(next){next.focus();try{next.setSelectionRange(start,end);}catch(e){}}
+ }
+});
 </script>
 
 </body>
