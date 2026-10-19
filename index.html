@@ -367,6 +367,20 @@ nav .in{max-width:620px!important;grid-template-columns:1fr 1fr 72px 1fr 1fr!imp
 #bk .eyebrow{font-size:11px}
 #bk .cta{min-height:32px!important;padding:6px 10px!important;font-size:11px!important}
 
+
+/* 2026: đầu trang con cùng hàng; nhập hàng tối giản */
+.menu-inline-head{display:flex;align-items:center;justify-content:space-between;gap:10px;min-height:49px;margin-bottom:6px}
+.menu-inline-head h1{text-align:right;font-size:clamp(19px,4.5vw,24px);line-height:1.2;color:var(--ink);font-weight:700;min-width:0}
+.menu-inline-back{display:inline-flex;align-items:center;flex:none;gap:5px;padding:8px 0;border:0;background:transparent;color:var(--accent);font-weight:700;font-size:12px;white-space:nowrap;text-align:left}
+.buy-simple-head{display:flex;justify-content:flex-end;margin:2px 0 12px}
+.buy-main-action{min-height:42px!important;flex:1;max-width:100%;border-radius:13px!important;font-size:14px!important;box-shadow:none!important}
+.buy-simple-filter{display:flex;flex-direction:column;gap:7px;margin:0 0 15px}
+.buy-simple-filter .seg{margin:0}
+.buy-simple-filter .mnav{margin:0}
+.buy-simple-list-title{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:0 0 11px}
+.buy-simple-list-title h2{font-size:16px;margin:0}
+.buy-simple-list-title span{font-size:12px;color:var(--ink2)}
+@media(max-width:360px){.menu-inline-back{font-size:11px}.menu-inline-head h1{font-size:18px}}
 </style>
 </head>
 <body>
@@ -892,6 +906,17 @@ nav .fab:hover,nav .fab:active{box-shadow:none!important;filter:none!important;t
 nav .in{grid-template-columns:1fr 1fr 58px 1fr 1fr!important;align-items:center!important}
 .fab-plus{font-size:33px;transform:none;font-weight:400}
 @media(max-width:390px){nav .in{grid-template-columns:1fr 1fr 54px 1fr 1fr!important}.fab{width:50px!important;height:50px!important}}
+
+
+/* 19/10: thời tiết không còn mảng nền xanh; nút + mảnh và nhích lên */
+.home-module-weather{background:transparent!important;border:0!important;border-left:0!important;box-shadow:none!important;padding:0!important;overflow:visible!important}
+.home-module-weather .weather-card{background:var(--surface)!important;border:0!important;box-shadow:none!important;border-radius:19px!important;padding:16px!important}
+.home-module-weather .weather-now{background:#F4F8FA!important;border:0!important}
+.home-module-weather .weather-stat{background:#F7F9FB!important;border:0!important}
+.home-module-weather .weather-head h2{color:var(--ink)!important}
+nav .fab,.fab{margin-top:-7px!important;position:relative!important;top:-3px!important;transition:none!important;animation:none!important;transform:none!important}
+.fab-plus{font-family:Arial,Helvetica,sans-serif!important;font-size:34px!important;font-weight:200!important;line-height:1!important;transform:translateY(-1px)!important;-webkit-text-stroke:0!important}
+nav .fab:hover,nav .fab:active{transform:none!important;filter:none!important;box-shadow:none!important}
 
 </style>
 
@@ -1775,8 +1800,9 @@ function reportView(header,back){
 
 function inventoryView(){
  var section=ui.menuSection||'menu', names=allProducts(),warehouseNames=names.filter(function(n){return stockOf(n).inKg>0;});
- var header='<div class="top menu-top"><div><div class="eyebrow">Quản lý trại nuôi</div><h1>'+({menu:'Menu',suppliers:'Nhà cung cấp',products:'Sản phẩm',stock:'Kho vật tư',reports:'Báo cáo'}[section]||'Menu')+'</h1></div></div>';
- var back='<button class="back" data-act="menuback">← Quay lại Menu</button>';
+ var title=({menu:'Menu',suppliers:'Nhà cung cấp',products:'Sản phẩm',stock:'Kho vật tư',reports:'Báo cáo'}[section]||'Menu');
+ var header=section==='menu'?'<div class="top menu-top"><div><div class="eyebrow">Quản lý trại nuôi</div><h1>Menu</h1></div></div>':'<div class="menu-inline-head"><button class="menu-inline-back" data-act="menuback" aria-label="Quay lại Menu">← Quay lại Menu</button><h1>'+title+'</h1></div>';
+ var back='';
  if(section==='menu'){
    return header+'<div class="menu-welcome"><b>Danh mục & quản lý</b><span>Chọn mục cần làm để thao tác nhanh.</span></div>'+
    '<div class="menu-grid">'+[
@@ -1853,17 +1879,12 @@ function openIssueForm(initialProduct){var names=allProducts();if(!names.length)
 function removeIssue(id){if(!confirm('Xóa phiếu xuất này và hoàn lại lượng tồn kho?'))return;issues=issues.filter(function(e){return e.id!==id;});invSave();render();toast('Đã xóa phiếu xuất');}
 
 function buyBody(){
-  var list=bFilter(),T=sum(list,bTot),P=sum(list,function(b){return b.paid||0;}),D=T-P;
-  var allD=sum(buyList(),function(b){return bTot(b)-(b.paid||0);});
-  var h='';
-  h+='<div class="seg"><button data-act="bscope" data-v="m" class="'+(ui.buyScope==='m'?'on':'')+'">Theo tháng</button><button data-act="bscope" data-v="all" class="'+(ui.buyScope==='all'?'on':'')+'">Tất cả</button></div>';
+  var list=bFilter();
+  var h='<div class="buy-simple-head"><button class="cta teal buy-main-action" data-act="bnew">'+si('plus')+' Nhập hàng mới</button></div>';
+  h+='<div class="buy-simple-filter"><div class="seg"><button data-act="bscope" data-v="m" class="'+(ui.buyScope==='m'?'on':'')+'">Theo tháng</button><button data-act="bscope" data-v="all" class="'+(ui.buyScope==='all'?'on':'')+'">Tất cả</button></div>';
   if(ui.buyScope==='m')h+='<div class="mnav"><button class="x" data-act="bmonth" data-v="-1" aria-label="Tháng trước">‹</button><b>'+periodLabel()+'</b><button class="x" data-act="bmonth" data-v="1" aria-label="Tháng sau">›</button></div>';
-  var cs=catSums(list),mx=0;Object.keys(cs).forEach(function(k){if(cs[k]>mx)mx=cs[k];});
-  h+='<div class="card tot"><div><div class="eyebrow">Tổng tiền nhập · '+periodLabel()+'</div><div class="big num">'+mnyS(T)+'</div></div><div class="row3"><div class="kpi"><span>Đã trả</span><b class="num">'+mnyS(P)+'</b></div><div class="kpi"><span>Còn nợ</span><b class="num" style="color:var(--'+(D>0?'bad':'good')+')">'+mnyS(D)+'</b></div></div>'+
-    Object.keys(cs).map(function(k){return '<div class="cat"><span>'+esc(k)+'</span><div class="bar"><i style="width:'+(cs[k]/mx*100)+'%"></i></div><span class="num">'+mnyS(cs[k])+'</span></div>';}).join('')+'</div>';
-  h+='<div style="display:flex;gap:8px"><button class="cta teal" style="flex:1" data-act="bnew">'+si('plus')+'Nhập hàng mới</button><button class="cta ghost" data-act="brpt"'+(list.length?'':' disabled')+'>'+si('note')+'Xuất PDF</button></div>';
-  if(allD>0&&ui.buyScope==='m')h+='<div class="hint">Tổng còn nợ nhà cung cấp (mọi tháng): <b class="num" style="color:var(--bad)">'+mny(allD)+'</b></div>';
-  if(!list.length)h+='<div class="empty">'+(ui.buyScope==='all'?'Chưa có phiếu nhập hàng nào.':'Tháng này chưa nhập hàng.')+' Bấm Nhập hàng mới để ghi thức ăn, giống, thuốc đã mua.</div>';
+  h+='</div><div class="buy-simple-list-title"><h2>Phiếu nhập hàng</h2><span>'+list.length+' phiếu</span></div>';
+  if(!list.length)h+='<div class="empty">'+(ui.buyScope==='all'?'Chưa có phiếu nhập hàng.':'Tháng này chưa có phiếu nhập.')+' Nhấn Nhập hàng mới để bắt đầu.</div>';
   else h+='<div class="stack">'+list.map(function(b){
     var t=bTot(b),d=t-(b.paid||0),names=(b.items||[]).map(function(i){return i.n;}).join(', ');
     return '<button class="card buyrow" data-act="bopen" data-id="'+b.id+'"><div class="l"><b>'+esc(b.supplier||'Chưa ghi nơi bán')+'</b><span>'+dmy(b.d)+' · '+esc(names)+'</span></div><div class="r"><b class="num">'+mnyS(t)+'</b>'+(d>0?'<i class="debt">Nợ '+mnyS(d)+'</i>':'<i class="paidok">Đã trả đủ</i>')+'</div></button>';
