@@ -433,6 +433,31 @@ nav .in{max-width:620px!important;grid-template-columns:1fr 1fr 72px 1fr 1fr!imp
 .buy-detail-actions button.remove{background:#FFF0EF;color:#AF443E}
 .buy-detail-actions .si{width:16px;height:16px;margin:0}
 
+
+/* Thu nhỏ hình vuông sản phẩm, chừa khoảng thở trên thẻ */
+.product-tile .product-image-area{width:87%!important;aspect-ratio:1/1!important;align-self:center!important;margin:2px auto 6px!important}
+.product-tile .product-photo{width:100%!important;height:100%!important;aspect-ratio:1/1!important;object-fit:cover!important}
+.product-tile .product-edit-icon{right:5px!important;top:5px!important}
+.product-management-bar{gap:7px!important}
+.product-manage-btn{font-size:11px!important;padding:0 10px!important}
+
+/* Lật ngang biểu tượng bút chì chỉnh sửa sản phẩm */
+.product-edit-icon{transform:scaleX(-1)!important}
+
+/* Tổng hợp tồn kho theo danh mục, 3 cột kể cả màn hình nhỏ */
+.warehouse-category-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px}
+.warehouse-category-card{min-width:0;min-height:105px;display:flex;flex-direction:column;gap:4px;padding:12px 8px;border-radius:15px;background:#E7F4F9;border:1px solid #CBE8F2;text-align:center;align-items:center;justify-content:center}
+.warehouse-category-card b{font-size:11px;line-height:1.35;font-weight:700;overflow-wrap:anywhere;color:#25485E}
+.warehouse-category-card strong{font-size:27px;font-weight:800;line-height:1.25;color:#087C97}
+.warehouse-category-card small{font-size:10px;line-height:1.35;color:#5F7885}
+.warehouse-category-empty{background:#FFF2E8;border-color:#FFE0C8}
+.warehouse-category-empty strong{color:#C16B26}.warehouse-category-empty small{color:#9D633D}
+.warehouse-warning-home{display:flex;gap:11px;align-items:center;text-align:left;width:100%;background:#FFF4E6;border:1px solid #F7D6AB;color:#644315;border-radius:16px;padding:13px 15px}
+.warehouse-warning-symbol{font-size:22px;align-self:flex-start}
+.warehouse-warning-home>span:last-child{display:flex;flex-direction:column;gap:3px;min-width:0}
+.warehouse-warning-home b{font-size:13px}.warehouse-warning-home small{font-size:11px;line-height:1.6;color:#785934;overflow-wrap:anywhere}
+.warehouse-warning-home em{font-size:11px;font-weight:700;font-style:normal;color:#A56721}
+@media(max-width:390px){.warehouse-category-grid{gap:6px}.warehouse-category-card{min-height:100px;padding:10px 5px}.warehouse-category-card b{font-size:10px}.warehouse-category-card strong{font-size:24px}.warehouse-category-card small{font-size:9px}}
 </style>
 </head>
 <body>
@@ -1379,6 +1404,10 @@ function homeView(){
     '<div class="sync '+(mode==='local'?'loc':'')+'"><i></i>'+(mode==='local'?'Trên máy này':'Đã đồng bộ')+'</div></div>';
   h+='<section class="overview-hero"><div class="overview-hero-top"><div><div class="overview-eyebrow">TỔNG QUAN TRẠI NUÔI</div><h2>Tổng quan trại nuôi</h2><p>Tình trạng ao, thời tiết và công việc cần làm hôm nay.</p></div><div class="overview-hero-icon">'+ic('shrimp')+'</div></div><div class="overview-metrics"><div><small>Ao đang nuôi</small><strong class="num">'+act+'<em> / '+PONDS.length+'</em></strong></div><div><small>Tổng diện tích</small><strong class="num">'+fmt(sum(PONDS,function(p){return p.area;}))+'<em> m²</em></strong></div></div></section>';
   h+='<div class="home-module home-module-weather">'+weatherView()+'</div>';
+  var emptyWarehouseCats=warehouseCategorySummary().filter(function(g){return g.empty;});
+  if(emptyWarehouseCats.length){
+    h+='<button type="button" class="warehouse-warning-home" data-act="warehousewarning"><span class="warehouse-warning-symbol">⚠</span><span><b>Danh mục vật tư đang trống: '+emptyWarehouseCats.length+'</b><small>'+emptyWarehouseCats.map(function(g){return esc(g.name);}).join(' · ')+'</small><em>Xem Kho vật tư →</em></span></button>';
+  }
   h+='<div class="section priority-section home-module home-module-alert"><div class="section-heading"><h2 class="sec-h">'+si('bell')+'Cần làm và chú ý</h2><span class="section-counter">'+al.length+' thông báo</span></div>';
   if(!loaded)h+='<div class="empty">Đang tải dữ liệu…</div>';
   else if(!act&&PONDS.length)h+='<div class="empty">Chưa có ao nào đang nuôi. Bấm Thả giống ở một ao bên dưới. Sau đó ứng dụng sẽ nhắc đo nước, cho ăn, cân mẫu và báo khi chỉ số nước lệch.</div>';
@@ -1813,6 +1842,17 @@ function invSave(){try{localStorage.setItem(SUP_KEY,JSON.stringify(suppliers));l
 function allProducts(){var names={};PRODUCT_CATALOG.forEach(function(x){names[x[0]]=1;});Object.keys(products).forEach(function(x){names[x]=1;});buyList().forEach(function(b){(b.items||[]).forEach(function(i){names[i.n]=1;});});return Object.keys(names).filter(function(n){return deletedProducts.indexOf(n)===-1;}).sort(function(a,b){return a.localeCompare(b,'vi');});}
 function inboundKg(i){if(i.stockKg!=null)return +i.stockKg||0;var u=(i.u||'').toLowerCase().trim();if(u==='kg'||u==='kilogram')return +i.q||0;if(['bao','gói','chai','can','thùng'].indexOf(u)!==-1){var x=products[i.n];return x&&x.kgPerBag?(+i.q||0)*x.kgPerBag:0;}if(u==='g')return (+i.q||0)/1000;return 0;}
 function stockOf(name){var ins=0,outs=0;buyList().forEach(function(b){(b.items||[]).forEach(function(i){if(i.n===name)ins+=inboundKg(i);});});issues.forEach(function(e){if(e.product===name)outs+=+e.kg||0;});return {inKg:ins,outKg:outs,balance:Math.round((ins-outs)*1000)/1000};}
+/* Thống kê tồn kho từ các phiếu đã nhập, không tính sản phẩm chỉ có trong danh mục. */
+function warehouseCategorySummary(){
+ var available=allProducts().filter(function(n){return stockOf(n).inKg>0;});
+ var cats=categoryList().slice();
+ available.forEach(function(n){var p=products[n]||{},c=catalogItem(n),cat=p.category||(c&&c[1])||'Khác';if(cats.indexOf(cat)<0)cats.push(cat);});
+ return cats.map(function(cat){
+  var items=available.filter(function(n){var p=products[n]||{},c=catalogItem(n);return (p.category||(c&&c[1])||'Khác')===cat;});
+  var remaining=items.filter(function(n){return stockOf(n).balance>0;});
+  return {name:cat,items:items,availableCount:remaining.length,empty:remaining.length===0};
+ });
+}
 /* Báo cáo dựa trên những nghiệp vụ đã ghi trong ứng dụng */
 function reportView(header,back){
  var selected=ui.reportPond||'all',scope=ui.reportScope||'cur',type=ui.reportType||'profit';
@@ -1895,7 +1935,7 @@ function inventoryView(){
    var groups={}; filtered.forEach(function(n){var p=products[n]||{},c=catalogItem(n),group=p.category||(c&&c[1])||'Khác';(groups[group]||(groups[group]=[])).push(n);});
    var body=Object.keys(groups).sort(function(a,b){return a.localeCompare(b,'vi');}).map(function(group){return '<section class="product-category"><h3>'+esc(group)+' <small>('+groups[group].length+')</small></h3><div class="product-grid">'+groups[group].map(function(n){var p=products[n]||{},c=catalogItem(n),st=stockOf(n);return '<article class="card product-tile"><div class="product-image-area">'+(p.image?'<img class="product-photo" src="'+p.image+'" alt="Ảnh '+esc(n)+'">':'<div class="product-photo product-placeholder">📦</div>')+'<button class="product-edit-icon" aria-label="Sửa sản phẩm '+esc(n)+'" title="Sửa sản phẩm" data-act="productedit" data-name="'+esc(n)+'">✎</button></div><b>'+esc(n)+'</b><div class="product-price"><strong>'+(Number(p.price)>0?mny(p.price):'Chưa có giá')+'<small> / '+esc(p.unit||((c&&c[2])||'kg'))+'</small></strong></div><div class="product-balance"><strong>'+fmt(st.balance,2)+' kg</strong></div><div class="product-actions"><button data-act="productinfo" data-name="'+esc(n)+'">ⓘ Thông tin sản phẩm</button></div></article>';}).join('')+'</div></section>';}).join('');
    var filters='<div class="product-filter-panel"><div class="inp"><input data-role="product-filter-text" placeholder="Tìm tên sản phẩm..." value="'+esc(ui.productFilterText||'')+'"></div><div class="inp"><select data-role="product-filter-category"><option value="all">Tất cả danh mục</option>'+allCats.sort(function(a,b){return a.localeCompare(b,'vi');}).map(function(cat){return '<option value="'+esc(cat)+'"'+(catSel===cat?' selected':'')+'>'+esc(cat)+'</option>';}).join('')+'</select></div><button class="filter-clear" data-act="product-filter-clear">Đặt lại bộ lọc</button></div>';
-   return header+back+'<div class="product-management-bar"><button class="product-manage-btn" data-act="categorymanage">'+si('grid')+' Danh mục</button><button class="product-add-small" data-act="productadd">'+si('plus')+' Thêm sản phẩm</button></div>'+
+   return header+back+'<div class="product-management-bar"><button class="product-manage-btn" data-act="categorymanage">'+si('grid')+' Quản lý danh mục</button><button class="product-add-small" data-act="productadd">'+si('plus')+' Thêm sản phẩm</button></div>'+
      '<div class="section"><div class="product-list-toolbar"><h2>Sản phẩm <small>'+filtered.length+'/'+names.length+'</small></h2><button class="filter-trigger'+(ui.productFilterOpen?' opened':'')+'" data-act="product-filter-toggle" aria-expanded="'+(ui.productFilterOpen?'true':'false')+'" aria-controls="product-filter-box">'+si('grid')+' Lọc'+(q||catSel!=='all'?' •':'')+'</button></div>'+
      '<div id="product-filter-box" '+(ui.productFilterOpen?'':'hidden')+'>'+filters+'</div>'+(body||'<div class="empty">Không có sản phẩm phù hợp với bộ lọc.</div>')+'</div>';
  }
@@ -1904,7 +1944,10 @@ function inventoryView(){
    var tab=ui.warehouseTab||'stock';
    var tabs='<div class="warehouse-tabs"><button data-act="warehousetab" data-v="stock" class="'+(tab==='stock'?'selected':'')+'">📦 Tồn kho</button><button data-act="warehousetab" data-v="buy" class="'+(tab==='buy'?'selected':'')+'">🧾 Nhập hàng</button></div>';
    if(tab==='buy')return header+back+tabs+buyBody();
-   return header+back+tabs+'<div class="section"><h2>Tồn kho · '+warehouseNames.length+' mặt hàng</h2><div class="stack">'+(warehouseNames.length?warehouseNames.map(function(n){var t=stockOf(n);return '<div class="card menu-list-item"><div class="menu-item-body"><b>'+esc(n)+'</b><small>Nhập '+fmt(t.inKg,2)+' · Đã sử dụng '+fmt(t.outKg,2)+' kg</small></div><div class="menu-item-side"><strong class="'+(t.balance<0?'stock-negative':'stock-positive')+'">'+fmt(t.balance,2)+' kg</strong><button class="menu-edit" data-act="productuse" data-name="'+esc(n)+'">↗ Dùng</button></div></div>';}).join(''):'<div class="empty">Chưa có sản phẩm trong kho.</div>')+'</div></div>'+
+   var groups=warehouseCategorySummary();
+   var categoryCards='<div class="warehouse-category-grid">'+groups.map(function(g){return '<div class="warehouse-category-card'+(g.empty?' warehouse-category-empty':'')+'"><b>'+esc(g.name)+'</b><strong>'+g.availableCount+'</strong><small>'+(g.empty?'Đang trống':'sản phẩm còn hàng')+'</small></div>';}).join('')+'</div>';
+   return header+back+tabs+'<div class="section"><h2>Tồn kho theo danh mục</h2>'+categoryCards+'</div>'+
+   '<div class="section"><h2>Tồn kho theo mặt hàng đã nhập · '+warehouseNames.length+'</h2><div class="stack">'+(warehouseNames.length?warehouseNames.map(function(n){var t=stockOf(n);return '<div class="card menu-list-item"><div class="menu-item-body"><b>'+esc(n)+'</b><small>Nhập '+fmt(t.inKg,2)+' · Đã sử dụng '+fmt(t.outKg,2)+' kg</small></div><div class="menu-item-side"><strong class="'+(t.balance<0?'stock-negative':'stock-positive')+'">'+fmt(t.balance,2)+' kg</strong><button class="menu-edit" data-act="productuse" data-name="'+esc(n)+'">↗ Dùng</button></div></div>';}).join(''):'<div class="empty">Chưa có sản phẩm trong kho.</div>')+'</div></div>'+
    '<div class="section"><h2>Lịch sử sử dụng</h2><div class="stack">'+(issues.length?issues.slice().reverse().slice(0,30).map(function(e){var p=pondOf(e.pond);return '<div class="card menu-list-item"><div class="menu-item-body"><b>'+esc(e.product)+'</b><small>'+dmy(e.date)+' · '+esc(p?p.name:'Chưa chọn ao')+'</small></div><div class="menu-item-side"><strong>'+fmt(e.kg,2)+' kg</strong><button class="link" data-act="issuedel" data-id="'+esc(e.id)+'">Hoàn lại</button></div></div>';}).join(''):'<div class="empty">Chưa sử dụng sản phẩm nào.</div>')+'</div></div>';
  }
  return header+back;
@@ -2383,6 +2426,7 @@ function onClick(ev){
   else if(a==='reporttype'){ui.reportType=el.getAttribute('data-v')||'profit';render();}
   else if(a==='warehousetab'){ui.warehouseTab=el.getAttribute('data-v')||'stock';render();}
   else if(a==='menuback'){ui.menuSection='menu';render();window.scrollTo(0,0);}
+  else if(a==='warehousewarning'){ui.view='inventory';ui.menuSection='stock';ui.warehouseTab='stock';render();window.scrollTo(0,0);}
   else if(a==='menusection'){var s=el.getAttribute('data-section');if(s==='buy'){ui.view='inventory';ui.menuSection='stock';ui.warehouseTab='buy';render();window.scrollTo(0,0);}else if(s==='guide'){ui.view='kb';render();window.scrollTo(0,0);}else{ui.menuSection=s;render();window.scrollTo(0,0);}}
   else if(a==='issueadd')openIssueForm();
   else if(a==='productinfo')openProductInfo(el.getAttribute('data-name'));
