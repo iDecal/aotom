@@ -349,6 +349,24 @@ nav .in{max-width:620px!important;grid-template-columns:1fr 1fr 72px 1fr 1fr!imp
 .warehouse-tabs button{border:0;background:transparent;border-radius:11px;min-height:45px;color:var(--ink2);font-size:13px;font-weight:700}
 .warehouse-tabs button.selected{background:var(--surface);color:var(--accent);box-shadow:0 2px 10px rgba(5,76,100,.07)}
 
+
+/* Tổng quan 2026: thông tin theo module, tương phản rõ ràng */
+.home-module{margin-bottom:16px!important}
+.overview-hero{padding:22px 20px!important;border-radius:22px!important}
+.overview-hero h2{font-size:clamp(23px,5vw,31px)!important;line-height:1.18!important;letter-spacing:-.025em}
+.overview-hero p{max-width:34ch;line-height:1.5!important}
+.home-module-weather,.home-module-alert,.home-module-pond{border-radius:20px!important;overflow:hidden}
+.home-module-alert .section-heading,.home-module-pond .section-heading{margin-bottom:14px!important}
+.home-module .sec-h{font-size:17px!important;letter-spacing:-.01em}
+.home-module-alert{border-left:4px solid #E6A03B!important}
+.home-module-pond{border-left:4px solid #27A47F!important}
+.home-module-weather{border-left:4px solid #4597D5!important}
+.home-module-quick{display:none!important}
+/* Sao lưu/khôi phục chỉ ở trang Menu chính */
+#bk{margin-top:18px!important;padding:12px 14px!important;border:1px solid var(--line);border-radius:16px;background:var(--surface)}
+#bk .eyebrow{font-size:11px}
+#bk .cta{min-height:32px!important;padding:6px 10px!important;font-size:11px!important}
+
 </style>
 </head>
 <body>
@@ -1269,7 +1287,7 @@ function homeView(){
   var order={bad:0,warn:1,info:2,good:3};al.sort(function(a,b){return order[a.lv]-order[b.lv];});
   var h='<div class="top"><div class="brand"><span class="logo">'+ic('shrimp')+'</span><div><div class="eyebrow">'+esc(t)+'</div><h1>Trại tôm thẻ</h1></div></div>'+
     '<div class="sync '+(mode==='local'?'loc':'')+'"><i></i>'+(mode==='local'?'Trên máy này':'Đã đồng bộ')+'</div></div>';
-  h+='<section class="overview-hero"><div class="overview-hero-top"><div><div class="overview-eyebrow">TỔNG QUAN TRẠI NUÔI</div><h2>Quản lý ao tôm<br><span>thật đơn giản.</span></h2><p>Theo dõi hoạt động, ghi chép và chăm sóc từng ao ngay tại đây.</p></div><div class="overview-hero-icon">'+ic('shrimp')+'</div></div><div class="overview-metrics"><div><small>Ao đang nuôi</small><strong class="num">'+act+'<em> / '+PONDS.length+'</em></strong></div><div><small>Tổng diện tích</small><strong class="num">'+fmt(sum(PONDS,function(p){return p.area;}))+'<em> m²</em></strong></div></div></section>';
+  h+='<section class="overview-hero"><div class="overview-hero-top"><div><div class="overview-eyebrow">TỔNG QUAN TRẠI NUÔI</div><h2>Tổng quan trại nuôi</h2><p>Tình trạng ao, thời tiết và công việc cần làm hôm nay.</p></div><div class="overview-hero-icon">'+ic('shrimp')+'</div></div><div class="overview-metrics"><div><small>Ao đang nuôi</small><strong class="num">'+act+'<em> / '+PONDS.length+'</em></strong></div><div><small>Tổng diện tích</small><strong class="num">'+fmt(sum(PONDS,function(p){return p.area;}))+'<em> m²</em></strong></div></div></section>';
   h+='<div class="home-module home-module-weather">'+weatherView()+'</div>';
   h+='<div class="section priority-section home-module home-module-alert"><div class="section-heading"><h2 class="sec-h">'+si('bell')+'Cần làm và chú ý</h2><span class="section-counter">'+al.length+' thông báo</span></div>';
   if(!loaded)h+='<div class="empty">Đang tải dữ liệu…</div>';
@@ -1287,7 +1305,7 @@ function homeView(){
   }
   if(!PONDS.length)h+='<div class="empty">Chưa có ao nào. Hãy thêm thông tin ao nuôi đầu tiên.</div>';
   h+='<button class="cta block add-pond-btn" data-act="pondadd"><span class="add-pond-plus">＋</span><span>Thêm ao nuôi</span></button></div>';
-  h+='<div class="home-module home-module-quick"><div class="section-heading"><h2 class="sec-h">'+si('grid')+'Truy cập nhanh</h2></div><div class="home-shortcuts"><button class="home-shortcut" data-act="warehouse">'+si('grid')+'Kho vật tư</button><button class="home-shortcut" data-act="kb">'+si('grid')+'Menu</button><button class="home-shortcut" data-act="advice">'+si('bell')+'Lời khuyên</button></div></div>';
+
   return h;
 }
 
@@ -1756,7 +1774,7 @@ function reportView(header,back){
 }
 
 function inventoryView(){
- var section=ui.menuSection||'menu', names=allProducts();
+ var section=ui.menuSection||'menu', names=allProducts(),warehouseNames=names.filter(function(n){return stockOf(n).inKg>0;});
  var header='<div class="top menu-top"><div><div class="eyebrow">Quản lý trại nuôi</div><h1>'+({menu:'Menu',suppliers:'Nhà cung cấp',products:'Sản phẩm',stock:'Kho vật tư',reports:'Báo cáo'}[section]||'Menu')+'</h1></div></div>';
  var back='<button class="back" data-act="menuback">← Quay lại Menu</button>';
  if(section==='menu'){
@@ -1791,7 +1809,7 @@ function inventoryView(){
    var tab=ui.warehouseTab||'stock';
    var tabs='<div class="warehouse-tabs"><button data-act="warehousetab" data-v="stock" class="'+(tab==='stock'?'selected':'')+'">📦 Tồn kho</button><button data-act="warehousetab" data-v="buy" class="'+(tab==='buy'?'selected':'')+'">🧾 Nhập hàng</button></div>';
    if(tab==='buy')return header+back+tabs+buyBody();
-   return header+back+tabs+'<div class="section"><h2>Tồn kho · '+names.length+' mặt hàng</h2><div class="stack">'+(names.length?names.map(function(n){var t=stockOf(n);return '<div class="card menu-list-item"><div class="menu-item-body"><b>'+esc(n)+'</b><small>Nhập '+fmt(t.inKg,2)+' · Đã sử dụng '+fmt(t.outKg,2)+' kg</small></div><div class="menu-item-side"><strong class="'+(t.balance<0?'stock-negative':'stock-positive')+'">'+fmt(t.balance,2)+' kg</strong><button class="menu-edit" data-act="productuse" data-name="'+esc(n)+'">↗ Dùng</button></div></div>';}).join(''):'<div class="empty">Chưa có sản phẩm trong kho.</div>')+'</div></div>'+
+   return header+back+tabs+'<div class="section"><h2>Tồn kho · '+warehouseNames.length+' mặt hàng</h2><div class="stack">'+(warehouseNames.length?warehouseNames.map(function(n){var t=stockOf(n);return '<div class="card menu-list-item"><div class="menu-item-body"><b>'+esc(n)+'</b><small>Nhập '+fmt(t.inKg,2)+' · Đã sử dụng '+fmt(t.outKg,2)+' kg</small></div><div class="menu-item-side"><strong class="'+(t.balance<0?'stock-negative':'stock-positive')+'">'+fmt(t.balance,2)+' kg</strong><button class="menu-edit" data-act="productuse" data-name="'+esc(n)+'">↗ Dùng</button></div></div>';}).join(''):'<div class="empty">Chưa có sản phẩm trong kho.</div>')+'</div></div>'+
    '<div class="section"><h2>Lịch sử sử dụng</h2><div class="stack">'+(issues.length?issues.slice().reverse().slice(0,30).map(function(e){var p=pondOf(e.pond);return '<div class="card menu-list-item"><div class="menu-item-body"><b>'+esc(e.product)+'</b><small>'+dmy(e.date)+' · '+esc(p?p.name:'Chưa chọn ao')+'</small></div><div class="menu-item-side"><strong>'+fmt(e.kg,2)+' kg</strong><button class="link" data-act="issuedel" data-id="'+esc(e.id)+'">Hoàn lại</button></div></div>';}).join(''):'<div class="empty">Chưa sử dụng sản phẩm nào.</div>')+'</div></div>';
  }
  return header+back;
@@ -2074,6 +2092,7 @@ function render(){
   var a=$('#app'),v=ui.view,h;
   if(v==='pond'&&ui.pond)h=pondView(pondOf(ui.pond));else if(v==='money'){ui.view='inventory';ui.menuSection='stock';h=inventoryView();}else if(v==='advice')h=adviceView();else if(v==='kb')h=kbView();else if(v==='topic')h=topicView(ui.topic);else if(v==='inventory')h=inventoryView();else h=homeView();
   a.innerHTML=h;
+  var backup=document.getElementById('bk');if(backup)backup.style.display=(ui.view==='inventory'&&ui.menuSection==='menu')?'flex':'none';
   if(v==='home'&&weatherLocation&&!weatherBusy)fetchWeather(false);
   var cls={home:v==='home'||v==='pond',adv:v==='advice',money:v==='inventory'&&ui.menuSection==='stock',kb:v==='inventory'||v==='kb'||v==='topic'};$('#nb-home').className='nb'+(cls.home?' on':'');$('#nb-adv').className='nb'+(cls.adv?' on':'');$('#nb-money').className='nb'+(cls.money?' on':'');$('#nb-kb').className='nb'+(cls.kb?' on':'');
 }
