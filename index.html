@@ -1805,6 +1805,10 @@ var SUP_KEY='aotom.suppliers.v1',PROD_KEY='aotom.products.v1',ISSUE_KEY='aotom.i
 function readJson(key,fallback){try{return JSON.parse(localStorage.getItem(key))||fallback;}catch(e){return fallback;}}
 var suppliers=readJson(SUP_KEY,[]),products=readJson(PROD_KEY,{}),issues=readJson(ISSUE_KEY,[]),deletedProducts=readJson('aotom.deletedproducts.v1',[]);
 function supplierName(v){return typeof v==='string'?v:(v&&v.name)||'';}
+function supplierPayment(name){var r=suppliers.find(function(v){return supplierName(v)===name;});return r&&typeof r==='object'&&r.paymentMethod==='cash'?'cash':'debt';}
+function supplierHasPreference(name){return suppliers.some(function(v){return supplierName(v)===name&&typeof v==='object'&&!!v.paymentMethod;});}
+function syncSupplierPayment(f,oldBuy){var name=f.elements.agency.value,method=supplierHasPreference(name)?supplierPayment(name):(oldBuy&&name===oldBuy.supplier&&oldBuy.paymentMethod==='cash'?'cash':'debt');f.elements.paymethod.value=method;var note=f.querySelector('#supplier-payment-note');if(note)note.textContent=name?(method==='cash'?'Trả thẳng · tự động theo NCC':'Công nợ · tự động theo NCC'):'Chọn nhà cung cấp để tự áp dụng thanh toán';}
+
 function invSave(){try{localStorage.setItem(SUP_KEY,JSON.stringify(suppliers));localStorage.setItem(PROD_KEY,JSON.stringify(products));localStorage.setItem(ISSUE_KEY,JSON.stringify(issues));localStorage.setItem('aotom.deletedproducts.v1',JSON.stringify(deletedProducts));}catch(e){toast('Bộ nhớ đầy, hãy sao lưu dữ liệu.');}}
 function allProducts(){var names={};PRODUCT_CATALOG.forEach(function(x){names[x[0]]=1;});Object.keys(products).forEach(function(x){names[x]=1;});buyList().forEach(function(b){(b.items||[]).forEach(function(i){names[i.n]=1;});});return Object.keys(names).filter(function(n){return deletedProducts.indexOf(n)===-1;}).sort(function(a,b){return a.localeCompare(b,'vi');});}
 function inboundKg(i){if(i.stockKg!=null)return +i.stockKg||0;var u=(i.u||'').toLowerCase().trim();if(u==='kg'||u==='kilogram')return +i.q||0;if(['bao','gói','chai','can','thùng'].indexOf(u)!==-1){var x=products[i.n];return x&&x.kgPerBag?(+i.q||0)*x.kgPerBag:0;}if(u==='g')return (+i.q||0)/1000;return 0;}
@@ -1880,7 +1884,7 @@ function inventoryView(){
  }
  if(section==='suppliers'){
    return header+back+'<button class="cta block menu-primary" data-act="supplieradd">＋ Thêm nhà cung cấp</button>'+
-   '<div class="section"><h2>Danh sách NCC · '+suppliers.length+'</h2><div class="stack">'+(suppliers.length?suppliers.map(function(v,i){var n=supplierName(v),phone=typeof v==='object'?v.phone||'':'',addr=typeof v==='object'?v.address||'':'';return '<div class="card menu-list-item"><div class="menu-item-body"><b>'+esc(n)+'</b><small>'+(phone?'☎ '+esc(phone):'Chưa có SĐT')+(addr?' · '+esc(addr):'')+'</small></div><button class="menu-edit" data-act="supplieredit" data-index="'+i+'">✎ <span>Sửa</span></button></div>';}).join(''):'<div class="empty">Chưa có nhà cung cấp. Hãy thêm để chọn nhanh khi nhập hàng.</div>')+'</div></div>';
+   '<div class="section"><h2>Danh sách NCC · '+suppliers.length+'</h2><div class="stack">'+(suppliers.length?suppliers.map(function(v,i){var n=supplierName(v),phone=typeof v==='object'?v.phone||'':'',addr=typeof v==='object'?v.address||'':'';return '<div class="card menu-list-item"><div class="menu-item-body"><b>'+esc(n)+'</b><small>'+(phone?'☎ '+esc(phone):'Chưa có SĐT')+(addr?' · '+esc(addr):'')+' · '+(typeof v==='object'&&v.paymentMethod==='cash'?'Trả thẳng':'Công nợ')+'</small></div><button class="menu-edit" data-act="supplieredit" data-index="'+i+'">✎ <span>Sửa</span></button></div>';}).join(''):'<div class="empty">Chưa có nhà cung cấp. Hãy thêm để chọn nhanh khi nhập hàng.</div>')+'</div></div>';
  }
  if(section==='products'){
    var q=(ui.productFilterText||'').trim().toLocaleLowerCase('vi');
@@ -1911,13 +1915,14 @@ function openSupplierAdd(index){
  '<div class="fld"><label>Tên nhà cung cấp / đại lý *</label><div class="inp"><input name="name" required maxlength="120" placeholder="Ví dụ: Đại lý Minh Phát" value="'+esc(v.name||'')+'"></div></div>'+
  '<div class="fld"><label>Số điện thoại</label><div class="inp"><input name="phone" type="tel" inputmode="tel" maxlength="25" placeholder="Ví dụ: 0901234567" value="'+esc(v.phone||'')+'"></div></div>'+
  '<div class="fld"><label>Địa chỉ</label><div class="inp"><input name="address" maxlength="240" placeholder="Số nhà, đường, xã/phường..." value="'+esc(v.address||'')+'"></div></div>'+
+ '<div class="fld"><label>Hình thức thanh toán mặc định</label><div class="inp"><select name="paymentMethod"><option value="debt"'+(v.paymentMethod!=='cash'?' selected':'')+'>Công nợ</option><option value="cash"'+(v.paymentMethod==='cash'?' selected':'')+'>Trả thẳng</option></select></div></div>'+
  '<div class="fld"><label>Ghi chú</label><div class="inp"><input name="note" maxlength="240" placeholder="Thông tin thêm (không bắt buộc)" value="'+esc(v.note||'')+'"></div></div>'+
  '<div class="err" id="err"></div><button class="cta block">'+(editing?'Lưu thay đổi':'Lưu nhà cung cấp')+'</button></form>');
  $('#supform').onsubmit=function(e){e.preventDefault();var f=this,n=f.elements.name.value.trim(),phone=f.elements.phone.value.trim(),addr=f.elements.address.value.trim(),note=f.elements.note.value.trim();
  if(!n){$('#err').textContent='Vui lòng nhập tên.';return;}
  if(suppliers.some(function(x,i){return i!==index&&supplierName(x).toLocaleLowerCase('vi')===n.toLocaleLowerCase('vi');})){$('#err').textContent='NCC này đã tồn tại.';return;}
  if(editing&&supplierName(old)!==n){buyList().forEach(function(b){if(b.supplier===supplierName(old))b.supplier=n;});buyWrite();}
- var record={name:n,phone:phone,address:addr,note:note};if(editing)suppliers[index]=record;else suppliers.push(record);
+ var record={name:n,phone:phone,address:addr,note:note,paymentMethod:f.elements.paymentMethod.value==='cash'?'cash':'debt'};if(editing)suppliers[index]=record;else suppliers.push(record);
  invSave();sheetClose();render();toast(editing?'Đã cập nhật NCC':'Đã thêm NCC');};
 }
 function openProductAdd(oldName){
@@ -2024,7 +2029,7 @@ function openBuyForm(editId){
  '<button type="button" class="link" data-act="productadd">＋ Tạo sản phẩm trong danh mục</button>'+
  '<button type="button" class="cta ghost block" data-act="baddline">'+si('plus')+'Thêm sản phẩm nhập</button>'+
  '<div class="btot"><span>Tổng tiền (theo giá sản phẩm)</span><b class="num" id="bsum">0 đ</b></div>'+
- '</section><section class="buy-form-module buy-payment"><h3>💳 Thanh toán & phân bổ</h3><div class="fld"><label for="f_method">Thanh toán</label><div class="inp"><select id="f_method" name="paymethod"><option value="debt" selected>Công nợ (chưa trả)</option><option value="cash">Trả thẳng (đã trả đủ)</option></select></div></div>'+
+ '</section><section class="buy-form-module buy-payment"><h3>💳 Thanh toán & phân bổ</h3><input type="hidden" name="paymethod" value="debt"><div class="hint" id="supplier-payment-note">Chọn nhà cung cấp để tự áp dụng thanh toán.</div>'+
  (act.length?'<div class="fld"><span class="lab">Tính vào chi phí ao</span><div class="opts"><label class="opt"><input type="radio" name="bpond" value="" checked><span>Không</span></label>'+act.map(function(p){return '<label class="opt"><input type="radio" name="bpond" value="'+p.id+'"><span>'+esc(p.name)+'</span></label>';}).join('')+'</div></div>':'')+
  '<div class="fld"><label for="f_bn">Ghi chú</label><div class="inp"><input id="f_bn" name="note" type="text" placeholder="Tùy chọn" autocomplete="off"></div></div>'+
  '</section><div class="err" id="err" role="alert"></div><button class="cta block" type="submit">'+(oldBuy?'Lưu thay đổi':'Lưu phiếu nhập')+'</button></div></form>';
@@ -2034,7 +2039,7 @@ function openBuyForm(editId){
    var agency=f.elements.agency;
    if(oldBuy.supplier&&!Array.from(agency.options).some(function(o){return o.value===oldBuy.supplier;})){agency.add(new Option(oldBuy.supplier,oldBuy.supplier));}
    agency.value=oldBuy.supplier||'';f.elements.d.value=oldBuy.d||todayStr();
-   f.elements.paymethod.value=oldBuy.paymentMethod==='cash'?'cash':'debt';f.elements.note.value=oldBuy.note||'';
+   f.elements.note.value=oldBuy.note||'';
    var dst=f.querySelector('#blines');dst.innerHTML='';
    (oldBuy.items||[]).forEach(function(i){dst.insertAdjacentHTML('beforeend',bLineHtml());var l=dst.lastElementChild,sel=l.querySelector('[name=quickitem]');
      if(i.n&&!Array.from(sel.options).some(function(o){return o.value===i.n;}))sel.add(new Option(i.n,i.n));sel.value=i.n;l.querySelector('[name=q]').value=i.q;syncBuyLine(l);if(buyProductMeta(i.n).price<=0)l.querySelector('[name=manualPrice]').value=i.p||'';
@@ -2043,8 +2048,9 @@ function openBuyForm(editId){
    var pond=f.querySelector('input[name=bpond][value="'+oldBuy.pond+'"]');if(pond)pond.checked=true;
    bRecalc();
  }
+ syncSupplierPayment(f,oldBuy);
  f.addEventListener('input',function(ev){bRecalc();});
- f.addEventListener('change',function(ev){if(ev.target.name==='quickitem')syncBuyLine(ev.target.closest('.bline'));bRecalc();});
+ f.addEventListener('change',function(ev){if(ev.target.name==='quickitem')syncBuyLine(ev.target.closest('.bline'));if(ev.target.name==='agency')syncSupplierPayment(f,oldBuy);bRecalc();});
  f.addEventListener('submit',function(ev){ev.preventDefault();submitBuy(f,editId);});
 }
 function submitBuy(f,editId){
