@@ -221,6 +221,14 @@ nav .in{max-width:620px!important;grid-template-columns:1fr 1fr 72px 1fr 1fr!imp
 .product-actions button:last-child{color:#087FB8;background:#EAF6FC;border-color:#C8E7F7}
 .product-upload-preview{max-width:130px;max-height:110px;object-fit:contain;border-radius:10px;border:1px solid var(--line)}
 .photo-file{max-width:100%;font-size:13px}
+
+/* Thông tin quan trọng trên thẻ sản phẩm */
+.product-tile .product-price,.product-tile .product-balance{display:flex;justify-content:space-between;align-items:flex-start;gap:5px;padding:6px 0;border-top:1px solid var(--line);font-size:12px;line-height:1.35}
+.product-tile .product-price>span,.product-tile .product-balance>span{color:var(--ink2);font-weight:500;white-space:nowrap}
+.product-tile .product-price strong,.product-tile .product-balance strong{text-align:right;overflow-wrap:anywhere;font-size:12px;color:var(--ink)}
+.product-tile .product-balance strong{color:var(--good)}
+.product-tile .product-price small{font-weight:500;font-size:11px;color:var(--ink2)}
+.product-tile>b{min-height:38px;display:block}
 </style>
 </head>
 <body>
@@ -724,14 +732,37 @@ body{background:var(--bg)}
   .pond-day{font-size:11px;padding:5px 8px}
 }
 
+
+/* Bản tối giản: giá và tồn kho không lặp lại nhãn trên từng sản phẩm */
+.product-tile{gap:5px;padding:10px;border-radius:16px}
+.product-tile>b{min-height:0;font-size:13px;line-height:1.35}
+.product-tile .product-price,.product-tile .product-balance{display:block;text-align:left;padding:3px 0;border:0;line-height:1.4}
+.product-tile .product-price strong{display:block;text-align:left;font-size:13px;color:var(--ink);font-weight:700}
+.product-tile .product-balance strong{display:block;text-align:left;font-size:12px;color:var(--good);font-weight:700}
+.product-tile .product-price small{font-size:11px}
+.product-tile .product-actions{margin-top:auto;padding-top:7px}
+.product-tile .product-actions button{min-height:33px;font-size:11px;font-weight:600;border-radius:9px}
+/* Sao lưu, khôi phục là tiện ích phụ — nhỏ, nhẹ hơn các nút thao tác chính */
+#bk{padding:12px!important;margin-top:12px!important;border-radius:14px!important;gap:6px!important}
+#bk .eyebrow{font-size:11px;letter-spacing:.02em}
+#bk>div:nth-child(2){gap:7px!important}
+#bk .cta{min-height:33px!important;height:33px!important;border-radius:9px!important;padding:0 11px!important;font-size:12px!important;font-weight:600!important;box-shadow:none!important}
+#bk .hint{font-size:11px;line-height:1.45}
+/* Nút + ghi nhanh phẳng: không bóng, không viền hoặc hiệu ứng nổi */
+nav .fab, .fab{border:0!important;box-shadow:none!important;filter:none!important;outline:0!important;margin-top:0!important;width:53px!important;height:53px!important;background:var(--accent)!important;border-radius:50%!important}
+nav .fab:hover,nav .fab:active{box-shadow:none!important;filter:none!important;transform:none!important}
+nav .in{grid-template-columns:1fr 1fr 58px 1fr 1fr!important;align-items:center!important}
+.fab-plus{font-size:33px;transform:none;font-weight:400}
+@media(max-width:390px){nav .in{grid-template-columns:1fr 1fr 54px 1fr 1fr!important}.fab{width:50px!important;height:50px!important}}
+
 </style>
 
 <div id="app"></div>
 <div id="bk" style="max-width:560px;margin:8px auto 0;display:flex;flex-direction:column;gap:8px">
   <div class="eyebrow">Dữ liệu trên máy này</div>
   <div style="display:flex;gap:8px;flex-wrap:wrap">
-    <button class="cta ghost" id="bk-save">Sao lưu ra file</button>
-    <label class="cta ghost" for="bk-file" style="cursor:pointer">Khôi phục từ file</label>
+    <button class="cta ghost" id="bk-save">Sao lưu</button>
+    <label class="cta ghost" for="bk-file" style="cursor:pointer">Khôi phục</label>
     <input id="bk-file" type="file" accept=".json,application/json" hidden>
   </div>
   <div class="hint" id="bk-msg">Nên sao lưu mỗi tuần. Xóa dữ liệu trình duyệt sẽ mất sổ.</div>
@@ -1505,7 +1536,7 @@ var suppliers=readJson(SUP_KEY,[]),products=readJson(PROD_KEY,{}),issues=readJso
 function supplierName(v){return typeof v==='string'?v:(v&&v.name)||'';}
 function invSave(){try{localStorage.setItem(SUP_KEY,JSON.stringify(suppliers));localStorage.setItem(PROD_KEY,JSON.stringify(products));localStorage.setItem(ISSUE_KEY,JSON.stringify(issues));}catch(e){toast('Bộ nhớ đầy, hãy sao lưu dữ liệu.');}}
 function allProducts(){var names={};PRODUCT_CATALOG.forEach(function(x){names[x[0]]=1;});Object.keys(products).forEach(function(x){names[x]=1;});buyList().forEach(function(b){(b.items||[]).forEach(function(i){names[i.n]=1;});});return Object.keys(names).sort(function(a,b){return a.localeCompare(b,'vi');});}
-function inboundKg(i){if(i.stockKg!=null)return +i.stockKg||0;var u=(i.u||'').toLowerCase().trim();if(u==='kg'||u==='kilogram')return +i.q||0;if(u==='bao'){var x=products[i.n];return x&&x.kgPerBag?(+i.q||0)*x.kgPerBag:0;}return 0;}
+function inboundKg(i){if(i.stockKg!=null)return +i.stockKg||0;var u=(i.u||'').toLowerCase().trim();if(u==='kg'||u==='kilogram')return +i.q||0;if(['bao','gói','chai','can','thùng'].indexOf(u)!==-1){var x=products[i.n];return x&&x.kgPerBag?(+i.q||0)*x.kgPerBag:0;}if(u==='g')return (+i.q||0)/1000;return 0;}
 function stockOf(name){var ins=0,outs=0;buyList().forEach(function(b){(b.items||[]).forEach(function(i){if(i.n===name)ins+=inboundKg(i);});});issues.forEach(function(e){if(e.product===name)outs+=+e.kg||0;});return {inKg:ins,outKg:outs,balance:Math.round((ins-outs)*1000)/1000};}
 function inventoryView(){
  var section=ui.menuSection||'menu', names=allProducts();
@@ -1530,7 +1561,7 @@ function inventoryView(){
    var groups={}; names.forEach(function(n){var p=products[n]||{},c=catalogItem(n),group=p.category||(c&&c[1])||'Khác';(groups[group]||(groups[group]=[])).push(n);});
    return header+back+'<button class="cta block menu-primary" data-act="productadd">＋ Thêm sản phẩm</button>'+
     '<div class="section"><h2>Sản phẩm theo danh mục · '+names.length+'</h2>'+
-    Object.keys(groups).sort(function(a,b){return a.localeCompare(b,'vi');}).map(function(group){return '<section class="product-category"><h3>'+esc(group)+' <small>('+groups[group].length+')</small></h3><div class="product-grid">'+groups[group].map(function(n){var p=products[n]||{},c=catalogItem(n),st=stockOf(n);return '<article class="card product-tile">'+(p.image?'<img class="product-photo" src="'+p.image+'" alt="Ảnh sản phẩm">':'<div class="product-photo product-placeholder">📦</div>')+'<b>'+esc(n)+'</b><small>'+esc(p.unit||((c&&c[2])||'kg'))+(p.unit==='bao'&&p.kgPerBag?' · '+fmt(p.kgPerBag,2)+' kg/bao':'')+'</small><div class="product-price">'+(Number(p.price)>0?mny(p.price):'Chưa có giá')+'</div><div class="product-balance">Còn '+fmt(st.balance,2)+' kg</div><div class="product-actions"><button data-act="productedit" data-name="'+esc(n)+'">✎ Sửa</button><button data-act="productuse" data-name="'+esc(n)+'">↗ Dùng</button></div></article>';}).join('')+'</div></section>';}).join('')+'</div>';
+    Object.keys(groups).sort(function(a,b){return a.localeCompare(b,'vi');}).map(function(group){return '<section class="product-category"><h3>'+esc(group)+' <small>('+groups[group].length+')</small></h3><div class="product-grid">'+groups[group].map(function(n){var p=products[n]||{},c=catalogItem(n),st=stockOf(n);return '<article class="card product-tile">'+(p.image?'<img class="product-photo" src="'+p.image+'" alt="Ảnh sản phẩm">':'<div class="product-photo product-placeholder">📦</div>')+'<b>'+esc(n)+'</b><div class="product-price"><strong>'+(Number(p.price)>0?mny(p.price):'Chưa có giá')+'<small> / '+esc(p.unit||((c&&c[2])||'kg'))+'</small></strong></div><div class="product-balance"><strong>'+fmt(st.balance,2)+' kg</strong></div><div class="product-actions"><button data-act="productedit" data-name="'+esc(n)+'">✎ Sửa</button><button data-act="productuse" data-name="'+esc(n)+'">↗ Dùng</button></div></article>';}).join('')+'</div></section>';}).join('')+'</div>';
  }
  if(section==='stock'){
    return header+back+'<div class="section"><h2>Tồn kho · '+names.length+' mặt hàng</h2><div class="stack">'+(names.length?names.map(function(n){var t=stockOf(n);return '<div class="card menu-list-item"><div class="menu-item-body"><b>'+esc(n)+'</b><small>Nhập '+fmt(t.inKg,2)+' · Đã sử dụng '+fmt(t.outKg,2)+' kg</small></div><div class="menu-item-side"><strong class="'+(t.balance<0?'stock-negative':'stock-positive')+'">'+fmt(t.balance,2)+' kg</strong><button class="menu-edit" data-act="productuse" data-name="'+esc(n)+'">↗ Dùng</button></div></div>';}).join(''):'<div class="empty">Chưa có sản phẩm trong kho.</div>')+'</div></div>'+
@@ -1559,19 +1590,19 @@ function openProductAdd(oldName){
  '<form id="prodform" class="stack"><div class="fld"><label>Tên sản phẩm</label><div class="inp"><input name="name" required maxlength="120" value="'+esc(oldName||'')+'" placeholder="Ví dụ: Vitamin C"></div></div>'+
  '<div class="fld"><label>Danh mục</label><div class="inp"><select name="category">'+BCATS.concat([category]).filter(function(x,i,a){return a.indexOf(x)===i;}).map(function(x){return '<option'+(x===category?' selected':'')+'>'+esc(x)+'</option>';}).join('')+'</select></div></div>'+
  '<div class="fgrid"><div class="fld"><label>Đơn vị</label><div class="inp"><select name="unit">'+['kg','g','bao','gói','chai','can','thùng'].map(function(x){return '<option'+(x===(old.unit||(cat&&cat[2])||'kg')?' selected':'')+'>'+x+'</option>';}).join('')+'</select></div></div><div class="fld"><label>Giá tham khảo (đ/đơn vị)</label><div class="inp"><input name="price" type="number" inputmode="decimal" min="0" step="any" value="'+(old.price||'')+'" placeholder="Ví dụ: 250000"></div></div></div>'+
- '<div class="fld" id="bag-kg-row"><label>Khối lượng mỗi bao (kg/bao)</label><div class="inp"><input name="kgPerBag" type="number" inputmode="decimal" step="any" min="0.001" value="'+(old.kgPerBag||'')+'" placeholder="Ví dụ: 20"><u>kg</u></div><div class="hint">Ví dụ 1 bao = 20 kg, nhập 3 bao sẽ cộng 60 kg vào kho.</div></div>'+
+ '<div class="fld" id="bag-kg-row"><label id="pack-kg-label">Khối lượng quy đổi (kg/đơn vị)</label><div class="inp"><input name="kgPerBag" type="number" inputmode="decimal" step="any" min="0.001" value="'+(old.kgPerBag||'')+'" placeholder="Ví dụ: 20"><u>kg</u></div><div class="hint" id="pack-kg-hint">Ví dụ 1 bao = 20 kg, nhập 3 bao sẽ cộng 60 kg vào kho.</div></div>'+
  '<div class="fld"><label>Ảnh sản phẩm</label><input class="photo-file" name="image" type="file" accept="image/*"><img id="prod-preview" class="product-upload-preview" '+(old.image?'src="'+old.image+'"':'hidden')+' alt="Xem trước ảnh"><div class="hint">Ảnh sẽ được nén trước khi lưu trên thiết bị.</div></div>'+
  '<div class="fld"><label>Ghi chú / dinh dưỡng</label><div class="inp"><input name="note" maxlength="250" placeholder="Thành phần, vitamin, công dụng..." value="'+esc(old.note||'')+'"></div></div><div class="err" id="err"></div><button class="cta block">Lưu sản phẩm</button></form>');
  var f=$('#prodform'),imageData=old.image||'';
- function showBag(){document.getElementById('bag-kg-row').hidden=f.elements.unit.value!=='bao';}f.elements.unit.onchange=showBag;showBag();
+ function showBag(){var unit=f.elements.unit.value,show=['bao','gói','chai','can','thùng'].indexOf(unit)!==-1;document.getElementById('bag-kg-row').hidden=!show;if(show){document.getElementById('pack-kg-label').textContent='Số kg trong 1 '+unit+' *';document.getElementById('pack-kg-hint').textContent='Ví dụ: 1 '+unit+' = 20 kg, nhập 3 '+unit+' sẽ cộng 60 kg tồn kho.';}}f.elements.unit.onchange=showBag;showBag();
  f.elements.image.onchange=function(){var file=this.files&&this.files[0];if(!file)return;if(!file.type.startsWith('image/')){toast('Chỉ chọn ảnh.');return;}var r=new FileReader();r.onload=function(){var im=new Image();im.onload=function(){var cv=document.createElement('canvas'),k=Math.min(1,540/Math.max(im.width,im.height));cv.width=Math.max(1,Math.round(im.width*k));cv.height=Math.max(1,Math.round(im.height*k));cv.getContext('2d').drawImage(im,0,0,cv.width,cv.height);imageData=cv.toDataURL('image/jpeg',.68);var pre=$('#prod-preview');pre.src=imageData;pre.hidden=false;};im.src=r.result;};r.readAsDataURL(file);};
  f.onsubmit=function(e){e.preventDefault();var n=f.elements.name.value.trim(),unit=f.elements.unit.value,kg=Number(f.elements.kgPerBag.value),price=Number(f.elements.price.value||0),err=$('#err');
  if(!n){err.textContent='Nhập tên sản phẩm.';return;}
  if(allProducts().some(function(x){return x.toLocaleLowerCase('vi')===n.toLocaleLowerCase('vi')&&x!==oldName;})){err.textContent='Sản phẩm đã tồn tại.';return;}
- if(unit==='bao'&&(!Number.isFinite(kg)||kg<=0)){err.textContent='Vui lòng nhập số kg trong mỗi bao.';return;}
+ if(['bao','gói','chai','can','thùng'].indexOf(unit)!==-1&&(!Number.isFinite(kg)||kg<=0)){err.textContent='Vui lòng nhập số kg trong mỗi '+unit+'.';return;}
  if(!Number.isFinite(price)||price<0){err.textContent='Giá không hợp lệ.';return;}
  if(editing&&oldName!==n){buyList().forEach(function(b){(b.items||[]).forEach(function(i){if(i.n===oldName)i.n=n;});});issues.forEach(function(i){if(i.product===oldName)i.product=n;});buyWrite();delete products[oldName];}
- products[n]={category:f.elements.category.value,unit:unit,kgPerBag:unit==='bao'?kg:0,price:price,image:imageData,note:f.elements.note.value.trim()};invSave();sheetClose();render();toast(editing?'Đã cập nhật sản phẩm':'Đã thêm sản phẩm');};
+ products[n]={category:f.elements.category.value,unit:unit,kgPerBag:['bao','gói','chai','can','thùng'].indexOf(unit)!==-1?kg:0,price:price,image:imageData,note:f.elements.note.value.trim()};invSave();sheetClose();render();toast(editing?'Đã cập nhật sản phẩm':'Đã thêm sản phẩm');};
 }
 function openIssueForm(initialProduct){var names=allProducts();if(!names.length){toast('Hãy thêm sản phẩm trước.');return;}var sel=names.map(function(n){return '<option value="'+esc(n)+'"'+(n===initialProduct?' selected':'')+'>'+esc(n)+'</option>';}).join('');sheetOpen('<div class="panel-h"><h2>Sử dụng sản phẩm</h2><button class="x" data-act="close">×</button></div><form id="issueform" class="stack"><div class="fld"><label>Sản phẩm</label><div class="inp"><select name="product" required>'+sel+'</select></div><div class="hint" id="stockhint"></div></div><div class="fld"><label>Khối lượng sử dụng (kg)</label><div class="inp"><input name="kg" inputmode="decimal" type="number" step="0.001" min="0.001" required placeholder="Ví dụ: 2.5"><u>kg</u></div></div><div class="fld"><label>Ngày sử dụng</label><div class="inp"><input name="date" type="date" value="'+todayStr()+'" required></div></div><div class="fld"><label>Sử dụng cho ao</label><div class="inp"><select name="pond"><option value="">— Chưa phân bổ ao —</option>'+PONDS.map(function(p){return '<option value="'+esc(p.id)+'">'+esc(p.name)+'</option>';}).join('')+'</select></div></div><div class="fld"><label>Ghi chú (tùy chọn)</label><div class="inp"><input name="note" placeholder="Ví dụ: Xử lý nước buổi sáng"></div></div><div class="err" id="err"></div><button class="cta block">Lưu sử dụng & trừ tồn kho</button></form>');var f=$('#issueform');function update(){var st=stockOf(f.elements.product.value);$('#stockhint').textContent='Tồn hiện tại: '+fmt(st.balance,3)+' kg (sau lưu sẽ tự trừ số kg đã sử dụng).';}f.elements.product.onchange=update;update();f.onsubmit=function(e){e.preventDefault();var n=f.elements.product.value,kg=Number(f.elements.kg.value),st=stockOf(n);if(!Number.isFinite(kg)||kg<=0){$('#err').textContent='Nhập số kg hợp lệ.';return;}if(kg>st.balance+1e-6){$('#err').textContent='Không đủ tồn kho. Hiện còn '+fmt(st.balance,3)+' kg. Hãy nhập hàng trước.';return;}issues.push({id:'x'+uid(),product:n,kg:kg,date:f.elements.date.value,pond:f.elements.pond.value,note:f.elements.note.value.trim()});invSave();sheetClose();render();toast('Đã xuất '+fmt(kg,2)+' kg '+n);};}
 function removeIssue(id){if(!confirm('Xóa phiếu xuất này và hoàn lại lượng tồn kho?'))return;issues=issues.filter(function(e){return e.id!==id;});invSave();render();toast('Đã xóa phiếu xuất');}
@@ -1671,7 +1702,7 @@ function submitBuy(f){
     var n=l.querySelector('[name=quickitem]').value.trim(),q=num(l.querySelector('[name=q]').value),p=num(l.querySelector('[name=p]').value,true);
     if(!n&&!q&&!p)return;
     if(!n||!q||q<=0||!p||p<=0){okAll=false;return;}
-    var u=l.querySelector('[name=u]').value.trim(),kgVal=l.querySelector('[name=stockkg]').value;if(kgVal===''&&u.toLowerCase()!=='kg'&&!(u.toLowerCase()==='bao'&&products[n]&&Number(products[n].kgPerBag)>0)){okAll=false;return;}var stockKg=kgVal!==''?Number(kgVal):(u.toLowerCase()==='bao'?q*Number(products[n].kgPerBag):q);if(!Number.isFinite(stockKg)||stockKg<0){okAll=false;return;}items.push({n:n,c:l.querySelector('[name=c]').value,u:u,q:q,p:p,stockKg:stockKg,img:l._photo||''});tot+=q*p;
+    var u=l.querySelector('[name=u]').value.trim(),kgVal=l.querySelector('[name=stockkg]').value;if(kgVal===''&&u.toLowerCase()!=='kg'&&!(['bao','gói','chai','can','thùng'].indexOf(u.toLowerCase())!==-1&&products[n]&&Number(products[n].kgPerBag)>0)){okAll=false;return;}var stockKg=kgVal!==''?Number(kgVal):(['bao','gói','chai','can','thùng'].indexOf(u.toLowerCase())!==-1?q*Number(products[n].kgPerBag):u.toLowerCase()==='g'?q/1000:q);if(!Number.isFinite(stockKg)||stockKg<0){okAll=false;return;}items.push({n:n,c:l.querySelector('[name=c]').value,u:u,q:q,p:p,stockKg:stockKg,img:l._photo||''});tot+=q*p;
   });
   if(!okAll)return bad('Mỗi mặt hàng cần tên, số lượng, đơn giá và số kg nhập kho nếu đơn vị không phải kg.');
   if(!items.length)return bad('Chọn ít nhất một mặt hàng.');
