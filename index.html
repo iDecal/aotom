@@ -484,6 +484,24 @@ nav .in{max-width:620px!important;grid-template-columns:1fr 1fr 72px 1fr 1fr!imp
 .warehouse-return-btn:disabled{opacity:.45;cursor:not-allowed}
 .stock-return-summary{background:#EAF5F0;border-radius:14px;padding:13px;display:flex;flex-direction:column;gap:5px}
 .stock-return-summary small{color:#476859}
+
+/* Cẩm nang nâng cấp 2026 */
+.kb-upgrade-intro{background:linear-gradient(135deg,#137F91,#1E9E95);color:#fff;padding:17px;border-radius:18px;display:flex;flex-direction:column;gap:6px}
+.kb-upgrade-intro b{font-size:18px}.kb-upgrade-intro small{font-size:12px;color:#E6FAF8;line-height:1.7}
+.kb-lookup{margin:2px 0 0}.kb-lookup input{font-size:14px}
+.kb-tabs{display:flex;overflow-x:auto;gap:7px;padding-bottom:5px;scrollbar-width:none}
+.kb-tabs button{white-space:nowrap;flex:none;background:var(--surface);border:1px solid var(--line);color:var(--ink2);padding:9px 12px;border-radius:999px;font-size:12px;font-weight:700}
+.kb-tabs button.selected{background:#168AA5;color:white;border-color:#168AA5}
+.kb-section{display:flex;flex-direction:column;gap:10px;margin:8px 0 10px}
+.kb-group-head{display:flex;align-items:center;gap:10px;padding:12px;border-radius:15px;background:#ECF6F7}
+.kb-group-head>div:nth-child(2){flex:1;min-width:0}.kb-group-head h2{font-size:15px;color:#163D4B}.kb-group-head small{display:block;font-size:11px;color:#4F7180;margin-top:3px;line-height:1.45}
+.kb-group-head>span{color:#2C7787;font-size:12px;font-weight:700}
+.kb-group-symbol{width:40px;height:40px;display:grid;place-items:center;border-radius:12px;background:#D7EBEF;font-size:21px}
+.kb-article-list{display:flex;flex-direction:column;gap:8px}
+.kb-modern-card{min-height:65px;border-radius:14px!important;padding:11px 13px!important;box-shadow:none!important}
+.kb-modern-card .kbi{flex:none}.kb-modern-card .kbt{flex:1;min-width:0}
+.kb-chevron{font-size:23px;color:#82939B;line-height:1}
+
 </style>
 </head>
 <body>
@@ -1562,9 +1580,41 @@ var SRC={
  EHP:{n:'Báo Nông nghiệp và Môi trường, ổn định môi trường nước và kiểm soát EHP',u:'https://nongnghiepmoitruong.vn/giai-phap-on-dinh-moi-truong-nuoc-va-kiem-soat-ehp-trong-nuoi-tom-d741696.html'},
  BN:{n:'Báo Nông nghiệp và Môi trường, các bệnh tôm đáng chú ý',u:'https://nongnghiepmoitruong.vn/nganh-tom-truoc-lan-song-dich-benh-da-tac-nhan-d815036.html'},
  TT:{n:'Báo Nông nghiệp và Môi trường, xử lý ao khi thời tiết thay đổi (Hà Tĩnh, 5/2026)',u:'https://nongnghiepmoitruong.vn/thoi-tiet-giao-mua-thay-doi-that-thuong-nguoi-nuoi-tom-khong-the-roi-ao-d810292.html'},
- TH:{n:'Sở NN&PTNT Thanh Hóa, công văn hướng dẫn nuôi thủy sản (2025)',u:'https://snnptnt.thanhhoa.gov.vn/portal/VanBan/2025-1/314_SNNPTNT-TS.pdf'}
+ TH:{n:'Sở NN&PTNT Thanh Hóa, công văn hướng dẫn nuôi thủy sản (2025)',u:'https://snnptnt.thanhhoa.gov.vn/portal/VanBan/2025-1/314_SNNPTNT-TS.pdf'},
+ VS:{n:'Global Seafood Alliance – Bacterial amendments in shrimp grow-out ponds',u:'https://www.globalseafood.org/advocate/bacterial-amendments-in-shrimp-grow-out-ponds/'},
+ VB:{n:'Global Seafood Alliance – The Shrimp Book: soil and water quality management',u:'https://www.globalseafood.org/advocate/the-shrimp-book-pond-soil-water-quality-management/'},
+ FP:{n:'FAO – Improving biosecurity through prudent veterinary medicine use in aquatic food production',u:'https://www.fao.org/docrep/016/ba0056e/ba0056e.pdf'},
+ FS:{n:'FAO – Penaeus vannamei: biology and culture; biosecurity',u:'https://www.fao.org/fishery/docs/DOCUMENT/aquaculture/CulturedSpecies/file/en/en_whitelegshrimp.htm'},
+ WO:{n:'WOAH – Bệnh đốm trắng (WSSV), tiêu chuẩn chẩn đoán và kiểm soát',u:'https://www.woah.org/en/disease/white-spot-disease/'},
+ WA:{n:'WOAH – Bệnh hoại tử gan tụy cấp (AHPND)',u:'https://www.woah.org/en/disease/acute-hepatopancreatic-necrosis-disease/'}
 };
 var KB=[
+
+{id:'visinh',ic:'bubbles',t:'Vi sinh trong ao nuôi tôm',s:'Bacillus, vi khuẩn nitrat hóa và cách dùng hợp lý',src:['VS','VB','FP'],blocks:[
+ {p:'Vi sinh có thể góp phần cải thiện hệ vi khuẩn trong ao, nhưng không thay cho sục khí, kiểm soát thức ăn và loại bỏ bùn. Hiệu quả thực tế phụ thuộc chủng vi sinh, điều kiện nước và chất lượng chế phẩm.'},
+ {h:'Phân biệt nhóm vi sinh'},
+ {table:[['Nhóm','Vai trò thường được ứng dụng','Lưu ý'],['Bacillus spp.','Hỗ trợ phân hủy chất hữu cơ, cạnh tranh sinh thái với vi khuẩn không mong muốn','Không phải thuốc chữa bệnh; cần đủ oxy để phân hủy hiếu khí.'],['Vi khuẩn nitrat hóa','Chuyển hóa amoni thành nitrit rồi nitrat trong chu trình nitơ','Hoạt động phụ thuộc oxy, pH và kiềm; không xử lý tức thì khi NH3 tăng.'],['Vi sinh hỗ trợ đường ruột','Một số chủng được bổ sung qua thức ăn để hỗ trợ cân bằng hệ vi khuẩn tiêu hóa','Chủng, liều và hiệu quả theo đúng sản phẩm; không dùng thay điều trị.']]},
+ {h:'Các bước trước khi sử dụng'},
+ {ul:['Kiểm tra DO, pH, kiềm, nhiệt độ; nếu oxy thấp, ưu tiên xử lý thiếu oxy trước.', 'Đọc nhãn để xác định chủng, mật độ vi sinh, hạn dùng, điều kiện bảo quản và cách dùng cho ao hoặc trộn thức ăn.', 'Duy trì cho ăn vừa đủ và quản lý bùn đáy: bổ sung vi sinh không giải quyết được nguồn hữu cơ quá tải.', 'Theo dõi DO, NH3/TAN, NO2 và sức ăn trước, sau khi áp dụng; ghi nhật ký để đánh giá hiệu quả thay vì chỉ dựa vào màu nước.', 'Không tự tăng liều hoặc phối trộn nhiều chế phẩm; không dùng ngay sát thời điểm sát trùng nếu hướng dẫn nhà sản xuất không cho phép.']},
+ {h:'Lưu ý quan trọng'},
+ {ul:['Các báo cáo khoa học có kết quả không đồng nhất về hiệu quả giảm chất thải của chế phẩm vi sinh. Không có chế phẩm nào bảo đảm xử lý được tất cả khí độc, Vibrio hoặc bệnh tôm.', 'Không tự ủ vi sinh bằng đường, mật rỉ hoặc nguyên liệu không có quy trình kiểm soát, vì có thể gây tiêu hao oxy và làm biến động nước.', 'Khi tôm nổi đầu, chết nhanh hoặc giảm ăn bất thường, kiểm tra môi trường và liên hệ kỹ thuật viên; không chỉ tạt vi sinh rồi chờ.']}]},
+{id:'visinhnuoc',ic:'water',t:'Vi sinh xử lý nước & đáy ao',s:'Chất hữu cơ, bùn đáy và chu trình nitơ',src:['VS','VB','GN'],blocks:[
+ {p:'Bùn đáy, phân tôm và thức ăn dư làm tăng nhu cầu oxy và giải phóng các dạng nitơ. Vi sinh hoạt động trong một hệ thống có đủ oxy và môi trường thích hợp; bản thân việc bổ sung chế phẩm không bảo đảm chất lượng nước.'},
+ {h:'Quy trình theo dõi thực tế'},
+ {ul:['Đo oxy sáng sớm, pH sáng và chiều; theo dõi NH3/TAN, NO2 và độ kiềm theo lịch phù hợp mật độ nuôi.', 'Giảm thức ăn dư theo sàng; hút bùn hoặc gom chất thải đúng cách nếu hạ tầng ao cho phép.', 'Tăng hoặc duy trì sục khí, nhất là đêm và rạng sáng; tránh khuấy bùn đột ngột gây thoát khí độc.', 'Nếu dùng chế phẩm, chọn loại được phép lưu hành và sử dụng đúng nhãn; ghi ngày dùng và so sánh xu hướng chỉ tiêu nước.', 'Nếu NH3 hoặc nitrit tăng kéo dài, kiểm tra khối lượng cho ăn, oxy, pH, kiềm và khả năng xử lý nước; không kỳ vọng vi sinh tác động tức thì.']},
+ {h:'Không nên'},
+ {ul:['Không đổ hóa chất sát trùng trực tiếp vào ao đang cần giữ quần thể vi sinh có lợi mà không có đánh giá kỹ thuật.', 'Không trộn bừa vi sinh với kháng sinh hoặc chất diệt khuẩn.', 'Không tin rằng nước trong hay hết mùi là bằng chứng NH3 và NO2 đã an toàn: cần đo bằng bộ thử phù hợp.']}]},
+{id:'visinhduongruot',ic:'feed',t:'Vi sinh đường ruột & thức ăn',s:'Men tiêu hóa, bảo quản và theo dõi sức ăn',src:['FP','AAP','FAO'],blocks:[
+ {p:'Một số chế phẩm lợi khuẩn được thiết kế để trộn cùng thức ăn, hướng tới hỗ trợ tiêu hóa hoặc cân bằng hệ vi sinh. Hiệu quả phụ thuộc chủng vi khuẩn và điều kiện nuôi, không thể suy ra chỉ từ tên “men vi sinh”.'},
+ {ul:['Chọn sản phẩm ghi rõ chủng vi sinh, hàm lượng, liều dùng và quy định bảo quản.', 'Trộn theo hướng dẫn nhãn; hạn chế nhiệt độ hoặc cách pha có thể làm giảm vi khuẩn sống.', 'Quan sát lượng ăn trên sàng, tình trạng phân, đường ruột và tăng trưởng; ghi chép các thay đổi theo thời gian.', 'Nếu tôm có biểu hiện phân trắng, gan tụy bất thường, bỏ ăn hoặc chết rải rác, kiểm tra nguyên nhân bệnh và môi trường; vi sinh đường ruột không thay xét nghiệm hoặc điều trị có chuyên môn.', 'Không tự phối trộn kháng sinh hoặc chất sát khuẩn với men vi sinh.']},
+ {h:'Điểm cần nhớ'},
+ {ul:['Đảm bảo chất lượng thức ăn, khẩu phần hợp lý, nước ổn định và nguồn giống tốt thường quan trọng hơn việc dùng nhiều loại phụ gia.', 'Không tự áp dụng liều cố định cho mọi sản phẩm vì mật độ vi sinh và công thức rất khác nhau.']}]},
+{id:'tamsoat',ic:'warn',t:'Xử lý nước bất thường',s:'Thao tác ưu tiên khi thiếu oxy, NH3, NO2 hoặc tảo tàn',src:['GN','GO','GP','VB'],blocks:[
+ {table:[['Tình huống','Ưu tiên xử lý'],['DO thấp / tôm nổi đầu','Tăng sục khí ngay, kiểm tra hệ thống điện/quạt; giảm hoặc ngừng cho ăn tùy mức độ.'],['NH3/TAN tăng','Giảm lượng thức ăn dư; đo pH và nhiệt độ, tăng sục khí, đánh giá biện pháp xử lý nước phù hợp.'],['NO2 tăng','Kiểm tra độ mặn và clorua, khả năng nitrat hóa, sục khí và kiềm; tư vấn chuyên môn trước khi bổ sung muối hoặc hóa chất.'],['pH dao động lớn','Đo sáng và chiều, đánh giá tảo và khả năng đệm; điều chỉnh từ từ.'],['Tảo tàn / nước đổi màu nhanh','Theo dõi DO cả đêm, giảm thức ăn, theo dõi khí độc; tránh gây thêm sốc nước.']]},
+ {p:'Các biểu hiện này có thể có nhiều nguyên nhân. Bảng chỉ là thứ tự ưu tiên kiểm tra, không phải phác đồ điều trị.'}]},
+{id:'antoc',ic:'cal',t:'Lịch chăm sóc theo giai đoạn',s:'Trước thả – đầu vụ – giữa vụ – cuối vụ',src:['FAO','AAP','FS'],blocks:[
+ {table:[['Giai đoạn','Việc nên theo dõi'],['Trước thả','Cải tạo ao, ao lắng, nước cấp, hệ thống sục khí, giống và kết quả kiểm tra bệnh.'],['Đầu vụ','Kiểm tra thích nghi và tỷ lệ sống; DO, nhiệt độ, pH, sức ăn, độ ổn định nước.'],['Giữa vụ','Cân mẫu và điều chỉnh khẩu phần theo sinh khối; NH3/NO2, kiềm, bùn đáy, sức khỏe tôm.'],['Cuối vụ','Duy trì oxy, tránh quá tải hữu cơ, theo dõi FCR và cỡ tôm; chuẩn bị thu hoạch và phương án xử lý vật tư dư.']]},
+ {ul:['Mỗi ao có điều kiện khác nhau; lịch cần điều chỉnh theo mật độ, độ mặn, hệ thống tuần hoàn và thời tiết.', 'Ghi nhật ký nước, thức ăn, cân mẫu và xử lý ao để theo dõi xu hướng thay vì chỉ dựa vào một lần đo.']}]},
 {id:'nuoc',ic:'water',t:'Chỉ số nước chuẩn',s:'Ngưỡng tối ưu và cách chỉnh từng chỉ số',src:['KN','GN','GP'],blocks:[
  {p:'Bảng ngưỡng của Khuyến nông Quốc gia cho giai đoạn thương phẩm. Đây là mô hình thâm canh có sục khí. Ao nhỏ mật độ thấp có thể linh hoạt hơn, nhưng nên giữ trong khoảng này.'},
  {table:[['Chỉ số','Tối ưu','Cách chỉnh'],
@@ -1634,6 +1684,47 @@ var KB=[
   ['Đêm và rạng sáng','Tăng giờ chạy quạt vì oxy thường xuống thấp.'],
   ['Định kỳ','Bổ sung men vi sinh để phân hủy chất hữu cơ, hạn chế khí độc đáy ao.']]},
  {ul:['Quan trọng nhất là không để tôm bị sốc. Không tăng thức ăn đột ngột.','Tôm giảm ăn, bơi lờ đờ, nổi đầu hoặc chết rải rác: báo sớm cho cán bộ khuyến ngư hoặc kỹ thuật để xác định nguyên nhân.']}]},
+
+{id:'phongbenh',ic:'warn',t:'Phòng bệnh tổng hợp cho ao tôm',s:'An toàn sinh học từ chọn giống đến cuối vụ',src:['FS','FP','WO','WA'],blocks:[
+ {p:'Phòng bệnh dựa trên quản lý nguồn giống, nguồn nước, con người, dụng cụ và môi trường ao. Không có một loại thuốc, vi sinh hay khoáng nào phòng được tất cả bệnh.'},
+ {h:'Trước thả'},
+ {ul:['Chọn giống có nguồn gốc rõ ràng và hồ sơ kiểm tra tác nhân gây bệnh phù hợp với khu vực; chú ý WSSV, AHPND, EHP.', 'Vệ sinh, cải tạo ao và loại bùn đáy theo quy trình phù hợp; kiểm tra nước cấp trước khi đưa vào ao.', 'Ngăn cua còng, chim và động vật trung gian; bố trí lưới, khu vực khử trùng, dụng cụ riêng cho từng ao.', 'Kiểm tra sục khí, điện dự phòng, mật độ thả và điều kiện nhiệt độ, độ mặn để giảm sốc cho giống.']},
+ {h:'Trong vụ'},
+ {ul:['Theo dõi sức ăn, gan tụy, ruột, màu sắc cơ thể, bơi lội và số tôm chết mỗi ngày.', 'Giữ oxy ổn định; ghi pH, kiềm, nhiệt độ, NH3/TAN, NO2 theo điều kiện và mật độ nuôi.', 'Không chia sẻ vợt, ống siphon hoặc dụng cụ từ ao nghi bệnh sang ao khác nếu chưa vệ sinh đúng quy trình.', 'Cho ăn theo sức ăn và sinh khối để giảm chất thải; kiểm tra chất lượng và cách bảo quản thức ăn.', 'Dùng chế phẩm thú y thủy sản hợp pháp đúng nhãn, không dùng kháng sinh để phòng bệnh một cách đại trà.']},
+ {h:'Khi nghi có dịch'},
+ {ul:['Hạn chế di chuyển người, tôm, nước và dụng cụ giữa các ao; không xả nước thải nghi nhiễm chưa được xử lý phù hợp.', 'Kiểm tra nhanh oxy và chất lượng nước; ghi nhận thời gian và mức độ bất thường.', 'Liên hệ kỹ thuật viên thú y thủy sản hoặc cơ quan chuyên môn để lấy mẫu xét nghiệm PCR, mô bệnh học hoặc phương pháp phù hợp.', 'Không tự kết luận bệnh từ một dấu hiệu; không tự đổ hóa chất hoặc kháng sinh xuống ao khi chưa đánh giá tác nhân và rủi ro.']}]},
+{id:'wssv',ic:'warn',t:'Bệnh đốm trắng (WSSV)',s:'Lây lan nhanh, chết cấp tính và phòng lây nhiễm',src:['WO','FS'],blocks:[
+ {p:'Bệnh đốm trắng do vi-rút WSSV. Đây là bệnh truyền nhiễm nghiêm trọng trên giáp xác; không có thuốc đặc hiệu được chứng minh chữa khỏi tôm mắc WSSV.'},
+ {h:'Dấu hiệu nghi ngờ'},
+ {ul:['Tôm giảm ăn, bơi yếu hoặc bơi bất thường; có thể xảy ra chết nhanh trong thời gian ngắn.', 'Một số tôm có đốm trắng trên vỏ nhưng không phải trường hợp nhiễm WSSV nào cũng biểu hiện đốm rõ.', 'Thời tiết thay đổi hoặc tôm bị stress có thể làm biểu hiện bệnh trầm trọng hơn.']},
+ {h:'Phòng bệnh'},
+ {ul:['Ưu tiên giống kiểm tra WSSV âm tính theo phương pháp được phòng xét nghiệm áp dụng.', 'Quản lý nước cấp và ngăn vật chủ trung gian như cua còng; không chuyển tôm sống hoặc nước ao bệnh sang ao khác.', 'Dùng dụng cụ riêng giữa các ao, kiểm soát khách ra vào và vệ sinh đúng quy trình.', 'Duy trì môi trường nước ổn định, không để thiếu oxy hay thay đổi đột ngột.']},
+ {h:'Nếu nghi mắc bệnh'},
+ {ul:['Khoanh vùng ao nghi bệnh và yêu cầu xét nghiệm chuyên môn để xác nhận.', 'Không tự bán/chuyển tôm sống hoặc xả nước nghi nhiễm sang nguồn nước chung.', 'Liên hệ cơ quan thú y thủy sản địa phương để được hướng dẫn xử lý và quản lý dịch phù hợp quy định.']}]},
+{id:'ahpnd',ic:'warn',t:'Hoại tử gan tụy cấp (AHPND)',s:'Nhận biết và giảm nguy cơ bệnh do Vibrio mang độc tố',src:['WA','BN','FS'],blocks:[
+ {p:'AHPND có liên quan đến một số vi khuẩn Vibrio mang gen độc tố PirA/PirB. Bệnh có thể gây chết nhanh, nhất là giai đoạn đầu vụ. Cần xét nghiệm để phân biệt với các vấn đề gan tụy khác.'},
+ {h:'Dấu hiệu cần chú ý'},
+ {ul:['Tôm giảm hoặc bỏ ăn đột ngột, gan tụy nhạt màu hoặc teo, ruột ít thức ăn.', 'Tôm yếu và chết tăng nhanh; biểu hiện có thể trùng với nhiễm trùng hoặc biến động môi trường khác.']},
+ {h:'Phòng ngừa'},
+ {ul:['Kiểm tra giống và chất lượng nước cấp; hạn chế đưa mầm bệnh từ dụng cụ hoặc ao khác vào.', 'Quản lý chất hữu cơ, thức ăn dư và đáy ao; đảm bảo đủ oxy.', 'Theo dõi sức ăn, gan tụy và số chết trong giai đoạn đầu vụ; lấy mẫu xét nghiệm khi bất thường.', 'Không lạm dụng kháng sinh; việc lựa chọn phương án can thiệp cần dựa trên chẩn đoán và tư vấn thú y thủy sản.']},
+ {h:'Ứng phó'},
+ {ul:['Kiểm tra đồng thời môi trường nước và nguyên nhân bệnh; yêu cầu xét nghiệm tác nhân AHPND khi nghi ngờ.', 'Hạn chế lây chéo giữa ao, ghi nhận diễn biến và làm theo hướng dẫn của cơ quan chuyên môn.']}]},
+{id:'ehpguide',ic:'warn',t:'EHP – tôm chậm lớn, không đồng đều',s:'Vi bào tử trùng, quản lý bùn đáy và giống',src:['EHP','BN','FP'],blocks:[
+ {p:'EHP (Enterocytozoon hepatopenaei) là vi bào tử trùng ký sinh ở gan tụy. Nhiễm EHP thường gây tăng trưởng kém và kích cỡ không đều, nhưng không thể chẩn đoán chỉ bằng dấu hiệu chậm lớn.'},
+ {h:'Dấu hiệu nghi ngờ'},
+ {ul:['Tôm cùng tuổi có kích cỡ chênh lệch nhiều, tăng trưởng chậm hoặc hệ số chuyển đổi thức ăn xấu.', 'Có thể đi kèm các vấn đề đường ruột, phân trắng do nhiều nguyên nhân khác nhau.', 'Xác nhận bằng xét nghiệm chuyên môn thay vì suy đoán từ màu phân hoặc kích cỡ.']},
+ {h:'Phòng ngừa'},
+ {ul:['Chọn giống được kiểm tra EHP; quản lý vệ sinh trại giống và nguồn thức ăn theo thông tin nhà cung cấp.', 'Làm sạch bùn đáy và vật chất hữu cơ khi chuẩn bị vụ; kiểm soát nước cấp và nguồn lây chéo.', 'Theo dõi cỡ tôm định kỳ, hiệu quả cho ăn và xét nghiệm khi có dấu hiệu chậm lớn bất thường.', 'Không kỳ vọng vi sinh, kháng sinh hoặc hóa chất thông thường loại bỏ EHP khi tôm đã nhiễm.']}]},
+{id:'phantrang',ic:'warn',t:'Hội chứng phân trắng & đường ruột',s:'Nhận biết, phân biệt nguyên nhân và chăm sóc',src:['EHP','BN','AAP'],blocks:[
+ {p:'Phân trắng là một hội chứng có thể liên quan đến nhiều yếu tố như EHP, vi khuẩn, chất lượng thức ăn và môi trường. Không xem phân trắng là bằng chứng chắc chắn của một tác nhân cụ thể.'},
+ {h:'Dấu hiệu'},
+ {ul:['Các sợi phân nhạt hoặc trắng trên mặt nước, sàng ăn; tôm có thể giảm ăn hoặc đường ruột không đầy.', 'Có thể tăng trưởng chậm, cỡ tôm không đều hoặc biểu hiện gan tụy bất thường.']},
+ {h:'Kiểm tra và phòng ngừa'},
+ {ul:['Kiểm tra khẩu phần, chất lượng thức ăn, kho bảo quản và lượng thức ăn dư trên sàng.', 'Đo oxy, pH, NH3/TAN, NO2; kiểm tra đáy ao, bùn và sức khỏe tôm.', 'Thu mẫu và tham vấn xét nghiệm vi khuẩn hoặc EHP nếu biểu hiện kéo dài.', 'Không tự trộn kháng sinh, hóa chất hoặc nhiều chế phẩm với kỳ vọng chữa mọi nguyên nhân phân trắng.']}]},
+{id:'benhkiemtra',ic:'cal',t:'Bảng kiểm tra dấu hiệu bệnh mỗi ngày',s:'Quy trình quan sát và ghi nhận trước khi xử lý',src:['FAO','FS','FP'],blocks:[
+ {table:[['Quan sát','Điều cần ghi'],['Sức ăn','Sàng ăn còn dư, lượng giảm so với hôm trước, thời điểm bất thường'],['Tôm','Bơi lội, màu sắc, vỏ, cơ, tỷ lệ sống và số chết'],['Gan tụy & ruột','Màu gan tụy, độ đầy ruột, kích cỡ không đồng đều'],['Nước','DO, nhiệt độ, pH, kiềm, TAN/NH3, NO2 nếu có thể'],['Điều kiện ao','Mưa, tảo đổi màu, mất điện, quạt khí, bùn đáy']]},
+ {h:'Khi nào cần gọi kỹ thuật viên?'},
+ {ul:['Tôm chết tăng nhanh, giảm ăn rõ rệt hoặc bơi lờ đờ/nổi đầu.', 'Gan tụy bất thường, phân trắng kéo dài, chậm lớn nhiều hoặc cỡ tôm quá chênh lệch.', 'Thông số nước nguy hiểm hoặc thay đổi nhanh mà không rõ nguyên nhân.', 'Yêu cầu kỹ thuật viên hướng dẫn lấy mẫu và xét nghiệm; kết quả lâm sàng chỉ có tính định hướng.']}]},
 {id:'benh',ic:'warn',t:'Bệnh thường gặp',s:'EHP, đốm trắng, hoại tử gan tụy, cách phòng',src:['BN','EHP','KN','FAO'],blocks:[
  {table:[['Bệnh','Dấu hiệu và lưu ý'],
   ['EHP (vi bào tử trùng)','Tôm còi, lớn chậm, kích cỡ không đều, phân lỏng, tốn thức ăn. Không chết nhanh nhưng làm tôm không đạt cỡ. Bào tử tồn tại lâu trong bùn đáy và lây qua nước, phân. Đi kèm Vibrio có thể thành hội chứng phân trắng.'],
@@ -1776,11 +1867,29 @@ function adviceView(){
   h+='<p class="hint">Lời khuyên được tính từ số liệu bạn nhập và đối chiếu với các nguồn trong Cẩm nang. Chỉ để tham khảo, không thay kỹ thuật viên, nhất là khi tôm có dấu hiệu bệnh.</p>';
   return h;
 }
+var KB_GROUPS=[
+ {id:'micro',name:'Vi sinh & chế phẩm sinh học',symbol:'🧫',desc:'Vi sinh nước, đáy ao và đường ruột',ids:['visinh','visinhnuoc','visinhduongruot']},
+ {id:'water',name:'Cẩm nang xử lý nước',symbol:'💧',desc:'Chỉ số nước, oxy, pH, khí độc và thời tiết',ids:['nuoc','oxy','ph','nh3','tamsoat','thoitiet']},
+ {id:'feed',name:'Cho ăn & dinh dưỡng',symbol:'🌾',desc:'Khẩu phần, sàng ăn và tăng trưởng',ids:['choan','chitieu']},
+ {id:'health',name:'Bệnh & phòng bệnh',symbol:'🛡️',desc:'Phòng bệnh, dấu hiệu nghi ngờ và hướng dẫn kiểm tra',ids:['phongbenh','benhkiemtra','wssv','ahpnd','ehpguide','phantrang','benh']},
+ {id:'ops',name:'Chuẩn bị ao & vận hành',symbol:'🦐',desc:'Thả giống, lịch chăm sóc và kiểm tra',ids:['chuanbi','antoc','lich']}
+];
+var kbFilter={group:'all',search:''};
 function kbView(){
-  var h='<div class="top"><div><div class="eyebrow">Tổng hợp từ nguồn trên mạng, 10/2026</div><h1>Cẩm nang</h1></div></div>';
-  h+='<p class="hint" style="margin:0">Số liệu lấy từ Khuyến nông Quốc gia, FAO, Global Seafood Alliance và báo Nông nghiệp và Môi trường. Nhiều số là của mô hình thâm canh có sục khí, hãy điều chỉnh cho ao của bạn.</p><div class="stack">';
-  KB.forEach(function(k){h+='<button class="card kbcard" data-act="topic" data-id="'+k.id+'"><span class="kbi">'+si(k.ic)+'</span><span class="kbt"><b>'+esc(k.t)+'</b><small>'+esc(k.s)+'</small></span></button>';});
-  return h+'</div>';
+ var kw=kbFilter.search.trim().toLocaleLowerCase('vi');
+ var h='<div class="top"><div><div class="eyebrow">Cẩm nang thực hành nuôi tôm</div><h1>Kiến thức nuôi tôm</h1></div></div>'+
+ '<div class="kb-upgrade-intro"><b>Chăm ao dễ hơn, có căn cứ hơn</b><small>Vi sinh · Xử lý nước · Cho ăn · Bệnh & phòng bệnh · Quản lý vụ nuôi</small></div>'+
+ '<div class="inp kb-lookup"><input data-role="kb-search" aria-label="Tìm kiến thức nuôi tôm" placeholder="Tìm: vi sinh, pH, NH3, sàng ăn…" value="'+esc(kbFilter.search)+'"></div>'+
+ '<div class="kb-tabs">'+[{id:'all',name:'Tất cả'}].concat(KB_GROUPS).map(function(g){return '<button type="button" data-act="kbgroup" data-id="'+g.id+'" class="'+(kbFilter.group===g.id?'selected':'')+'">'+esc(g.name)+'</button>';}).join('')+'</div>';
+ KB_GROUPS.forEach(function(g){if(kbFilter.group!=='all'&&kbFilter.group!==g.id)return;
+  var articles=g.ids.map(kbById).filter(Boolean).filter(function(k){return !kw||(k.t+' '+k.s+' '+g.name).toLocaleLowerCase('vi').indexOf(kw)!==-1;});
+  if(!articles.length)return;
+  h+='<section class="kb-section"><div class="kb-group-head"><div class="kb-group-symbol">'+g.symbol+'</div><div><h2>'+esc(g.name)+'</h2><small>'+esc(g.desc)+'</small></div><span>'+articles.length+'</span></div><div class="kb-article-list">';
+  articles.forEach(function(k){h+='<button class="card kbcard kb-modern-card" data-act="topic" data-id="'+k.id+'"><span class="kbi">'+si(k.ic)+'</span><span class="kbt"><b>'+esc(k.t)+'</b><small>'+esc(k.s)+'</small></span><span class="kb-chevron">›</span></button>';});
+  h+='</div></section>';
+ });
+ if(!KB_GROUPS.some(function(g){return (kbFilter.group==='all'||kbFilter.group===g.id)&&g.ids.some(function(id){var k=kbById(id);return k&&(!kw||(k.t+' '+k.s+' '+g.name).toLocaleLowerCase('vi').indexOf(kw)!==-1);});}))h+='<div class="empty">Không tìm thấy bài phù hợp. Thử tìm bằng từ khóa khác.</div>';
+ return h+'<p class="hint">Thông tin dùng để tham khảo và theo dõi ao, không thay thế tư vấn của kỹ thuật viên thú y thủy sản. Chỉ dùng chế phẩm theo nhãn, quy định địa phương và tình trạng thực tế của ao.</p>';
 }
 function topicView(id){
   var k=kbById(id);if(!k)return kbView();
@@ -2536,6 +2645,7 @@ function onClick(ev){
   else if(a==='stockreturn')openStockReturn(el.getAttribute('data-name'));
   else if(a==='issueedit')openIssueForm(id);
   else if(a==='issuedel')removeIssue(id);
+  else if(a==='kbgroup'){kbFilter.group=el.getAttribute('data-id')||'all';render();}
   else if(a==='topic'){ui.view='topic';ui.topic=el.getAttribute('data-id');render();window.scrollTo(0,0);}
   else if(a==='open'){ui.view='pond';ui.pond=pid;ui.logLimit=30;ui.delId=null;ui.endAsk=false;render();window.scrollTo(0,0);}
   else if(a==='pick')openPick();
@@ -2621,6 +2731,13 @@ document.addEventListener('input',function(ev){
   newsState.query=el.value;render();
   var next=document.querySelector('[data-role="newssearch"]');
   if(next){next.focus();try{next.setSelectionRange(start,end);}catch(e){}}
+ }
+});
+
+document.addEventListener('input',function(ev){
+ var el=ev.target;if(el&&el.getAttribute('data-role')==='kb-search'){
+   var start=el.selectionStart,end=el.selectionEnd;kbFilter.search=el.value;render();
+   var n=document.querySelector('[data-role="kb-search"]');if(n){n.focus();try{n.setSelectionRange(start,end);}catch(e){}}
  }
 });
 </script>
