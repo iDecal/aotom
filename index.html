@@ -524,6 +524,14 @@ nav .in{max-width:620px!important;grid-template-columns:1fr 1fr 72px 1fr 1fr!imp
 .journal-info small{font-size:11px;line-height:1.45;color:var(--ink2)}
 .journal-arrow{font-size:22px;color:var(--ink2)}
 
+
+/* Tổng quan: một nút xem chi tiết cho từng ao */
+.pond-detail-action{padding:0 16px 16px;display:block}
+.pond-detail-btn{width:100%;min-height:44px;display:flex;align-items:center;justify-content:center;gap:9px;border:0;border-radius:12px;background:#e8f5f4;color:#146d72;font-size:13px;font-weight:700;box-shadow:none;transition:none!important;transform:none!important}
+.pond-detail-btn:active,.pond-detail-btn:hover{transform:none!important;filter:none!important}
+.pond-detail-btn .si{width:17px;height:17px;margin:0}
+@media(max-width:390px){.pond-detail-action{padding:0 14px 14px}}
+
 </style>
 </head>
 <body>
@@ -1461,25 +1469,19 @@ function pondCard(p){
     return '<div class="card pond pond-compact"><div class="pond-head"><div class="pond-iconbox">'+pondSvg(p.area,false)+'</div><div class="pond-main"><div class="pond-title-row"><h2>'+p.name+'</h2><span class="pill">Ao trống</span></div><div class="pond-meta">'+fmt(p.area)+' m² · Chưa có vụ nuôi đang hoạt động</div></div></div><div class="pond-body">'+
       (!loaded?'<div class="pond-empty-note">Đang tải dữ liệu…</div>':
       (past?'<div class="pond-empty-note">Vụ gần nhất kết thúc '+dmy(past.endDate||past.stockDate)+'. Bạn có thể thả giống để bắt đầu vụ mới.</div>':'<div class="pond-empty-note">Chưa có vụ nuôi nào. Hãy thả giống để bắt đầu theo dõi ao này.</div>')+
-      '<div class="pond-quick"><button class="qa f" data-act="stock" data-pond="'+p.id+'">'+ic('feed')+'Thả giống</button><button class="qa" data-act="open" data-pond="'+p.id+'">'+ic('pond')+'Xem ao</button></div>')+'</div></div>';
+      '<div class="pond-detail-action"><button class="pond-detail-btn" data-act="open" data-pond="'+p.id+'">'+si('pond')+' Xem chi tiết ao →</button></div>')+'</div></div>';
   }
   var s=stats(c,p),lw=latestWater(s.E);
   var pct=s.rec>0?Math.min(100,s.fedToday/s.rec*100):0;
   var AL=alertsFor(c,p,s),st=AL.some(function(a){return a.lv==='bad';})?'bad':AL.some(function(a){return a.lv==='warn';})?'warn':'good';
-  var doneF=s.fedToday>0,doneW=s.E.some(function(e){return e.t==='water'&&e.d===todayStr();});
-  function wcell(key){
-    var p2=WP.filter(function(q){return q.k===key;})[0],x=lw[key];
-    if(!x)return '<div class="pond-water-cell none"><div class="topline">'+si(p2.ic)+p2.l+'</div><b>—</b></div>';
-    return '<div class="pond-water-cell '+(x.s.lv||'good')+'"><div class="topline">'+si(p2.ic)+p2.l+'</div><b class="num">'+fmt(x.v,p2.d)+(p2.u&&p2.k!=='ph'?'<small>'+p2.u+'</small>':'')+'</b></div>';
-  }
-  var quick='<div class="pond-quick"><button class="qa feed-btn'+(doneF?' done':'')+'" data-act="form" data-k="feed" data-kind="feed" data-pond="'+p.id+'">'+(doneF?si('check'):ic('feed'))+'Cho ăn</button><button class="qa water-btn'+(doneW?' done':'')+'" data-act="form" data-k="water" data-kind="water" data-pond="'+p.id+'">'+(doneW?si('check'):ic('water'))+'Đo nước</button></div>';
+  var quick='<div class="pond-detail-action"><button class="pond-detail-btn" data-act="open" data-pond="'+p.id+'">'+si('pond')+' Xem chi tiết ao →</button></div>';
   return '<div class="card pond pond-compact pond-live st-'+st+'"><button class="pond-open" data-act="open" data-pond="'+p.id+'"><div class="pond-head"><div class="pond-iconbox">'+pondSvg(p.area,true)+'</div><div class="pond-main"><div class="pond-title-row"><h2>'+p.name+'</h2><span class="pond-day">'+si('cal')+'Ngày '+s.doc+'</span></div><div class="pond-meta">'+fmt(p.area)+' m² · '+fmt(c.qty)+' con · '+typeLabel(c)+'</div><div class="pond-badges"><span class="stt '+st+'">'+(st==='good'?'Nước ổn':st==='warn'?'Cần chú ý':'Nguy hiểm')+'</span><span class="pond-highlight-pill">● Đang nuôi</span></div></div></div>'+
    '<div class="pond-body"><div class="pond-kpi-grid">'+
    '<div class="pond-kpi-card"><div class="label">'+si('shrimp')+'Cỡ tôm</div><b class="num">'+(s.w>=1?fmt(s.w,1):fmt(s.w,2))+'<small>g'+(s.measured?'':' ước')+'</small></b></div>'+
    '<div class="pond-kpi-card"><div class="label">'+si('grid')+'Mật độ</div><b class="num">'+fmt(s.density,0)+'<small>con/m²</small></b></div>'+
    '<div class="pond-kpi-card"><div class="label">'+si('abw')+'Sinh khối</div><b class="num">'+fmt(s.biomass,0)+'<small>kg</small></b></div>'+
    '</div><div class="pond-feed-card"><div class="pond-feed-line"><span>'+si('feed')+'Cho ăn hôm nay</span><strong class="num">'+fmt(s.fedToday,1)+' / '+fmt(s.rec,1)+' kg</strong></div><div class="bar"><i style="width:'+pct+'%"></i></div></div></div></button>'+
-   feedTimeSummary(p.id)+'<details class="pond-collapse"><summary>'+si('grid')+' Thông tin ao & chỉ số đã nhập <span>⌄</span></summary><div class="pond-collapse-body"><div class="pond-spec-grid">'+pondSpec(p)+'</div><div class="pond-water-row">'+wcell('ph')+wcell('do')+wcell('temp')+'</div></div></details>'+quick+'</div>';
+   quick+'</div>';
 }
 /* ---------- thời tiết ao nuôi (Open-Meteo, không cần API key) ---------- */
 var WEATHER_KEY='aotom.weather.location.v1',weatherLocation=null,weatherData=null,weatherBusy=false,weatherError='',weatherFetched=0,weatherEdit=false;
