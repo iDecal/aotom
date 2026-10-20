@@ -688,6 +688,52 @@ nav .in{max-width:620px!important;grid-template-columns:1fr 1fr 72px 1fr 1fr!imp
 @media(max-width:700px){#app>.overview-hero-edge{width:100vw!important;margin-left:calc(50% - 50vw)!important;margin-right:calc(50% - 50vw)!important;padding:calc(16px + env(safe-area-inset-top,0px)) 19px 23px!important;border-radius:0 0 23px 23px!important}}
 @media(max-width:370px){.hero-brand{font-size:15px}.hero-sync{font-size:9px}.hero-today-pill{padding:5px 7px}}
 
+
+/* ===== Điều chỉnh tổng quan: nền xanh navi gradient & heading rõ hơn ===== */
+#app>.overview-hero-edge,
+#app .overview-hero,
+.overview-hero,
+.overview-hero-edge{
+  background:linear-gradient(135deg,#0B3556 0%, #0F4D78 42%, #166796 72%, #2382AF 100%) !important;
+  box-shadow:none !important;
+}
+#app>.overview-hero-edge .hero-weekday,
+#app>.overview-hero-edge .hero-date,
+#app>.overview-hero-edge .hero-today,
+#app>.overview-hero-edge .hero-summary p,
+#app>.overview-hero-edge .hero-brand span,
+#app>.overview-hero-edge .hero-sync,
+#app>.overview-hero-edge .overview-metrics small,
+#app>.overview-hero-edge .overview-metrics strong,
+#app>.overview-hero-edge .overview-metrics em,
+#app>.overview-hero-edge .overview-hero-icon,
+#app>.overview-hero-edge .hero-date-chip,
+#app>.overview-hero-edge .hero-weekday .si,
+#app>.overview-hero-edge .hero-date-chip .si{color:#F8FCFF !important}
+#app>.overview-hero-edge .overview-metrics>div{background:rgba(255,255,255,.12)!important;border:1px solid rgba(255,255,255,.12)!important}
+#app>.overview-hero-edge .overview-hero-icon{background:rgba(255,255,255,.12)!important}
+#app>.overview-hero-edge .hero-date-chip{background:rgba(255,255,255,.14)!important}
+
+#app .home-module-alert .section-heading,
+#app .home-module-pond .section-heading{
+  background:rgba(0,0,0,.10) !important;
+  border-radius:16px !important;
+  padding:10px 12px !important;
+  margin:0 0 14px 0 !important;
+}
+#app .home-module-alert .section-heading h2,
+#app .home-module-alert .section-heading .si,
+#app .home-module-pond .section-heading h2,
+#app .home-module-pond .section-heading .si{
+  color:#13293B !important;
+}
+#app .home-module-alert .section-counter,
+#app .home-module-pond .section-counter{
+  background:rgba(255,255,255,.82)!important;
+  color:#17344A!important;
+  font-weight:700!important;
+}
+
 </style>
 </head>
 <body>
