@@ -734,6 +734,26 @@ nav .in{max-width:620px!important;grid-template-columns:1fr 1fr 72px 1fr 1fr!imp
   font-weight:700!important;
 }
 
+
+/* Menu > Cài đặt > Quản lý ao theo loại */
+.settings-pond-identity{display:flex;flex-direction:column;gap:4px;min-width:125px;flex:1}
+.settings-pond-identity b{font-size:14px;color:#16384A}
+.settings-pond-identity small{font-size:11px;font-weight:600;color:#477184}
+.settings-pond-actions{display:flex;flex-wrap:wrap;gap:6px!important}
+.settings-pond-row{background:#F2F8FB;border:1px solid #DFEBF2;padding:13px!important;gap:12px!important}
+.settings-pond-row .settings-delete-pond{background:#FFF0EF!important;color:#B43630!important;border:1px solid #F6D9D5}
+.settings-safe-note{display:block;margin-top:10px;color:#657888;font-size:11px;line-height:1.5}
+#pond-editor select{width:100%;height:43px;background:#fff;border:1px solid #D8E4EB;border-radius:10px;color:#173A4F;font-size:14px;padding:0 10px}
+
+/* Thông báo có nút đóng nhỏ bên phải trên trang Tổng quan */
+#app .home-dismissible-alert{display:flex;align-items:stretch;gap:6px;padding:5px 6px 5px 0;min-width:0;overflow:hidden}
+#app .home-dismissible-alert .home-alert-open{flex:1;min-width:0;display:flex;align-items:flex-start;gap:10px;background:transparent;border:0;color:inherit;text-align:left;padding:10px 4px 10px 13px;font:inherit;cursor:pointer}
+#app .home-dismissible-alert .home-alert-open>span{flex:1;min-width:0}
+#app .home-dismissible-alert .home-alert-open b{overflow-wrap:anywhere}
+#app .home-dismissible-alert .home-alert-dismiss{align-self:flex-start;display:grid;place-items:center;flex:0 0 27px;width:27px;height:27px;margin:5px 4px 0 0;padding:0;border:1px solid rgba(70,91,108,.13);border-radius:9px;background:rgba(255,255,255,.8);color:#617483;font-size:20px;font-weight:500;line-height:1;cursor:pointer;box-shadow:0 1px 3px rgba(20,43,59,.06)}
+#app .home-dismissible-alert .home-alert-dismiss:active{background:#FCE8E8;color:#B53131}
+#app .home-dismissible-alert .home-alert-dismiss:focus-visible,#app .home-dismissible-alert .home-alert-open:focus-visible{outline:2px solid #117DA1;outline-offset:2px}
+
 </style>
 </head>
 <body>
@@ -1335,6 +1355,79 @@ body>nav .fab{position:relative!important;top:-6px!important;left:auto!important
 body>nav .fab:hover,body>nav .fab:active{transition:none!important;animation:none!important;transform:none!important;filter:none!important}
 body>nav .fab-plus{font-family:Arial,Helvetica,sans-serif!important;display:block!important;font-size:35px!important;font-weight:200!important;line-height:1!important;transform:translateY(-1px)!important}
 @media(max-width:355px){body>nav>.in{grid-template-columns:minmax(0,1fr) minmax(0,1fr) 50px minmax(0,1fr) minmax(0,1fr)!important;column-gap:1px!important}body>nav .nb{font-size:9px!important}body>nav .fab{width:47px!important;height:47px!important;min-width:47px!important}}
+
+/* === Home UI audit: hierarchy, spacing, contrast, phone responsiveness === */
+#app:has(>.overview-hero-edge){gap:15px!important;align-items:stretch!important}
+#app>.overview-hero-edge{background:linear-gradient(132deg,#0C2D4C 0%,#10466F 47%,#176A96 100%)!important;padding:19px 19px 22px!important;box-shadow:0 6px 18px rgba(13,53,83,.1)!important}
+#app>.overview-hero-edge .hero-topbar{margin-bottom:16px!important;align-items:center}
+#app>.overview-hero-edge .hero-brand{letter-spacing:-.02em;line-height:1.3}
+#app>.overview-hero-edge .hero-sync{font-size:10px;color:#E8F5FE!important}
+#app>.overview-hero-edge .hero-date-row{background:rgba(255,255,255,.12)!important;border-color:rgba(255,255,255,.19)!important;box-shadow:none!important;padding:12px!important;gap:12px!important}
+#app>.overview-hero-edge .hero-calendar{width:44px;height:44px;box-shadow:none!important}
+#app>.overview-hero-edge .hero-date-text strong{font-size:18px!important;line-height:1.2}
+#app>.overview-hero-edge .hero-date-text span{font-size:13px!important;color:#E5F3FF!important}
+#app>.overview-hero-edge .hero-today-pill{background:#EFF9D9!important;border-color:#D9EFBA!important;color:#285B35!important}
+#app>.overview-hero-edge .hero-summary{margin-top:14px!important;gap:10px!important}
+#app>.overview-hero-edge .hero-summary p{font-size:12px!important;color:#E2F3FC!important;line-height:1.5!important}
+#app>.overview-hero-edge .overview-metrics{margin-top:15px!important;gap:10px!important}
+#app>.overview-hero-edge .overview-metrics>div{padding:12px 13px!important;min-width:0;border-radius:14px!important;background:rgba(255,255,255,.11)!important;border:1px solid rgba(255,255,255,.16)!important}
+#app>.overview-hero-edge .overview-metrics strong{font-size:25px!important;line-height:1.25!important;color:#FFFFFF!important}
+#app>.overview-hero-edge .overview-metrics small{color:#E7F5FF!important;font-size:12px!important;line-height:1.4!important}
+#app .home-module{gap:12px!important;padding:15px!important;border-radius:19px!important;border-width:1px!important;box-shadow:none!important;min-width:0}
+#app .home-module-weather{padding:0!important;border:0!important;background:transparent!important}
+#app .home-module-weather .weather-card{padding:16px!important;border:1px solid #E1EAF0!important;background:#FFFFFF!important;border-radius:19px!important;box-shadow:none!important}
+#app .home-module-weather .weather-now{background:#F0F7FD!important;border-radius:14px!important}
+#app .home-module-weather .weather-summary-grid{gap:8px!important}
+#app .home-module-weather .weather-summary-cell{background:#F5F9FC!important;border:1px solid #E7EFF4!important;border-radius:13px!important;min-width:0}
+#app .home-module-weather .weather-summary-cell small{color:#435B6D!important;font-size:11px!important;line-height:1.35}
+#app .home-module-weather .weather-summary-cell strong{color:#163A55!important;line-height:1.25!important}
+#app .home-module-weather .weather-metric-icon{font-size:22px!important;line-height:1.2!important}
+#app .home-module-alert{background:#FFF5E9!important;border-color:#F5DFC2!important;color:#203447!important}
+#app .home-module-pond{background:#EAF5F1!important;border-color:#D4E9DE!important;color:#203447!important}
+#app .home-module-alert .section-heading{background:#F3E4CE!important;border:1px solid #EDD5B5!important}
+#app .home-module-pond .section-heading{background:#D4EADF!important;border:1px solid #BBDDCF!important}
+#app .home-module-alert .section-heading,#app .home-module-pond .section-heading{display:flex!important;align-items:center!important;gap:8px!important;min-height:50px!important;padding:10px 12px!important;margin:0 0 3px!important;border-radius:13px!important}
+#app .home-module .section-heading h2{font-size:17px!important;line-height:1.35!important;letter-spacing:-.025em!important;color:#193549!important;min-width:0}
+#app .home-module .section-heading .si{color:#1C536D!important;flex-shrink:0}
+#app .home-module-alert .section-heading .si{color:#A66A1A!important}
+#app .home-module-pond .section-heading .si{color:#1F805F!important}
+#app .home-module-alert .section-counter{background:#FFFFFF!important;color:#8B550F!important;border:1px solid #F0D6B2!important}
+#app .home-module-pond .section-counter{background:#FFFFFF!important;color:#247558!important;border:1px solid #BBDBCE!important}
+#app .home-module .section-counter{font-size:11px!important;line-height:1.25!important;font-weight:750!important;padding:6px 9px!important;flex-shrink:0!important}
+#app .home-module-alert .alert{border:1px solid #F1DFCA!important;background:#FFFDF9!important;border-radius:13px!important;box-shadow:none!important}
+#app .home-module-alert .alert b{color:#26384A!important}
+#app .home-module-alert .alert small{color:#526578!important;line-height:1.45!important}
+#app .home-module-pond .pond-section-title{padding:3px 2px 0!important;gap:8px!important}
+#app .home-module-pond .pond-section-title h3{font-size:14px!important;line-height:1.4!important;color:#1A4850!important}
+#app .home-module-pond .pond-section-title small{font-size:11px!important;color:#506A66!important}
+#app .home-module-pond .pond-section-group{gap:10px!important;margin:0 0 12px!important}
+#app .home-module-pond .pond-section-group:last-child{margin-bottom:0!important}
+#app .home-module-pond .stack{gap:11px!important}
+#app .home-module-pond .pond{background:#FFFFFF!important;border:1px solid #D9E8E3!important;border-radius:16px!important;overflow:hidden!important;box-shadow:none!important}
+#app .home-module-pond .pond-head{padding-top:14px!important}
+#app .home-module-pond .pond-body{padding-bottom:12px!important}
+#app .home-module-pond .pond-quick{padding-bottom:14px!important}
+#app .home-module-pond .pond-kpi-card{background:#F1F7F7!important;border:1px solid #E4EEEE!important}
+#app .home-module-pond .pond-feed-card{background:#F4FAF7!important}
+@media(max-width:390px){#app>.overview-hero-edge{padding:16px 15px 20px!important}#app .home-module{padding:12px!important;gap:10px!important}#app .home-module-weather{padding:0!important}#app .home-module .section-heading h2{font-size:15px!important}#app .home-module .section-counter{font-size:10px!important;padding:5px 7px!important}#app .home-module-alert .section-heading,#app .home-module-pond .section-heading{padding:10px!important}#app>.overview-hero-edge .overview-metrics strong{font-size:22px!important}}
+@media(prefers-reduced-motion:reduce){#app .home-module *,#app>.overview-hero-edge *{transition:none!important}}
+
+
+/* Thẻ ao Tổng quan: khoảng cách thoáng, biểu tượng tôm, CTA có chiều sâu */
+#app .home-module-pond .pond-section-group{gap:16px!important;margin-bottom:22px!important}
+#app .home-module-pond .pond-section-group:last-child{margin-bottom:0!important}
+#app .home-module-pond .pond-section-group>.stack{gap:21px!important}
+#app .home-module-pond .pond{border:1px solid #D4E6E3!important;border-radius:19px!important;box-shadow:0 5px 17px rgba(18,72,78,.065)!important}
+#app .home-module-pond .pond-iconbox{width:55px;height:55px;flex:none;border-radius:16px;background:linear-gradient(145deg,#DFF8F2 0%,#CBEAF5 100%)!important;border:1px solid #C1E6E6!important;box-shadow:inset 0 1px 2px rgba(255,255,255,.85)!important;overflow:hidden}
+#app .home-module-pond .pond-shrimp-emoji{font-size:33px;line-height:1;display:block;transform:rotate(-12deg);filter:drop-shadow(0 2px 1px rgba(18,94,113,.18))}
+#app .home-module-pond .pond-shrimp-emoji.is-empty{opacity:.72;filter:saturate(.7)}
+#app .home-module-pond .pond-detail-action{padding:0 15px 16px!important}
+#app .home-module-pond .pond-detail-btn{min-height:49px!important;border-radius:13px!important;background:linear-gradient(115deg,#087E97,#0B9F97)!important;color:#FFF!important;border:1px solid rgba(0,89,102,.15)!important;box-shadow:0 4px 10px rgba(4,100,117,.20)!important;font-size:14px!important;font-weight:800!important;letter-spacing:.01em}
+#app .home-module-pond .pond-detail-btn .si{color:#FFFFFF!important}
+#app .home-module-pond .pond-detail-btn:focus-visible{outline:3px solid #F5BD55!important;outline-offset:3px!important}
+#app .home-module-pond .pond-detail-btn:active{background:linear-gradient(115deg,#06687E,#06867F)!important}
+@media(max-width:390px){#app .home-module-pond .pond-section-group>.stack{gap:18px!important}#app .home-module-pond .pond-iconbox{width:49px;height:49px}#app .home-module-pond .pond-shrimp-emoji{font-size:29px}#app .home-module-pond .pond-detail-btn{min-height:47px!important}}
+
 </style>
 
 <div id="app"></div>
@@ -1623,12 +1716,14 @@ function chipsWater(lw){
   });
   return '<div class="chips">'+out+'</div>';
 }
+function pondKindLabel(p){return p&&p.kind==='nursery'?'Ao ương / ao vèo':p&&p.kind==='settling'?'Ao lắng':'Ao nuôi thương phẩm';}
 function pondSpec(p){return '<span>'+fmt(p.area)+' m²</span><span>Mực nước '+(p.depth?fmt(p.depth,2)+' m':'—')+'</span><span>'+(p.liner?'Có lót bạt':'Không lót bạt')+'</span><span>'+(p.bottomOxy?'Có oxy đáy':'Không oxy đáy')+'</span><span>'+fmt(p.paddles||0)+' quạt đảo</span>';}
 function openPondEditor(pid){
   var p=pid?pondOf(pid):null;
   var h='<div class="panel-h"><div><div class="eyebrow">Thông tin ao nuôi</div><h2>'+(p?'Chỉnh sửa ao':'Thêm ao mới')+'</h2></div><button type="button" class="x" data-act="close" aria-label="Đóng">×</button></div>'+
     '<form id="pond-editor" class="stack" novalidate>'+
     '<div class="fld"><label for="pond-name">Tên ao *</label><div class="inp"><input id="pond-name" name="name" required maxlength="45" placeholder="Ví dụ: Ao số 1" value="'+esc(p?p.name:'')+'"></div></div>'+
+    '<div class="fld"><label for="pond-kind">Loại ao *</label><div class="inp"><select id="pond-kind" name="kind" required><option value="nursery" '+(p&&p.kind==='nursery'?'selected':'')+'>Ao ương / ao vèo</option><option value="commercial" '+(!p||!p.kind||p.kind==='commercial'?'selected':'')+'>Ao nuôi thương phẩm</option><option value="settling" '+(p&&p.kind==='settling'?'selected':'')+'>Ao lắng</option></select></div></div>'+
     '<div class="fgrid"><div class="fld"><label for="pond-area">Diện tích (m²) *</label><div class="inp"><input id="pond-area" name="area" required type="number" min="0.01" step="any" inputmode="decimal" placeholder="Ví dụ: 400" value="'+(p?p.area:'')+'"></div></div>'+
     '<div class="fld"><label for="pond-depth">Mực nước (m) *</label><div class="inp"><input id="pond-depth" name="depth" required type="number" min="0.01" step="any" inputmode="decimal" placeholder="Ví dụ: 1.5" value="'+(p&&p.depth?p.depth:'')+'"></div></div></div>'+
     '<div class="fld"><span class="lab">Ao có lót bạt không?</span><div class="opts"><label class="opt"><input type="radio" name="liner" value="yes" '+(!p||p.liner?'checked':'')+'><span>Có lót bạt</span></label><label class="opt"><input type="radio" name="liner" value="no" '+(p&&!p.liner?'checked':'')+'><span>Không</span></label></div></div>'+
@@ -1640,9 +1735,9 @@ function openPondEditor(pid){
     ev.preventDefault();var f=ev.currentTarget,name=f.elements.name.value.trim(),area=Number(f.elements.area.value),depth=Number(f.elements.depth.value),paddles=Number(f.elements.paddles.value),err=document.getElementById('pond-error');
     if(!name||!Number.isFinite(area)||area<=0||!Number.isFinite(depth)||depth<=0||!Number.isInteger(paddles)||paddles<0||f.elements.paddles.value===''){err.textContent='Vui lòng nhập đầy đủ thông tin hợp lệ.';return;}
     if(PONDS.some(function(q){return q.id!==(p&&p.id)&&q.name.toLowerCase()===name.toLowerCase();})){err.textContent='Tên ao đã tồn tại, vui lòng dùng tên khác.';return;}
-    var saved={id:p?p.id:'pond-'+uid(),name:name,area:area,depth:depth,liner:f.elements.liner.value==='yes',bottomOxy:f.elements.bottomOxy.value==='yes',paddles:paddles};
+    var saved={id:p?p.id:'pond-'+uid(),name:name,area:area,depth:depth,liner:f.elements.liner.value==='yes',bottomOxy:f.elements.bottomOxy.value==='yes',paddles:paddles,kind:f.elements.kind.value};
     if(p){var idx=PONDS.findIndex(function(q){return q.id===p.id;});PONDS[idx]=saved;}else PONDS.push(saved);
-    savePonds();sheetClose();ui.view='home';ui.pond=null;render();toast(p?'Đã cập nhật thông tin ao':'Đã thêm '+name);
+    savePonds();sheetClose();if(ui.view!=='inventory'||ui.menuSection!=='settings'){ui.view='home';ui.pond=null;}render();toast(p?'Đã cập nhật thông tin ao':'Đã thêm '+name);
   });
 }
 /* Lịch cho ăn riêng theo từng ao; các cữ được lưu tại trình duyệt. */
@@ -1668,7 +1763,7 @@ function pondCard(p){
   var c=activeCrop(p.id);
   if(!c){
     var past=cropsOf(p.id)[0];
-    return '<div class="card pond pond-compact"><div class="pond-head"><div class="pond-iconbox">'+pondSvg(p.area,false)+'</div><div class="pond-main"><div class="pond-title-row"><h2>'+p.name+'</h2><span class="pill">Ao trống</span></div><div class="pond-meta">'+fmt(p.area)+' m² · Chưa có vụ nuôi đang hoạt động</div></div></div><div class="pond-body">'+
+    return '<div class="card pond pond-compact"><div class="pond-head"><div class="pond-iconbox">'+'<span class="pond-shrimp-emoji is-empty" role="img" aria-label="Ao nuôi tôm">🦐</span>'+'</div><div class="pond-main"><div class="pond-title-row"><h2>'+p.name+'</h2><span class="pill">Ao trống</span></div><div class="pond-meta">'+fmt(p.area)+' m² · Chưa có vụ nuôi đang hoạt động</div></div></div><div class="pond-body">'+
       (!loaded?'<div class="pond-empty-note">Đang tải dữ liệu…</div>':
       (past?'<div class="pond-empty-note">Vụ gần nhất kết thúc '+dmy(past.endDate||past.stockDate)+'. Bạn có thể thả giống để bắt đầu vụ mới.</div>':'<div class="pond-empty-note">Chưa có vụ nuôi nào. Hãy thả giống để bắt đầu theo dõi ao này.</div>')+
       '<div class="pond-detail-action"><button class="pond-detail-btn" data-act="open" data-pond="'+p.id+'">'+si('pond')+' Xem chi tiết ao →</button></div>')+'</div></div>';
@@ -1677,7 +1772,7 @@ function pondCard(p){
   var pct=s.rec>0?Math.min(100,s.fedToday/s.rec*100):0;
   var AL=alertsFor(c,p,s),st=AL.some(function(a){return a.lv==='bad';})?'bad':AL.some(function(a){return a.lv==='warn';})?'warn':'good';
   var quick='<div class="pond-detail-action"><button class="pond-detail-btn" data-act="open" data-pond="'+p.id+'">'+si('pond')+' Xem chi tiết ao →</button></div>';
-  return '<div class="card pond pond-compact pond-live st-'+st+'"><button class="pond-open" data-act="open" data-pond="'+p.id+'"><div class="pond-head"><div class="pond-iconbox">'+pondSvg(p.area,true)+'</div><div class="pond-main"><div class="pond-title-row"><h2>'+p.name+'</h2><span class="pond-day">'+si('cal')+'Ngày '+s.doc+'</span></div><div class="pond-meta">'+fmt(p.area)+' m² · '+fmt(c.qty)+' con · '+typeLabel(c)+'</div><div class="pond-badges"><span class="stt '+st+'">'+(st==='good'?'Nước ổn':st==='warn'?'Cần chú ý':'Nguy hiểm')+'</span><span class="pond-highlight-pill">● Đang nuôi</span></div></div></div>'+
+  return '<div class="card pond pond-compact pond-live st-'+st+'"><button class="pond-open" data-act="open" data-pond="'+p.id+'"><div class="pond-head"><div class="pond-iconbox">'+'<span class="pond-shrimp-emoji" role="img" aria-label="Ao đang nuôi tôm">🦐</span>'+'</div><div class="pond-main"><div class="pond-title-row"><h2>'+p.name+'</h2><span class="pond-day">'+si('cal')+'Ngày '+s.doc+'</span></div><div class="pond-meta">'+fmt(p.area)+' m² · '+fmt(c.qty)+' con · '+typeLabel(c)+'</div><div class="pond-badges"><span class="stt '+st+'">'+(st==='good'?'Nước ổn':st==='warn'?'Cần chú ý':'Nguy hiểm')+'</span><span class="pond-highlight-pill">● Đang nuôi</span></div></div></div>'+
    '<div class="pond-body"><div class="pond-kpi-grid">'+
    '<div class="pond-kpi-card"><div class="label">'+si('shrimp')+'Cỡ tôm</div><b class="num">'+(s.w>=1?fmt(s.w,1):fmt(s.w,2))+'<small>g'+(s.measured?'':' ước')+'</small></b></div>'+
    '<div class="pond-kpi-card"><div class="label">'+si('grid')+'Mật độ</div><b class="num">'+fmt(s.density,0)+'<small>con/m²</small></b></div>'+
@@ -1764,7 +1859,7 @@ function saveHomeSettings(){try{localStorage.setItem(HOME_SETTINGS_KEY,JSON.stri
 function settingsView(header){
  return header+'<div class="settings-intro">⚙️ <b>Cài đặt ứng dụng</b><small>Tùy chỉnh ao nuôi và cách hiển thị trang Tổng quan.</small></div>'+
  '<div class="settings-block"><h2>🏡 Hiển thị trang chủ</h2><p>Chọn mục muốn hiển thị; kéo giữ biểu tượng ☰ để đổi thứ tự ưu tiên.</p><div id="home-sort-list">'+homeSettings.order.map(function(id){var meta=HOME_MODULES.filter(function(x){return x[0]===id;})[0];return '<div class="home-sort-item" data-module="'+id+'" draggable="true"><span class="drag-grip" title="Kéo để sắp xếp">☰</span><span class="sort-icon">'+meta[2]+'</span><span class="sort-label">'+meta[1]+'</span><label class="setting-switch"><input type="checkbox" data-role="home-visible" data-module="'+id+'"'+(homeSettings.visible[id]?' checked':'')+'><span>Hiện</span></label><div class="sort-arrows"><button data-act="home-up" data-module="'+id+'" aria-label="Đưa lên">↑</button><button data-act="home-down" data-module="'+id+'" aria-label="Đưa xuống">↓</button></div></div>';}).join('')+'</div></div>'+
- '<div class="settings-block"><h2>🦐 Cài đặt ao nuôi</h2><p>Chọn ao để chỉnh sửa cấu hình hoặc giờ cho ăn.</p><div class="settings-ponds">'+(PONDS.length?PONDS.map(function(p){return '<div class="settings-pond-row"><b>'+esc(p.name)+'</b><div><button data-act="pondedit" data-pond="'+esc(p.id)+'">Thông tin</button><button data-act="feedtimes" data-pond="'+esc(p.id)+'">Giờ ăn</button></div></div>';}).join(''):'<p>Chưa có ao nào. Vào trang Tổng quan để xem danh sách ao.</p>')+'</div><button data-act="pondadd" class="settings-create-pond">＋ Tạo ao mới</button></div>';
+ '<div class="settings-block"><h2>🦐 Cài đặt ao nuôi</h2><p>Thêm ao ương / ao vèo, ao nuôi thương phẩm hoặc ao lắng. Chọn ao để chỉnh sửa thông tin và cữ ăn.</p><div class="settings-ponds">'+(PONDS.length?PONDS.map(function(p){return '<div class="settings-pond-row"><div class="settings-pond-identity"><b>'+esc(p.name)+'</b><small>'+pondKindLabel(p)+' · '+fmt(p.area)+' m²</small></div><div class="settings-pond-actions"><button data-act="pondedit" data-pond="'+esc(p.id)+'">✎ Sửa</button><button data-act="feedtimes" data-pond="'+esc(p.id)+'">◷ Giờ ăn</button><button class="settings-delete-pond" data-act="ponddelete" data-pond="'+esc(p.id)+'">Xóa</button></div></div>';}).join(''):'<p>Chưa có ao nào. Nhấn nút bên dưới để tạo ao đầu tiên.</p>')+'</div><button data-act="pondadd" class="settings-create-pond">＋ Thêm ao nuôi</button><small class="settings-safe-note">Để bảo vệ nhật ký và báo cáo, chỉ có thể xóa ao chưa có vụ nuôi.</small></div>';
 }
 function weatherWeekView(header){
  var html=header+'<div class="news-intro"><b>🌦️ Dự báo thời tiết 7 ngày</b><span>Biến động thời tiết khu vực ao, giúp chủ động lịch cho ăn và quản lý nước.</span></div>';
@@ -1790,11 +1885,17 @@ function weatherSummaryView(){
  return '<section class="card weather-card weather-overview"><div class="weather-head"><div><h2>🌤️ Thời tiết khu vực ao</h2><div class="weather-sub">📍 '+loc+'</div></div></div>'+current+
  '<button class="home-detail-link" data-act="weatherweek">Xem dự báo 7 ngày →</button></section>';
 }
+/* Chỉ ẩn thông báo theo lựa chọn người dùng; không sửa dữ liệu ao. */
+var hiddenAlertsKey='aotom_hidden_alerts_v1';
+function hiddenAlertsRead(){try{var v=JSON.parse(localStorage.getItem(hiddenAlertsKey)||'{}');return v&&typeof v==='object'&&!Array.isArray(v)?v:{};}catch(e){return {};}}
+function alertIdentity(a){return [a.pid||'',a.lv||'',a.t||'',a.s||''].join('|');}
+function dismissHomeAlert(key){var x=hiddenAlertsRead();x[key]=Date.now();try{localStorage.setItem(hiddenAlertsKey,JSON.stringify(x));}catch(e){}render();toast('Đã ẩn thông báo');}
 function homeView(){
   var t=new Date().toLocaleDateString('vi-VN',{weekday:'long',day:'numeric',month:'numeric'});
   var al=[],act=0,activeP=[],emptyP=[];
   PONDS.forEach(function(p){var c=activeCrop(p.id);if(c){act++;activeP.push(p);var s=stats(c,p);alertsFor(c,p,s).forEach(function(a){a.pid=p.id;al.push(a);});}else emptyP.push(p);});
   var order={bad:0,warn:1,info:2,good:3};al.sort(function(a,b){return order[a.lv]-order[b.lv];});
+  var dismissed=hiddenAlertsRead();al=al.filter(function(a){return !dismissed[alertIdentity(a)];});
   var weekday=new Date().toLocaleDateString('vi-VN',{weekday:'long'});
   var dateToday=new Date().toLocaleDateString('vi-VN',{day:'2-digit',month:'2-digit',year:'numeric'});
   var dateIcon='<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M7 3v4M17 3v4M3 10h18"/><path d="m9 15 2 2 4-4"/></svg>';
@@ -1808,7 +1909,7 @@ function homeView(){
   else if(!act&&PONDS.length)h+='<div class="empty">Chưa có ao nào đang nuôi. Bấm Thả giống ở một ao bên dưới. Sau đó ứng dụng sẽ nhắc đo nước, cho ăn, cân mẫu và báo khi chỉ số nước lệch.</div>';
   else if(!act&&!PONDS.length)h+='<div class="empty">Bắt đầu bằng cách thêm thông tin ao nuôi bên dưới.</div>';
   else if(!al.length)h+='<div class="alert good">'+ai('good')+'<div><b>Mọi thứ ổn</b><small>Chưa có chỉ số nào lệch.</small></div></div>';
-  else h+='<div class="stack">'+al.slice(0,3).map(function(a){return '<button class="alert '+a.lv+'" data-act="open" data-pond="'+a.pid+'">'+ai(a.lv)+'<div><b>'+esc(a.t)+'</b><small>'+esc(a.s)+'</small></div></button>';}).join('')+'</div>';
+  else h+='<div class="stack">'+al.slice(0,3).map(function(a){var key=encodeURIComponent(alertIdentity(a));return '<div class="alert home-dismissible-alert '+a.lv+'"><button class="home-alert-open" data-act="open" data-pond="'+a.pid+'" aria-label="Xem chi tiết thông báo">'+ai(a.lv)+'<span><b>'+esc(a.t)+'</b><small>'+esc(a.s)+'</small></span></button><button class="home-alert-dismiss" data-act="dismissalert" data-id="'+key+'" aria-label="Ẩn thông báo này" title="Ẩn thông báo">×</button></div>';}).join('')+'</div>';
   if(act)h+='<button class="link" data-act="advice" style="align-self:flex-start">'+(al.length>3?'Còn '+(al.length-3)+' mục nữa · ':'')+'Xem lời khuyên chi tiết</button>';
   h+='</div>';homeBlocks.alert=h;h='<div class="section pond-section home-module home-module-pond"><div class="section-heading"><h2 class="sec-h">'+si('pond')+'Danh sách ao nuôi</h2><span class="section-counter">'+PONDS.length+' ao</span></div>';
   if(activeP.length){
@@ -3024,7 +3125,8 @@ function toast(m){var t=$('#toast');t.textContent=m;t.hidden=false;clearTimeout(
 function onClick(ev){
   var el=ev.target.closest('[data-act]');if(!el)return;
   var a=el.getAttribute('data-act'),pid=el.getAttribute('data-pond'),id=el.getAttribute('data-id');
-  if(a==='pondconfig')openPondConfig(pid);
+  if(a==='dismissalert'){try{dismissHomeAlert(decodeURIComponent(id||''));}catch(e){toast('Không thể ẩn thông báo');}}
+  else if(a==='pondconfig')openPondConfig(pid);
   else if(a==='feedtimes')openFeedTimes(pid);
   else if(a==='addfeedtime'){var list=$('#feed-time-list');if(!list)return;if(list.querySelectorAll('input').length>=8){toast('Tối đa 8 cữ ăn.');return;}list.insertAdjacentHTML('beforeend','<div class="feed-time-row"><input aria-label="Giờ cho ăn" type="time" required><button type="button" data-act="removefeedtime" aria-label="Xóa cữ">×</button></div>');}
   else if(a==='removefeedtime'){var row=el.closest('.feed-time-row');if(row)row.remove();}
@@ -3040,6 +3142,16 @@ function onClick(ev){
   else if(a==='weather-location-toggle'){weatherEdit=!weatherEdit;render();}
   else if(a==='pondadd')openPondEditor(null);
   else if(a==='pondedit')openPondEditor(pid);
+  else if(a==='ponddelete'){
+    var target=pondOf(pid);
+    if(!target){toast('Không tìm thấy ao cần xóa');return;}
+    if(cropsOf(pid).length){toast('Ao này đã có dữ liệu vụ nuôi. Không thể xóa để tránh mất nhật ký và báo cáo.');return;}
+    if(!window.confirm('Xóa ao "'+target.name+'"? Thao tác này không thể hoàn tác.'))return;
+    PONDS=PONDS.filter(function(p){return p.id!==pid;});
+    delete feedTimes[pid];try{localStorage.setItem(FEED_TIME_KEY,JSON.stringify(feedTimes));}catch(e){}
+    savePonds();render();toast('Đã xóa '+target.name);
+  }
+
   else if(a==='home'){ui.view='home';ui.pond=null;ui.endAsk=false;render();window.scrollTo(0,0);}
   else if(a==='journal'){ui.view='journal';render();window.scrollTo(0,0);}
   else if(a==='warehouse'||a==='money'){ui.view='inventory';ui.menuSection='stock';render();window.scrollTo(0,0);}
