@@ -610,6 +610,35 @@ nav .in{max-width:620px!important;grid-template-columns:1fr 1fr 72px 1fr 1fr!imp
 .home-detail-link{align-self:flex-start;border:0;background:#E3F1F7;color:#11607A;border-radius:10px;padding:9px 13px;font-size:12px;font-weight:700}
 .home-module-pond .pond-detail-btn{display:block;width:100%}.home-module-pond .pond-detail-action{padding:0 12px 12px}
 
+
+/* Cài đặt ao nằm cùng dòng nút quay về Tổng quan */
+.pond-page-head{display:flex;justify-content:space-between;align-items:center;gap:10px;width:100%;margin:0 0 4px}
+.pond-page-head .pond-back-home{margin:0!important;min-height:41px;padding:6px 3px!important;white-space:nowrap;flex-shrink:0;font-size:13px!important}
+.pond-config-trigger{display:inline-flex;align-items:center;justify-content:center;gap:7px;padding:9px 11px!important;min-height:41px;background:#EBF5F8!important;border:1px solid #CBE4EB!important;border-radius:12px;color:#156B80!important;font-size:12px!important;font-weight:750;white-space:nowrap}
+.pond-config-trigger .si{width:17px;height:17px;margin:0}
+.pond-config-hint{margin:0;color:#63778A;font-size:13px}
+.pond-config-options{display:flex;flex-direction:column;gap:10px}
+.pond-config-options button{display:flex;align-items:center;gap:11px;width:100%;padding:14px 12px;min-height:72px;border:1px solid #DEEBF1;border-radius:16px;background:#F5F9FC;text-align:left;color:#203D4E}
+.pond-config-options button>span:nth-child(2){flex:1;display:flex;flex-direction:column;gap:4px;min-width:0}
+.pond-config-options b{font-size:14px}.pond-config-options small{font-size:11px;line-height:1.5;color:#64798A}
+.pond-config-ico{display:grid;place-items:center;width:41px;height:41px;flex:none;background:#DDF0F5;border-radius:12px;color:#157A97}
+.pond-config-ico.feeding{background:#E7F5E9;color:#25784D}.pond-config-ico .si{margin:0;width:19px;height:19px}
+.pond-config-arrow{font-size:23px;color:#899AA7}
+@media(max-width:350px){.pond-config-trigger{font-size:11px!important;padding:8px!important}.pond-page-head .pond-back-home{font-size:12px!important}}
+
+/* Cài đặt dự báo nằm trực tiếp trong trang Dự báo 7 ngày */
+.weather-location-setup{padding:15px;border-radius:16px;background:#EAF7FB;display:flex;flex-direction:column;gap:12px;border:1px solid #D2EBF3}
+.weather-location-heading{display:flex;flex-direction:column;gap:5px}
+.weather-location-heading b{font-size:14px;color:#173B50}
+.weather-location-heading span{font-size:13px;color:#285D74;overflow-wrap:anywhere}
+.weather-location-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.weather-location-actions button,.weather-week-location-form button{border:0;border-radius:11px;min-height:41px;padding:9px 10px;font-size:12px;font-weight:700}
+.weather-gps-action{background:#157EAA;color:white}
+.weather-manual-toggle{background:white;color:#176784}
+.weather-week-location-form{display:flex;gap:8px}
+.weather-week-location-form input{flex:1;min-width:0;border:1px solid #C6DDE6;border-radius:11px;padding:10px;background:white;color:#173B50}
+.weather-week-location-form button{background:#157EAA;color:white}
+
 </style>
 </head>
 <body>
@@ -1602,6 +1631,26 @@ function weatherView(){
   }
   return h+'</section>';
 }
+function weatherGpsLocate(){
+ if(!navigator.geolocation){toast('Trình duyệt không hỗ trợ GPS.');return;}
+ if(!window.isSecureContext){toast('GPS cần trang HTTPS hoặc localhost.');return;}
+ weatherBusy=true;weatherError='';render();
+ navigator.geolocation.getCurrentPosition(function(pos){
+  var lat=pos.coords.latitude,lon=pos.coords.longitude;
+  // Reverse geocoding: first a publicly accessible localities service, otherwise fall back to coordinates.
+  fetch('https://api.bigdatacloud.net/data/reverse-geocode-client?latitude='+encodeURIComponent(lat)+'&longitude='+encodeURIComponent(lon)+'&localityLanguage=vi')
+   .then(function(r){if(!r.ok)throw Error('Không tìm được địa danh');return r.json();})
+   .then(function(d){
+    var entries=(d.localityInfo&&d.localityInfo.administrative)||[];
+    var comm=entries.filter(function(e){return /commune|ward|village|xã|phường|thị trấn/i.test(String(e.description||''));}).map(function(e){return e.name;})[0];
+    var locality=comm||d.locality||d.city||'';
+    var province=d.principalSubdivision||'';
+    var name=[locality,province].filter(function(x,i,a){return x&&a.indexOf(x)===i;}).join(', ');
+    if(!name)name='Tọa độ '+lat.toFixed(4)+', '+lon.toFixed(4);
+    weatherBusy=false;saveWeatherLocation({lat:lat,lon:lon,name:name,gps:true});
+   }).catch(function(){weatherBusy=false;saveWeatherLocation({lat:lat,lon:lon,name:'Tọa độ '+lat.toFixed(4)+', '+lon.toFixed(4),gps:true});toast('Không nhận diện được xã; đã lưu GPS chính xác.');});
+ },function(err){weatherBusy=false;render();toast(err&&err.code===1?'Bạn chưa cấp quyền GPS. Hãy cho phép vị trí hoặc nhập khu vực.':'Không lấy được GPS. Hãy thử lại hoặc nhập địa điểm.');},{timeout:15000,enableHighAccuracy:true,maximumAge:60000});
+}
 function saveWeatherLocation(loc){weatherLocation=loc;weatherData=null;weatherError='';weatherFetched=0;weatherEdit=false;try{localStorage.setItem(WEATHER_KEY,JSON.stringify(loc));}catch(e){}render();fetchWeather(true);}
 function fetchWeather(force){
   if(!weatherLocation||weatherBusy||(!force&&weatherFetched&&Date.now()-weatherFetched<30*60000))return;
@@ -1618,16 +1667,17 @@ var homeSettings=defaultHomeSettings();
 try{var _hs=JSON.parse(localStorage.getItem(HOME_SETTINGS_KEY)||'null');if(_hs&&Array.isArray(_hs.order)&&_hs.visible){homeSettings.order=['weather','alert','pond'].sort(function(a,b){var x=_hs.order.indexOf(a),y=_hs.order.indexOf(b);return (x<0?99:x)-(y<0?99:y);});HOME_MODULES.forEach(function(x){homeSettings.visible[x[0]]=_hs.visible[x[0]]!==false;});}}catch(e){}
 function saveHomeSettings(){try{localStorage.setItem(HOME_SETTINGS_KEY,JSON.stringify(homeSettings));}catch(e){toast('Không lưu được tùy chỉnh trên máy này.');}}
 function settingsView(header){
- return header+'<div class="settings-intro">⚙️ <b>Cài đặt ứng dụng</b><small>Tùy chỉnh ao, thời tiết và thông tin trang Tổng quan.</small></div>'+
+ return header+'<div class="settings-intro">⚙️ <b>Cài đặt ứng dụng</b><small>Tùy chỉnh ao nuôi và cách hiển thị trang Tổng quan.</small></div>'+
  '<div class="settings-block"><h2>🏡 Hiển thị trang chủ</h2><p>Chọn mục muốn hiển thị; kéo giữ biểu tượng ☰ để đổi thứ tự ưu tiên.</p><div id="home-sort-list">'+homeSettings.order.map(function(id){var meta=HOME_MODULES.filter(function(x){return x[0]===id;})[0];return '<div class="home-sort-item" data-module="'+id+'" draggable="true"><span class="drag-grip" title="Kéo để sắp xếp">☰</span><span class="sort-icon">'+meta[2]+'</span><span class="sort-label">'+meta[1]+'</span><label class="setting-switch"><input type="checkbox" data-role="home-visible" data-module="'+id+'"'+(homeSettings.visible[id]?' checked':'')+'><span>Hiện</span></label><div class="sort-arrows"><button data-act="home-up" data-module="'+id+'" aria-label="Đưa lên">↑</button><button data-act="home-down" data-module="'+id+'" aria-label="Đưa xuống">↓</button></div></div>';}).join('')+'</div></div>'+
- '<div class="settings-block"><h2>🦐 Cài đặt ao nuôi</h2><p>Chọn ao để chỉnh sửa cấu hình hoặc giờ cho ăn.</p><div class="settings-ponds">'+(PONDS.length?PONDS.map(function(p){return '<div class="settings-pond-row"><b>'+esc(p.name)+'</b><div><button data-act="pondedit" data-pond="'+esc(p.id)+'">Thông tin</button><button data-act="feedtimes" data-pond="'+esc(p.id)+'">Giờ ăn</button></div></div>';}).join(''):'<p>Chưa có ao nào. Vào trang Tổng quan để xem danh sách ao.</p>')+'</div><button data-act="pondadd" class="settings-create-pond">＋ Tạo ao mới</button></div>'+
- '<div class="settings-block"><h2>🌦️ Cài đặt thời tiết</h2><p>Chọn khu vực nhận dự báo thời tiết 7 ngày.</p>'+weatherLocation?'<div class="setting-current-location">📍 '+esc(weatherLocation.name)+'</div>':'<p>Chưa thiết lập khu vực ao nuôi.</p>'+
- '<form id="weather-city-form" class="settings-weather-form"><input name="city" required placeholder="Nhập tỉnh / thành phố, ví dụ Cà Mau"><button type="submit">Lưu khu vực</button></form><button data-act="weather-gps" class="settings-gps">📍 Lấy vị trí hiện tại</button></div>';
+ '<div class="settings-block"><h2>🦐 Cài đặt ao nuôi</h2><p>Chọn ao để chỉnh sửa cấu hình hoặc giờ cho ăn.</p><div class="settings-ponds">'+(PONDS.length?PONDS.map(function(p){return '<div class="settings-pond-row"><b>'+esc(p.name)+'</b><div><button data-act="pondedit" data-pond="'+esc(p.id)+'">Thông tin</button><button data-act="feedtimes" data-pond="'+esc(p.id)+'">Giờ ăn</button></div></div>';}).join(''):'<p>Chưa có ao nào. Vào trang Tổng quan để xem danh sách ao.</p>')+'</div><button data-act="pondadd" class="settings-create-pond">＋ Tạo ao mới</button></div>';
 }
 function weatherWeekView(header){
  var html=header+'<div class="news-intro"><b>🌦️ Dự báo thời tiết 7 ngày</b><span>Biến động thời tiết khu vực ao, giúp chủ động lịch cho ăn và quản lý nước.</span></div>';
- if(!weatherLocation)return html+'<div class="empty">Chưa chọn khu vực. Hãy thiết lập tại Menu → Cài đặt → Thời tiết.</div><button class="cta block" data-act="settings">Mở Cài đặt</button>';
- html+='<div class="weather-week-meta">📍 '+esc(weatherLocation.name)+' <button data-act="weather-refresh">↻ Làm mới</button></div>';
+ html+='<div class="weather-location-setup"><div class="weather-location-heading"><b>📍 Khu vực dự báo</b><span>'+(weatherLocation?esc(weatherLocation.name):'Chưa xác định vị trí')+'</span></div>'+
+ '<div class="weather-location-actions"><button type="button" class="weather-gps-action" data-act="weather-gps">⌖ '+(weatherLocation?'Cập nhật GPS':'Tự lấy GPS')+'</button><button type="button" class="weather-manual-toggle" data-act="weather-location-toggle">✎ Chọn khu vực</button></div>'+
+ (weatherEdit?'<form id="weather-city-form" class="weather-week-location-form"><input name="city" required placeholder="Nhập tên xã, huyện hoặc tỉnh"><button type="submit">Lưu</button></form>':'')+'</div>';
+ if(!weatherLocation)return html+'<div class="empty">Chọn “Tự lấy GPS” và cho phép định vị để hiển thị tên xã/khu vực và dự báo 7 ngày. Bạn cũng có thể nhập địa điểm thủ công.</div>';
+ html+='<div class="weather-week-meta">Dự báo tại '+esc(weatherLocation.name)+' <button data-act="weather-refresh">↻ Làm mới</button></div>';
  if(!weatherData||!weatherData.daily){html+='<div class="empty">'+(weatherBusy?'Đang tải dự báo…':esc(weatherError||'Đang chờ dữ liệu dự báo.'))+'</div>';return html;}
  var d=weatherData.daily;
  html+='<div class="weather-week-list">'+d.time.slice(0,7).map(function(date,i){var rain=Number(d.precipitation_sum[i]||0),wind=Number(d.wind_speed_10m_max[i]||0),risk=rain>=20||wind>=35;return '<div class="weather-week-day"><div class="week-day-head"><strong>'+new Date(date+'T12:00:00').toLocaleDateString('vi-VN',{weekday:'long',day:'numeric',month:'numeric'})+'</strong><span class="'+(risk?'week-risk':'week-normal')+'">'+(risk?'⚠ Cần chú ý':'Dự báo')+'</span></div><div class="week-day-metrics"><span>🌡️ '+weatherNumber(d.temperature_2m_min[i],0)+'–'+weatherNumber(d.temperature_2m_max[i],0)+'°C</span><span>🌧️ '+weatherNumber(rain,1)+' mm</span><span>💨 '+weatherNumber(wind,0)+' km/h</span></div>'+(risk?'<small>Cân nhắc theo dõi oxy, pH và lượng thức ăn khi thời tiết biến động.</small>':'')+'</div>';}).join('')+'</div>';
@@ -1708,9 +1758,16 @@ function histRows(pid){
     return '<div class="card hrow"><div><b>Vụ '+dmy(c.stockDate)+' → '+dmy(c.endDate||c.stockDate)+'</b><br><span class="num">'+(isNur(c)?'Ao ương · ':'')+s.doc+' ngày · '+fmt(c.qty)+' con · '+(isNur(c)?'chuyển '+fmt(sum(c.xfers||[],function(x){return x.count;}))+' con':'thu '+fmt(m.hk,0)+' kg')+(s.fcr?' · FCR '+fmt(s.fcr,2):'')+'</span></div><div style="text-align:right">'+(isNur(c)?'<b class="num">Chuyển '+mnyS(m.xout)+'</b>':'<b class="num" style="color:var(--'+(m.profit<0?'bad':'good')+')">'+(m.profit<0?'Lỗ ':'Lãi ')+mnyS(Math.abs(m.profit))+'</b>')+'</div></div>';
   }).join('')+'</div></div>';
 }
+function openPondConfig(pid){
+ var p=pondOf(pid);if(!p){toast('Không tìm thấy ao nuôi');return;}
+ sheetOpen('<div class="panel-h"><div><div class="eyebrow">'+esc(p.name)+'</div><h2>Cài đặt ao nuôi</h2></div><button class="x" data-act="close" aria-label="Đóng">×</button></div>'+
+ '<p class="pond-config-hint">Chọn nội dung muốn điều chỉnh cho ao này.</p><div class="pond-config-options">'+
+ '<button type="button" data-act="pondedit" data-pond="'+esc(pid)+'"><span class="pond-config-ico">'+si('grid')+'</span><span><b>Thông tin ao</b><small>Diện tích, mực nước, lót bạt, quạt nước…</small></span><span class="pond-config-arrow">›</span></button>'+
+ '<button type="button" data-act="feedtimes" data-pond="'+esc(pid)+'"><span class="pond-config-ico feeding">'+si('cal')+'</span><span><b>Giờ cho ăn</b><small>Cài đặt và điều chỉnh các cữ ăn trong ngày</small></span><span class="pond-config-arrow">›</span></button></div>');
+}
 function pondView(p){
-  var c=activeCrop(p.id),h='<button class="back" data-act="home">'+ic('back').replace('<svg','<svg width="20" height="20"')+'Tổng quan</button>';
-  var settings='<div class="pond-settings-top"><div class="pond-settings-label">'+si('grid')+' CÀI ĐẶT AO NUÔI</div><div class="pond-setting-row pond-setting-cards"><button type="button" data-act="pondedit" data-pond="'+esc(p.id)+'"><span class="ps-icon">'+si('grid')+'</span><span>Thông tin ao<small>Chỉnh sửa cấu hình</small></span><span class="ps-chevron">›</span></button><button type="button" data-act="feedtimes" data-pond="'+esc(p.id)+'"><span class="ps-icon">'+si('cal')+'</span><span>Giờ cho ăn<small>Cài đặt các cữ</small></span><span class="ps-chevron">›</span></button></div></div>';
+  var c=activeCrop(p.id),h='<div class="pond-page-head"><button class="back pond-back-home" data-act="home">'+ic('back').replace('<svg','<svg width="20" height="20"')+'Tổng quan</button><button type="button" class="pond-config-trigger" data-act="pondconfig" data-pond="'+esc(p.id)+'">'+si('grid')+' Cài đặt ao nuôi</button></div>';
+  var settings='';
   if(!c){
     h+=settings;h+='<div class="card hero"><h1>'+esc(p.name)+'</h1><p>Ao đang trống · Chưa có vụ nuôi đang hoạt động</p><button class="cta block" data-act="stock" data-pond="'+p.id+'">Thả giống vụ mới</button></div>'+histRows(p.id);
     return h;
@@ -2327,7 +2384,7 @@ function inventoryView(){
    ['news','Giá tôm & thị trường','Giá thu mua, diễn biến thị trường','🦐'],
    ['guide','Tài liệu / Cẩm nang','Kiến thức nuôi tôm','📖'],
    ['weatherweek','Thời tiết','Dự báo và cảnh báo 7 ngày','🌦️'],
-   ['settings','Cài đặt','Ao nuôi, thời tiết, trang chủ','⚙️']
+   ['settings','Cài đặt','Ao nuôi, trang chủ','⚙️']
    ].map(function(m){return '<button class="menu-tile" data-act="menusection" data-section="'+m[0]+'"><span class="menu-emoji">'+m[3]+'</span><span class="menu-tile-text"><b>'+m[1]+'</b><small>'+m[2]+'</small></span><span class="menu-chevron">›</span></button>';}).join('')+'</div>';
  }
  if(section==='settings')return settingsView(header);
@@ -2863,18 +2920,20 @@ function toast(m){var t=$('#toast');t.textContent=m;t.hidden=false;clearTimeout(
 function onClick(ev){
   var el=ev.target.closest('[data-act]');if(!el)return;
   var a=el.getAttribute('data-act'),pid=el.getAttribute('data-pond'),id=el.getAttribute('data-id');
-  if(a==='feedtimes')openFeedTimes(pid);
+  if(a==='pondconfig')openPondConfig(pid);
+  else if(a==='feedtimes')openFeedTimes(pid);
   else if(a==='addfeedtime'){var list=$('#feed-time-list');if(!list)return;if(list.querySelectorAll('input').length>=8){toast('Tối đa 8 cữ ăn.');return;}list.insertAdjacentHTML('beforeend','<div class="feed-time-row"><input aria-label="Giờ cho ăn" type="time" required><button type="button" data-act="removefeedtime" aria-label="Xóa cữ">×</button></div>');}
   else if(a==='removefeedtime'){var row=el.closest('.feed-time-row');if(row)row.remove();}
   else if(a==='pondstats')openPondStats(pid);
   else if(a==='pondtab'){ui.pondTab=el.getAttribute('data-v')||'overview';ui.endAsk=false;render();window.scrollTo(0,0);}
   else if(a==='settings'){ui.view='inventory';ui.menuSection='settings';render();}
-  else if(a==='weatherweek'){ui.view='inventory';ui.menuSection='weatherweek';render();if(!weatherData||!weatherData.daily)fetchWeather(true);}
+  else if(a==='weatherweek'){ui.view='inventory';ui.menuSection='weatherweek';render();if(!weatherLocation)weatherGpsLocate();else if(!weatherData||!weatherData.daily)fetchWeather(true);}
   else if(a==='home-up'||a==='home-down'){var id=el.getAttribute('data-module'),i=homeSettings.order.indexOf(id),j=i+(a==='home-up'?-1:1);if(i>=0&&j>=0&&j<homeSettings.order.length){homeSettings.order.splice(i,1);homeSettings.order.splice(j,0,id);saveHomeSettings();render();}}
   else if(a==='weather-refresh'){weatherFetched=0;fetchWeather(true);}
   else if(a==='weather-edit'){weatherEdit=true;render();}
   else if(a==='weather-cancel'){weatherEdit=false;render();}
-  else if(a==='weather-gps'){if(!navigator.geolocation){toast('Trình duyệt không hỗ trợ định vị');return;}navigator.geolocation.getCurrentPosition(function(pos){saveWeatherLocation({lat:pos.coords.latitude,lon:pos.coords.longitude,name:'Vị trí ao (GPS)'});},function(){toast('Không lấy được vị trí. Bạn có thể nhập địa phương.');},{timeout:12000,enableHighAccuracy:false});}
+  else if(a==='weather-gps'){weatherGpsLocate();}
+  else if(a==='weather-location-toggle'){weatherEdit=!weatherEdit;render();}
   else if(a==='pondadd')openPondEditor(null);
   else if(a==='pondedit')openPondEditor(pid);
   else if(a==='home'){ui.view='home';ui.pond=null;ui.endAsk=false;render();window.scrollTo(0,0);}
@@ -2907,7 +2966,7 @@ function onClick(ev){
   else if(a==='warehousewarning'){ui.view='inventory';ui.menuSection='stock';ui.warehouseTab='stock';render();window.scrollTo(0,0);}
   else if(a==='newsrefresh'){fetchShrimpNews();}
   else if(a==='newscat'){newsState.category=el.getAttribute('data-v')||'all';render();}
-  else if(a==='menusection'){var s=el.getAttribute('data-section');if(s==='buy'){ui.view='inventory';ui.menuSection='stock';ui.warehouseTab='buy';render();window.scrollTo(0,0);}else if(s==='guide'){ui.view='kb';render();window.scrollTo(0,0);}else{ui.menuSection=s;render();window.scrollTo(0,0);if(s==='weatherweek'&&(!weatherData||!weatherData.daily))fetchWeather(true);if(s==='news'&&(!newsState.updated||Date.now()-newsState.updated>15*60*1000))fetchShrimpNews();}}
+  else if(a==='menusection'){var s=el.getAttribute('data-section');if(s==='buy'){ui.view='inventory';ui.menuSection='stock';ui.warehouseTab='buy';render();window.scrollTo(0,0);}else if(s==='guide'){ui.view='kb';render();window.scrollTo(0,0);}else{ui.menuSection=s;render();window.scrollTo(0,0);if(s==='weatherweek'){if(!weatherLocation)weatherGpsLocate();else if(!weatherData||!weatherData.daily)fetchWeather(true);}if(s==='news'&&(!newsState.updated||Date.now()-newsState.updated>15*60*1000))fetchShrimpNews();}}
   else if(a==='issueadd')openIssueForm();
   else if(a==='productinfo')openProductInfo(el.getAttribute('data-name'));
   else if(a==='productuse')openIssueForm(el.getAttribute('data-name'));
