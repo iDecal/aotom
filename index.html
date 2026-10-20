@@ -1347,6 +1347,21 @@ body:not(:has(#app>.overview-hero-edge)){background:var(--bg)!important;color:va
 .shrimp-launch{width:100%;min-height:79px;padding:13px;display:flex;align-items:center;gap:12px;text-align:left;border:1px solid #B9DBEB;border-radius:17px;background:linear-gradient(110deg,#EDF9FF,#ECF8F3);color:#143C55;box-shadow:0 6px 17px -14px #387BA3;cursor:pointer;font:inherit}.shrimp-launch-ico{font-size:30px;background:#DDF2FD;border-radius:13px;padding:8px}.shrimp-launch span:nth-child(2){flex:1;display:flex;flex-direction:column;gap:3px}.shrimp-launch b{font-size:15px}.shrimp-launch small{font-size:11px;color:#547083}.shrimp-launch>span:last-child{font-size:24px;color:#2886A9}
 .shrimp-note{color:#4B6475;font-size:12px;line-height:1.6;margin:6px 0 13px}.shrimp-photo-picker label{display:block;text-align:center;background:linear-gradient(125deg,#0D8DB3,#087D8C);padding:13px;border-radius:12px;color:#fff;font-weight:800;cursor:pointer}.shrimp-photo-picker input{display:none}.shrimp-toolbar{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:5px;margin:12px 0}.shrimp-toolbar button{font-size:11px;padding:9px 3px;border:1px solid #D9E6EC;border-radius:10px;background:#F3F8FA;color:#3E5C70;font-weight:700}.shrimp-toolbar button.active{background:#D5EEF9;border-color:#63B7D5;color:#096889}.shrimp-canvas-wrap{position:relative;min-height:190px;border:1px dashed #B7D3E0;border-radius:13px;background:#EDF5F8;overflow:hidden;display:flex;align-items:center;justify-content:center}.shrimp-canvas-wrap canvas{display:block;width:100%;height:auto;touch-action:manipulation;cursor:crosshair}.shrimp-canvas-wrap canvas:not([width]){display:none}.shrimp-canvas-wrap>span{position:absolute;color:#5D7482;padding:20px;text-align:center;font-size:12px;pointer-events:none}.shrimp-action-row{display:flex;gap:8px;margin:10px 0}.shrimp-action-row button{flex:1;border:1px solid #D9E6EC;background:#F4FAFC;padding:11px;border-radius:10px;color:#296279;font-weight:700}.shrimp-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px;margin:12px 0}.shrimp-stats>div{display:flex;flex-direction:column;gap:5px;background:#E9F6F8;border-radius:12px;padding:11px 8px;min-width:0}.shrimp-stats small{font-size:10px;color:#4B6675}.shrimp-stats b{font-size:15px;color:#123C55;overflow-wrap:anywhere}.shrimp-help{font-size:12px;color:#2C6578;background:#EFF9FD;padding:11px;border-radius:10px;line-height:1.5}.shrimp-field-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin:12px 0}.shrimp-field-grid label{display:flex;flex-direction:column;gap:5px;font-size:11px;font-weight:700;color:#395B6C;min-width:0}.shrimp-field-grid input{width:100%;min-height:43px;border:1px solid #CFDFE8;border-radius:10px;background:#fff;color:#16384D;padding:9px;font:inherit;font-size:14px;box-sizing:border-box}.shrimp-previous{margin-top:17px;display:flex;flex-direction:column;gap:8px}.shrimp-previous>b{font-size:14px}.shrimp-previous small,.shrimp-previous-item{font-size:12px;color:#506B7B}.shrimp-previous-item{background:#F2F8FB;border-radius:9px;padding:9px}
 
+
+/* Hai cách nạp ảnh tôm: chụp camera và tải ảnh từ thư viện/tệp */
+.shrimp-photo-options{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.shrimp-photo-options label{display:flex;align-items:center;justify-content:center;min-width:0;min-height:49px;padding:11px 7px;box-sizing:border-box;font-size:13px;border-radius:13px;white-space:nowrap;box-shadow:0 6px 16px -13px rgba(13,91,135,.28)}
+.shrimp-photo-options .shrimp-upload-choice{background:#E9F5FC;color:#155E86;border:1px solid #BCDFEE}
+.shrimp-photo-options .shrimp-camera-choice{background:linear-gradient(125deg,#0D8DB3,#087D8C);color:#fff}
+@media(max-width:340px){.shrimp-photo-options{gap:7px}.shrimp-photo-options label{font-size:12px}}
+
+
+/* Chú thích chỉ số nước: diễn giải rõ ràng, không che số liệu */
+.water-field-note{display:block;color:#60788B;font-size:11px;line-height:1.45;margin:2px 0 7px;font-weight:500;overflow-wrap:anywhere}
+.wcell .water-cell-note{display:block;color:#5C7686!important;font-size:10px;line-height:1.38;margin:1px 0 5px;font-weight:500;overflow-wrap:anywhere}
+.wcell{min-width:0}.wcell span{overflow-wrap:anywhere}
+.fgrid .fld{min-width:0}.fgrid .fld>label{line-height:1.35}
+@media(max-width:390px){.water-field-note{font-size:10px}.wcell .water-cell-note{font-size:10px}}
 </style>
 </head>
 <body>
@@ -2273,14 +2288,14 @@ function savePonds(){try{localStorage.setItem(POND_KEY,JSON.stringify(PONDS));}c
 loadPonds();
 var REF=[[0,0.01],[15,0.2],[30,1.5],[45,3.5],[60,7],[75,10.5],[90,14.5],[105,18],[120,22]];
 var WP=[
- {k:'ph',ic:'water',l:'pH',u:'',ok:[7.5,8.5],warn:[7.2,8.8],d:1},
- {k:'do',ic:'bubbles',l:'DO',u:'mg/l',min:[5,3.5],d:1},
- {k:'temp',ic:'thermo',l:'Nhiệt độ',u:'°C',ok:[26,33],warn:[24,35],d:1},
- {k:'sal',ic:'salt',l:'Độ mặn',u:'‰',ok:[10,25],warn:[5,35],d:0},
- {k:'clarity',ic:'eye',l:'Độ trong',u:'cm',ok:[30,45],warn:[20,60],d:0},
- {k:'alk',ic:'flask',l:'Kiềm',u:'mg/l',ok:[120,160],warn:[80,200],d:0},
- {k:'nh3',ic:'wind',l:'Amoniac',u:'mg/l',max:[1,3],d:2},
- {k:'no2',ic:'wind',l:'Nitrit',u:'mg/l',max:[0.1,1],d:2}
+ {k:'ph',ic:'water',l:'pH',note:'Độ axit / kiềm của nước',u:'',ok:[7.5,8.5],warn:[7.2,8.8],d:1},
+ {k:'do',ic:'bubbles',l:'DO',note:'Oxy hòa tan trong nước',u:'mg/l',min:[5,3.5],d:1},
+ {k:'temp',ic:'thermo',l:'Nhiệt độ',note:'Nhiệt độ nước ao',u:'°C',ok:[26,33],warn:[24,35],d:1},
+ {k:'sal',ic:'salt',l:'Độ mặn',note:'Lượng muối hòa tan',u:'‰',ok:[10,25],warn:[5,35],d:0},
+ {k:'clarity',ic:'eye',l:'Độ trong',note:'Độ nhìn xuyên qua nước',u:'cm',ok:[30,45],warn:[20,60],d:0},
+ {k:'alk',ic:'flask',l:'Kiềm',note:'Khả năng đệm pH (quy đổi CaCO₃)',u:'mg/l',ok:[120,160],warn:[80,200],d:0},
+ {k:'nh3',ic:'wind',l:'Amoniac',note:'Tổng NH₃ + NH₄⁺ (TAN); NH₃ độc hơn',u:'mg/l',max:[1,3],d:2},
+ {k:'no2',ic:'wind',l:'Nitrit',note:'NO₂⁻ – nitrit trong nước',u:'mg/l',max:[0.1,1],d:2}
 ];
 var CATS=['Giống','Thức ăn','Điện','Thuốc / men','Nhân công','Khác'];
 var KEY='aotom.crops.v1';
@@ -2728,8 +2743,8 @@ function homeView(){
 function waterCells(lw){
   return '<div class="wgrid">'+WP.map(function(p){
     var x=lw[p.k];
-    if(!x)return '<div class="wcell"><span>'+si(p.ic)+p.l+'</span><b>—</b></div>';
-    return '<div class="wcell '+x.s.lv+'"><span>'+si(p.ic)+p.l+' · '+dmy(x.d)+'</span><b class="num">'+fmt(x.v,p.d)+(p.u?'<small>'+p.u+'</small>':'')+'</b>'+(x.s.lv==='good'?'<i>Tốt</i>':'<i>'+(x.s.lv==='bad'?'Nguy hiểm, ':'Chú ý, ')+x.s.dir+'</i>')+'</div>';
+    if(!x)return '<div class="wcell"><span>'+si(p.ic)+p.l+'</span><small class="water-cell-note">'+esc(p.note||'')+'</small><b>—</b></div>';
+    return '<div class="wcell '+x.s.lv+'"><span>'+si(p.ic)+p.l+' · '+dmy(x.d)+'</span><small class="water-cell-note">'+esc(p.note||'')+'</small><b class="num">'+fmt(x.v,p.d)+(p.u?'<small>'+p.u+'</small>':'')+'</b>'+(x.s.lv==='good'?'<i>Tốt</i>':'<i>'+(x.s.lv==='bad'?'Nguy hiểm, ':'Chú ý, ')+x.s.dir+'</i>')+'</div>';
   }).join('')+'</div>';
 }
 function logText(e){
@@ -3814,7 +3829,7 @@ var FORMS={
   {k:'kg',l:'Lượng thức ăn',type:'num',u:'kg',req:1},
   {k:'meal',l:'Cữ',type:'opts',opts:['Sáng sớm','Sáng','Trưa','Chiều','Tối'],def:mealNow()},
   {k:'feed',l:'Loại thức ăn',type:'text',ph:'VD: CP số 2',def:lastOf(c,'feed','feed')}];}},
- water:{title:'Ghi Thông Số Nước',fields:function(){return [{k:'session',l:'Lần đo',type:'opts',opts:['Sáng','Chiều'],def:sessionNow()}].concat(WP.map(function(p){return {k:p.k,l:p.l,type:'num',u:p.u,half:1};}));},hint:'Chỉ nhập các chỉ số bạn đã đo.'},
+ water:{title:'Ghi Thông Số Nước',fields:function(){return [{k:'session',l:'Lần đo',type:'opts',opts:['Sáng','Chiều'],def:sessionNow()}].concat(WP.map(function(p){return {k:p.k,l:p.l,type:'num',u:p.u,note:p.note,half:1};}));},hint:'Chỉ nhập các chỉ số bạn đã đo.'},
  abw:{title:'Cân mẫu tôm',fields:function(){return [
   {k:'g',l:'Trọng lượng trung bình',type:'num',u:'g/con',half:1},{k:'cpk',l:'Hoặc số con trên kg',type:'num',u:'con/kg',half:1},
   {k:'surv',l:'Tỉ lệ sống ước tính (tùy chọn)',type:'num',u:'%'}];},hint:'Nhập một trong hai: gram mỗi con hoặc số con trên kg.'},
@@ -3840,7 +3855,7 @@ function fieldHtml(f,i){
   var id='f_'+f.k,def=f.def!=null?f.def:'';
   if(f.type==='opts')return '<div class="fld" style="grid-column:1/-1"><span class="lab">'+f.l+'</span><div class="opts" role="radiogroup">'+f.opts.map(function(o){return '<label class="opt"><input type="radio" name="'+f.k+'" value="'+esc(o)+'"'+(o===def?' checked':'')+'><span>'+esc(o)+'</span></label>';}).join('')+'</div></div>';
   var attrs=f.type==='date'?'type="date"':f.type==='money'?'type="text" inputmode="numeric" data-money="1"':f.type==='num'?'type="text" inputmode="decimal"':'type="text"';
-  return '<div class="fld"'+(f.half?'':' style="grid-column:1/-1"')+'><label for="'+id+'">'+f.l+'</label><div class="inp"><input id="'+id+'" name="'+f.k+'" '+attrs+' value="'+esc(def)+'" autocomplete="off"'+(f.ph?' placeholder="'+esc(f.ph)+'"':'')+'>'+(f.u?'<u>'+f.u+'</u>':'')+'</div></div>';
+  return '<div class="fld"'+(f.half?'':' style="grid-column:1/-1"')+'><label for="'+id+'">'+f.l+'</label>'+(f.note?'<small class="water-field-note">'+esc(f.note)+'</small>':'')+'<div class="inp"><input id="'+id+'" name="'+f.k+'" '+attrs+' value="'+esc(def)+'" autocomplete="off"'+(f.ph?' placeholder="'+esc(f.ph)+'"':'')+'>'+(f.u?'<u>'+f.u+'</u>':'')+'</div></div>';
 }
 function sheetOpen(html){var s=$('#sheet');s.innerHTML='<div class="scrim" data-act="close"></div><div class="panel" role="dialog" aria-modal="true">'+html+'</div>';s.hidden=false;}
 function sheetClose(){var s=$('#sheet');s.hidden=true;s.innerHTML='';}
@@ -3942,7 +3957,7 @@ function shrimpPhotoOpen(pid){
  var prev=shrimpPhotoSaved().filter(function(x){return x.pid===pid;}).sort(function(a,b){return b.time-a.time;}).slice(0,5);
  var h='<div class="panel-h"><div><div class="eyebrow">'+esc(p.name)+'</div><h2>📷 Đếm tôm & đo mẫu</h2></div><button class="x" data-act="close" aria-label="Đóng">×</button></div>'+
  '<p class="shrimp-note">Chụp thẳng từ trên xuống, khay trắng nước nông, tôm tách nhau. <b>Đếm bằng cách chạm từng con trên ảnh.</b> Muốn đo cần đặt thước trong khay cùng mặt phẳng với tôm.</p>'+
- '<div class="shrimp-photo-picker"><label for="shrimp-image-input">📷 Chụp ảnh / Chọn ảnh<input id="shrimp-image-input" type="file" accept="image/*" capture="environment"></label></div>'+
+ '<div class="shrimp-photo-picker shrimp-photo-options"><label for="shrimp-image-input" class="shrimp-camera-choice">📷 Chụp ảnh<input id="shrimp-image-input" type="file" accept="image/*" capture="environment"></label><label for="shrimp-upload-input" class="shrimp-upload-choice">⬆ Tải ảnh lên<input id="shrimp-upload-input" type="file" accept="image/*"></label></div>'+
  '<div class="shrimp-toolbar"><button data-act="shrimp-mode" data-v="count" class="active" type="button">① Đếm con</button><button data-act="shrimp-mode" data-v="scale" type="button">📏 Thước chuẩn</button><button data-act="shrimp-mode" data-v="length" type="button">↔ Đo chiều dài</button></div>'+
  '<div id="shrimp-canvas-wrap" class="shrimp-canvas-wrap"><canvas id="shrimp-photo-canvas" aria-label="Ảnh tôm để chạm đánh dấu"></canvas><span id="shrimp-photo-placeholder">Ảnh sẽ hiện ở đây. Chạm vào từng con tôm để đếm.</span></div>'+
  '<div class="shrimp-action-row"><button type="button" data-act="shrimp-undo">↶ Hoàn tác</button><button type="button" data-act="shrimp-reset">↻ Xóa đánh dấu</button></div>'+
@@ -3956,9 +3971,11 @@ function shrimpPhotoOpen(pid){
  '<div class="shrimp-previous"><b>Lần đo gần đây</b>'+(prev.length?prev.map(function(x){return '<div class="shrimp-previous-item"><span>'+esc(new Date(x.time).toLocaleDateString('vi-VN'))+' · '+x.count+' con'+(x.length?' · '+x.length.toFixed(2)+' cm':'')+(x.weight?' · ~'+x.weight.toFixed(2)+' g/con':'')+'</span></div>';}).join(''):'<small>Chưa có lần đo nào.</small>')+'</div>';
  sheetOpen(h);
  var inp=document.getElementById('shrimp-image-input');
- inp.addEventListener('change',function(){var f=inp.files&&inp.files[0];if(!f)return;if(!/^image\//.test(f.type)){toast('Hãy chọn ảnh hợp lệ');return;}if(f.size>20*1024*1024){toast('Ảnh quá lớn (tối đa 20MB)');return;}
+ var uploadInp=document.getElementById('shrimp-upload-input');
+ function shrimpPhotoLoadFromInput(source){var f=source.files&&source.files[0];if(!f)return;if(!/^image\//.test(f.type)){toast('Hãy chọn ảnh hợp lệ');return;}if(f.size>20*1024*1024){toast('Ảnh quá lớn (tối đa 20MB)');return;}
  var url=URL.createObjectURL(f),im=new Image();im.onload=function(){if(!shrimpPhotoSession||shrimpPhotoSession.pid!==pid){URL.revokeObjectURL(url);return;}var st=shrimpPhotoSession;st.img=im;st.marks=[];st.scalePoints=[];st.lengths=[];st.pending=null;st.canvas=document.getElementById('shrimp-photo-canvas');if(!st.canvas){URL.revokeObjectURL(url);return;}var factor=Math.min(1,1100/Math.max(im.naturalWidth,im.naturalHeight));st.canvas.width=Math.round(im.naturalWidth*factor);st.canvas.height=Math.round(im.naturalHeight*factor);URL.revokeObjectURL(url);document.getElementById('shrimp-photo-placeholder').style.display='none';shrimpPhotoDraw();shrimpPhotoUpdate();};im.onerror=function(){URL.revokeObjectURL(url);toast('Không đọc được ảnh');};im.src=url;
- });
+ }
+ [inp,uploadInp].forEach(function(source){source.addEventListener('change',function(){shrimpPhotoLoadFromInput(source);source.value='';});});
  document.getElementById('shrimp-photo-canvas').addEventListener('click',shrimpPhotoCanvasClick);
  ['shrimp-reference-cm','shrimp-reference-g','shrimp-count-edit','shrimp-scale-cm'].forEach(function(id){document.getElementById(id).addEventListener('input',shrimpPhotoUpdate);});
 }
