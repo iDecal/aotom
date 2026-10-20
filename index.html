@@ -1213,6 +1213,91 @@ body::before{
   margin-bottom:16px!important;
 }
 
+
+/* FIX readability: blue-lit dark base, frosted white glass, colored inner cards */
+body:has(#app>.overview-hero-edge){
+ background:radial-gradient(ellipse at 70% 10%,rgba(35,117,172,.50),transparent 58%),radial-gradient(ellipse at 10% 63%,rgba(28,112,151,.37),transparent 58%),linear-gradient(160deg,#10263B,#173C56 48%,#102B3E)!important;
+}
+body:has(#app>.overview-hero-edge)::before{opacity:.065!important}
+body:not(:has(#app>.overview-hero-edge)){background:var(--bg)!important;color:var(--ink)!important}
+#app:has(>.overview-hero-edge) .home-module-weather,
+#app:has(>.overview-hero-edge) .home-module-alert,
+#app:has(>.overview-hero-edge) .home-module-pond{
+ background:rgba(235,248,255,.14)!important;border:1px solid rgba(228,245,255,.22)!important;
+ backdrop-filter:blur(20px) saturate(135%)!important;-webkit-backdrop-filter:blur(20px) saturate(135%)!important;
+ box-shadow:0 15px 35px -26px #071421!important
+}
+/* remove heading background altogether */
+#app:has(>.overview-hero-edge) .home-module-weather .weather-head,
+#app:has(>.overview-hero-edge) .home-module-alert>.section-heading,
+#app:has(>.overview-hero-edge) .home-module-pond>.section-heading{
+ background:transparent!important;border:0!important;box-shadow:none!important;backdrop-filter:none!important;
+ -webkit-backdrop-filter:none!important;padding:7px 3px 13px!important;margin:0 0 4px!important;transform:none!important;top:auto!important;
+}
+/* light cards give readable dark foreground */
+#app:has(>.overview-hero-edge) .home-module-weather .weather-card{
+ background:rgba(250,253,255,.91)!important;border:1px solid rgba(255,255,255,.66)!important
+}
+#app:has(>.overview-hero-edge) .home-module-weather .weather-main-visual{
+ background:linear-gradient(125deg,rgba(216,238,251,.94),rgba(241,250,255,.88))!important
+}
+#app:has(>.overview-hero-edge) .home-module-weather .weather-main-copy small,
+#app:has(>.overview-hero-edge) .home-module-weather .weather-main-copy span,
+#app:has(>.overview-hero-edge) .home-module-weather .weather-summary-cell small{
+ color:#4A6174!important
+}
+#app:has(>.overview-hero-edge) .home-module-weather .weather-main-copy strong,
+#app:has(>.overview-hero-edge) .home-module-weather .weather-summary-cell strong{
+ color:#15374D!important
+}
+#app:has(>.overview-hero-edge) .home-module-weather .weather-summary-cell.humidity{background:rgba(217,237,255,.95)!important}
+#app:has(>.overview-hero-edge) .home-module-weather .weather-summary-cell.wind{background:rgba(212,246,233,.95)!important}
+#app:has(>.overview-hero-edge) .home-module-weather .weather-summary-cell.rain{background:rgba(255,240,213,.95)!important}
+#app:has(>.overview-hero-edge) .home-module-alert .alert{
+ background:rgba(255,247,230,.92)!important;border:1px solid rgba(255,225,174,.58)!important;box-shadow:0 7px 16px -19px #081827!important
+}
+#app:has(>.overview-hero-edge) .home-module-alert .alert b,
+#app:has(>.overview-hero-edge) .home-module-alert .alert strong{color:#20384D!important}
+#app:has(>.overview-hero-edge) .home-module-alert .alert span,
+#app:has(>.overview-hero-edge) .home-module-alert .alert p,
+#app:has(>.overview-hero-edge) .home-module-alert .alert small{color:#5A6D7A!important}
+#app:has(>.overview-hero-edge) .home-module-alert .alert [data-act="dismiss"]{color:#405467!important;background:#FFF!important;border:1px solid #E4DFD5!important}
+#app:has(>.overview-hero-edge) .home-module-pond .pond-live,
+#app:has(>.overview-hero-edge) .home-module-pond .pond:not(.pond-live){
+ background:rgba(230,247,245,.94)!important;border:1px solid rgba(179,227,222,.7)!important;
+ box-shadow:0 8px 22px -21px #091C28!important
+}
+#app:has(>.overview-hero-edge) .home-module-pond .pond h2,
+#app:has(>.overview-hero-edge) .home-module-pond .pond b,
+#app:has(>.overview-hero-edge) .home-module-pond .pond strong{color:#153449!important}
+#app:has(>.overview-hero-edge) .home-module-pond .pond .sub,
+#app:has(>.overview-hero-edge) .home-module-pond .pond .chip,
+#app:has(>.overview-hero-edge) .home-module-pond .pond small,
+#app:has(>.overview-hero-edge) .home-module-pond .pond span,
+#app:has(>.overview-hero-edge) .home-module-pond .pond .pond-meta{color:#526B77!important}
+#app:has(>.overview-hero-edge) .home-module-pond .pond .pond-kpi-card{
+ background:rgba(253,255,255,.90)!important;border:1px solid rgba(193,223,228,.55)!important
+}
+#app:has(>.overview-hero-edge) .home-module-pond .pond .pond-kpi-card b,
+#app:has(>.overview-hero-edge) .home-module-pond .pond .pond-kpi-card .num{color:#12344A!important}
+#app:has(>.overview-hero-edge) .home-module-pond .pond .pond-kpi-card small,
+#app:has(>.overview-hero-edge) .home-module-pond .pond .pond-kpi-card .label{color:#557082!important}
+#app:has(>.overview-hero-edge) .home-module-pond .pond .pond-feed-card{
+ background:rgba(227,244,250,.95)!important;border:1px solid rgba(193,223,235,.8)!important
+}
+#app:has(>.overview-hero-edge) .home-module-pond .pond .pond-feed-card strong{color:#15384F!important}
+#app:has(>.overview-hero-edge) .home-module-pond .pond .pond-day{
+ background:#E5F4FD!important;color:#16688F!important;border-color:#B8D9EB!important
+}
+#app:has(>.overview-hero-edge) .home-module-pond .pond .pond-day *{color:#16688F!important}
+#app:has(>.overview-hero-edge) .home-module-pond .pond .pond-detail-btn,
+#app:has(>.overview-hero-edge) .home-module-pond .pond .pond-detail-btn *{color:white!important}
+#app:has(>.overview-hero-edge) .home-module-pond .pond .pond-badges .stt{color:#17583E!important}
+#app:has(>.overview-hero-edge) .home-module-pond .pond-section-title h3,
+#app:has(>.overview-hero-edge) .home-module-pond .pond-section-title small{color:#E6F8FF!important}
+#app:has(>.overview-hero-edge) .home-module-alert .link{color:#FCE3B4!important}
+#app:has(>.overview-hero-edge) .section-counter{background:rgba(245,252,255,.92)!important;color:#1A455C!important}
+
 </style>
 </head>
 <body>
@@ -1896,6 +1981,188 @@ body>nav .fab-plus{font-family:Arial,Helvetica,sans-serif!important;display:bloc
 #app .home-module-alert .section-heading,#app .home-module-pond .section-heading{min-height:56px!important;padding:12px 13px!important}
 #app .home-module-weather .weather-head h2,#app .home-module-weather .section-heading h2,#app .home-module-weather h2{font-size:20px!important;line-height:1.3!important;font-weight:850!important}
 @media(max-width:390px){#app .home-module .section-heading h2,#app .home-module-weather .weather-head h2,#app .home-module-weather h2{font-size:18px!important}#app .home-module-alert .section-heading,#app .home-module-pond .section-heading{min-height:53px!important}}
+
+
+/* 2026-10 UI audit — translucent WHITE modules, consistent readable text */
+body:has(#app>.overview-hero-edge){
+  background:radial-gradient(ellipse at 77% 7%,rgba(44,123,170,.44),transparent 56%),
+             radial-gradient(ellipse at 8% 65%,rgba(45,140,155,.24),transparent 53%),
+             linear-gradient(155deg,#102B42,#193B52 52%,#102A3D)!important;
+  color:#172E41!important;
+}
+body:has(#app>.overview-hero-edge)::before{opacity:.045!important}
+body:not(:has(#app>.overview-hero-edge)){background:var(--bg)!important;color:var(--ink)!important}
+#app:has(>.overview-hero-edge){gap:38px!important;row-gap:38px!important}
+#app:has(>.overview-hero-edge)>.home-module{
+  background:rgba(246,251,255,.79)!important;
+  border:1px solid rgba(255,255,255,.72)!important;
+  border-left:1px solid rgba(255,255,255,.72)!important;
+  border-radius:23px!important;
+  color:#20374B!important;
+  box-shadow:0 12px 32px -25px rgba(0,11,29,.55),inset 0 1px rgba(255,255,255,.62)!important;
+  backdrop-filter:blur(20px) saturate(135%)!important;
+  -webkit-backdrop-filter:blur(20px) saturate(135%)!important;
+  overflow:visible!important;
+  min-width:0!important;
+}
+#app:has(>.overview-hero-edge)>.home-module .section-heading,
+#app:has(>.overview-hero-edge)>.home-module .weather-head{
+  background:transparent!important;border:0!important;box-shadow:none!important;
+  backdrop-filter:none!important;-webkit-backdrop-filter:none!important;
+  position:relative!important;transform:none!important;top:auto!important;
+  padding:6px 2px 12px!important;margin:0 0 8px!important;
+  width:100%!important;box-sizing:border-box!important;
+}
+#app:has(>.overview-hero-edge)>.home-module .section-heading h2,
+#app:has(>.overview-hero-edge)>.home-module .weather-head h2{
+  font-size:21px!important;line-height:1.3!important;font-weight:850!important;color:#14334A!important;
+}
+#app:has(>.overview-hero-edge)>.home-module .section-heading .si,
+#app:has(>.overview-hero-edge)>.home-module .weather-head .si{color:#1684A2!important}
+#app:has(>.overview-hero-edge)>.home-module .section-counter{
+  color:#16445D!important;background:rgba(255,255,255,.90)!important;
+  border:1px solid rgba(204,223,236,.83)!important;box-shadow:none!important
+}
+#app:has(>.overview-hero-edge) .home-module-weather .weather-card{
+  background:rgba(255,255,255,.78)!important;border:1px solid rgba(224,236,246,.85)!important;box-shadow:none!important
+}
+#app:has(>.overview-hero-edge) .home-module-weather .weather-sub,
+#app:has(>.overview-hero-edge) .home-module-weather .weather-muted,
+#app:has(>.overview-hero-edge) .home-module-weather .weather-main-copy small,
+#app:has(>.overview-hero-edge) .home-module-weather .weather-main-copy span,
+#app:has(>.overview-hero-edge) .home-module-weather .weather-summary-cell small{color:#486576!important}
+#app:has(>.overview-hero-edge) .home-module-weather .weather-main-copy strong,
+#app:has(>.overview-hero-edge) .home-module-weather .weather-summary-cell strong{color:#173950!important}
+#app:has(>.overview-hero-edge) .home-module-weather .weather-main-visual{
+  background:linear-gradient(120deg,rgba(219,241,253,.94),rgba(244,251,255,.83))!important
+}
+#app:has(>.overview-hero-edge) .home-module-weather .weather-summary-cell.humidity{background:rgba(221,237,255,.90)!important}
+#app:has(>.overview-hero-edge) .home-module-weather .weather-summary-cell.wind{background:rgba(218,244,233,.90)!important}
+#app:has(>.overview-hero-edge) .home-module-weather .weather-summary-cell.rain{background:rgba(255,240,220,.90)!important}
+#app:has(>.overview-hero-edge) .home-module-weather .weather-main-icon{background:#DCF2FF!important}
+#app:has(>.overview-hero-edge) .home-module-alert .alert{
+ background:rgba(255,246,229,.89)!important;border:1px solid #F0DDC2!important;
+ color:#1A3547!important;box-shadow:0 4px 12px -15px rgba(65,50,32,.35)!important
+}
+#app:has(>.overview-hero-edge) .home-module-alert .alert b,
+#app:has(>.overview-hero-edge) .home-module-alert .alert strong{color:#193449!important}
+#app:has(>.overview-hero-edge) .home-module-alert .alert small,
+#app:has(>.overview-hero-edge) .home-module-alert .alert span,
+#app:has(>.overview-hero-edge) .home-module-alert .alert p{color:#52677A!important}
+#app:has(>.overview-hero-edge) .home-module-alert .link{color:#A6651A!important}
+#app:has(>.overview-hero-edge) .home-module-alert [data-act="dismiss"],
+#app:has(>.overview-hero-edge) .home-module-alert .dismiss{
+ background:rgba(255,255,255,.94)!important;border:1px solid #E7DFD3!important;color:#476076!important
+}
+#app:has(>.overview-hero-edge) .home-module-pond .pond-section-title h3{color:#17445B!important}
+#app:has(>.overview-hero-edge) .home-module-pond .pond-section-title small{color:#577283!important}
+#app:has(>.overview-hero-edge) .home-module-pond .pond-live,
+#app:has(>.overview-hero-edge) .home-module-pond .pond:not(.pond-live){
+ background:rgba(226,246,242,.92)!important;border:1px solid rgba(175,218,208,.83)!important;
+ box-shadow:0 10px 22px -22px rgba(16,89,86,.38)!important;color:#19384A!important
+}
+#app:has(>.overview-hero-edge) .home-module-pond .pond h2,
+#app:has(>.overview-hero-edge) .home-module-pond .pond b,
+#app:has(>.overview-hero-edge) .home-module-pond .pond strong{color:#15364D!important}
+#app:has(>.overview-hero-edge) .home-module-pond .pond .sub,
+#app:has(>.overview-hero-edge) .home-module-pond .pond .pond-meta,
+#app:has(>.overview-hero-edge) .home-module-pond .pond small,
+#app:has(>.overview-hero-edge) .home-module-pond .pond .chip,
+#app:has(>.overview-hero-edge) .home-module-pond .pond span{color:#4C6878!important}
+#app:has(>.overview-hero-edge) .home-module-pond .pond-kpi-card{
+ background:rgba(255,255,255,.93)!important;border:1px solid rgba(214,233,233,.92)!important
+}
+#app:has(>.overview-hero-edge) .home-module-pond .pond-kpi-card b,
+#app:has(>.overview-hero-edge) .home-module-pond .pond-kpi-card .num{color:#15364D!important}
+#app:has(>.overview-hero-edge) .home-module-pond .pond-kpi-card small,
+#app:has(>.overview-hero-edge) .home-module-pond .pond-kpi-card .label{color:#526C7B!important}
+#app:has(>.overview-hero-edge) .home-module-pond .pond-feed-card{
+ background:rgba(242,250,252,.96)!important;border:1px solid rgba(205,228,233,.85)!important
+}
+#app:has(>.overview-hero-edge) .home-module-pond .pond-feed-card strong{color:#183C52!important}
+#app:has(>.overview-hero-edge) .home-module-pond .pond-day{
+ background:#E5F3FC!important;color:#146B91!important;border:1px solid #B8DDEE!important
+}
+#app:has(>.overview-hero-edge) .home-module-pond .pond-day *{color:#146B91!important}
+#app:has(>.overview-hero-edge) .home-module-pond .pond-detail-btn,
+#app:has(>.overview-hero-edge) .home-module-pond .pond-detail-btn *,
+#app:has(>.overview-hero-edge) .home-module-pond .pond-detail-btn .si{color:#FFFFFF!important}
+#app:has(>.overview-hero-edge) .home-module-pond .pond-highlight-pill{color:#1B7155!important;background:#D7F1E5!important}
+#app:has(>.overview-hero-edge) .home-module-pond .pond .stt{color:#205D51!important}
+@media(max-width:390px){
+ #app:has(>.overview-hero-edge){gap:32px!important;row-gap:32px!important}
+ #app:has(>.overview-hero-edge)>.home-module .section-heading h2,
+ #app:has(>.overview-hero-edge)>.home-module .weather-head h2{font-size:18px!important}
+}
+
+
+/* === LIGHT MODE trên toàn bộ ứng dụng — kính trắng và nền xanh sáng === */
+:root,:root[data-theme="dark"],:root[data-theme="light"],:root:not([data-theme="light"]){
+ color-scheme:light!important;
+ --bg:#F0F7FB!important; --surface:#FFFFFF!important; --surface2:#E9F3F9!important;
+ --ink:#163348!important;--ink2:#536C7C!important;--line:#D9E7F0!important;
+ --accent:#087EAB!important;--accent-ink:#FFFFFF!important;--water:#D8F0F7!important;--water2:#4AAAC5!important;
+ --coral:#0B7295!important;--coral-ink:#FFFFFF!important;--coral-d:#096889!important;
+ --good:#167D57!important;--warn:#A46916!important;--bad:#C9424D!important;
+ --g-btn:linear-gradient(130deg,#0A97BA,#087C9D)!important;
+ --g-fab:linear-gradient(135deg,#0CA2C5,#087DA4)!important;
+ --shadow:0 8px 24px -18px rgba(31,85,111,.22)!important;
+}
+html{color-scheme:light!important}
+body,body:not(:has(#app>.overview-hero-edge)),body:has(#app>.overview-hero-edge){
+ background:radial-gradient(ellipse at 90% 4%,rgba(152,224,247,.40),transparent 54%),
+            radial-gradient(ellipse at 0% 62%,rgba(181,236,225,.23),transparent 54%),
+            linear-gradient(170deg,#F2F9FD 0%,#EAF5FB 52%,#F6FAFC 100%)!important;
+ color:#17384C!important;
+}
+body::before,body:has(#app>.overview-hero-edge)::before{
+ opacity:.055!important;filter:none!important;
+}
+#app>.overview-hero-edge{
+ background:linear-gradient(120deg,#087FAB 0%,#0997B4 55%,#10ADB2 100%)!important;
+ color:#FFF!important;
+ box-shadow:0 15px 32px -26px rgba(19,103,139,.42)!important;
+}
+#app:has(>.overview-hero-edge)>.home-module{
+ background:rgba(255,255,255,.80)!important;
+ border:1px solid rgba(255,255,255,.92)!important;
+ box-shadow:0 12px 30px -24px rgba(39,103,138,.24),inset 0 1px rgba(255,255,255,.9)!important;
+ color:#18374B!important;
+ backdrop-filter:blur(18px) saturate(130%)!important;
+ -webkit-backdrop-filter:blur(18px) saturate(130%)!important;
+}
+#app:has(>.overview-hero-edge)>.home-module .section-heading h2,
+#app:has(>.overview-hero-edge)>.home-module .weather-head h2{color:#143B52!important}
+#app:has(>.overview-hero-edge) .home-module-alert .alert{
+ background:rgba(255,247,230,.93)!important;border-color:#F1DEBF!important;
+}
+#app:has(>.overview-hero-edge) .home-module-pond .pond-live,
+#app:has(>.overview-hero-edge) .home-module-pond .pond:not(.pond-live){
+ background:rgba(227,246,240,.94)!important;border-color:#BCE4D9!important;
+}
+#app:has(>.overview-hero-edge) .home-module-weather .weather-card{
+ background:rgba(255,255,255,.89)!important;
+}
+#app:has(>.overview-hero-edge) .home-module-pond .pond-kpi-card,
+#app:has(>.overview-hero-edge) .home-module-pond .pond .pond-kpi-card{
+ background:rgba(255,255,255,.95)!important;border:1px solid #DCEBEF!important;
+}
+#app:has(>.overview-hero-edge) .home-module-pond .pond-feed-card,
+#app:has(>.overview-hero-edge) .home-module-pond .pond .pond-feed-card{
+ background:rgba(241,249,253,.96)!important;border-color:#DBEBF2!important;
+}
+#app:has(>.overview-hero-edge) .home-module-weather .weather-summary-cell strong,
+#app:has(>.overview-hero-edge) .home-module-pond .pond b,
+#app:has(>.overview-hero-edge) .home-module-pond .pond strong{color:#15384E!important}
+/* Chữ và thẻ trong các trang khác luôn dùng gam sáng */
+#app:not(:has(>.overview-hero-edge)) .card,
+#app:not(:has(>.overview-hero-edge)) .menu-tile,
+#app:not(:has(>.overview-hero-edge)) .menu-list-item,
+#app:not(:has(>.overview-hero-edge)) details.adv{
+ color:var(--ink)!important;
+}
+#app:not(:has(>.overview-hero-edge)) .eyebrow,
+#app:not(:has(>.overview-hero-edge)) .hint{color:var(--ink2)!important}
 
 </style>
 
