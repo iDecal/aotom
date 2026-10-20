@@ -1298,6 +1298,55 @@ body:not(:has(#app>.overview-hero-edge)){background:var(--bg)!important;color:va
 #app:has(>.overview-hero-edge) .home-module-alert .link{color:#FCE3B4!important}
 #app:has(>.overview-hero-edge) .section-counter{background:rgba(245,252,255,.92)!important;color:#1A455C!important}
 
+
+/* Light Mode: icon tiêu đề nổi ở góc trái phía trên, viền và bóng nhẹ */
+#app:has(>.overview-hero-edge) .home-module-alert .sec-h,
+#app:has(>.overview-hero-edge) .home-module-pond .sec-h,
+#app:has(>.overview-hero-edge) .home-module-weather .weather-head h2{
+ display:flex!important;align-items:center!important;gap:11px!important;overflow:visible!important;
+}
+#app:has(>.overview-hero-edge) .home-module-alert .sec-h .si,
+#app:has(>.overview-hero-edge) .home-module-pond .sec-h .si{
+ display:block!important;width:25px!important;height:25px!important;
+ box-sizing:content-box!important;flex:none!important;
+ padding:9px!important;margin-left:-12px!important;margin-top:-15px!important;
+ border-radius:14px!important;position:relative!important;
+ background:linear-gradient(145deg,rgba(255,255,255,.98),rgba(247,251,255,.89))!important;
+ border:1.5px solid rgba(172,198,217,.84)!important;
+ box-shadow:0 5px 11px rgba(36,83,115,.14),inset 0 1px rgba(255,255,255,.95)!important;
+}
+#app:has(>.overview-hero-edge) .home-module-alert .sec-h .si{color:#B37A23!important;border-color:#EACDA3!important;background:linear-gradient(150deg,#FFFDF6,#FFF1D7)!important}
+#app:has(>.overview-hero-edge) .home-module-pond .sec-h .si{color:#16866D!important;border-color:#A3DAC6!important;background:linear-gradient(150deg,#FFFFFF,#E0F7EE)!important}
+#app:has(>.overview-hero-edge) .home-heading-weather-icon{
+ display:inline-flex!important;align-items:center!important;justify-content:center!important;
+ width:43px!important;height:43px!important;box-sizing:border-box!important;flex:none!important;
+ margin-left:-12px!important;margin-top:-15px!important;
+ border-radius:14px!important;background:linear-gradient(150deg,#FFFFFF,#E3F4FF)!important;
+ border:1.5px solid #B7DDF3!important;
+ box-shadow:0 5px 11px rgba(36,83,115,.14),inset 0 1px rgba(255,255,255,.96)!important;
+ font-size:25px!important;line-height:1!important;
+}
+@media(max-width:390px){
+ #app:has(>.overview-hero-edge) .home-module-alert .sec-h .si,
+ #app:has(>.overview-hero-edge) .home-module-pond .sec-h .si{width:22px!important;height:22px!important;padding:8px!important;margin-left:-9px!important;margin-top:-12px!important;border-radius:12px!important}
+ #app:has(>.overview-hero-edge) .home-heading-weather-icon{width:39px!important;height:39px!important;margin-left:-9px!important;margin-top:-12px!important;border-radius:12px!important;font-size:23px!important}
+}
+
+
+/* Icon tiêu đề: giữ nền cũ, bỏ hoàn toàn đường viền, bóng xanh dương dịu */
+#app:has(>.overview-hero-edge) .home-module-alert .sec-h .si,
+#app:has(>.overview-hero-edge) .home-module-pond .sec-h .si,
+#app:has(>.overview-hero-edge) .home-heading-weather-icon{
+  border:0!important;
+  outline:0!important;
+  box-shadow:0 6px 16px rgba(43,132,196,.17),0 2px 5px rgba(43,132,196,.08)!important;
+}
+
+
+/* Photo-assisted shrimp count & calibrated measuring */
+.shrimp-launch{width:100%;min-height:79px;padding:13px;display:flex;align-items:center;gap:12px;text-align:left;border:1px solid #B9DBEB;border-radius:17px;background:linear-gradient(110deg,#EDF9FF,#ECF8F3);color:#143C55;box-shadow:0 6px 17px -14px #387BA3;cursor:pointer;font:inherit}.shrimp-launch-ico{font-size:30px;background:#DDF2FD;border-radius:13px;padding:8px}.shrimp-launch span:nth-child(2){flex:1;display:flex;flex-direction:column;gap:3px}.shrimp-launch b{font-size:15px}.shrimp-launch small{font-size:11px;color:#547083}.shrimp-launch>span:last-child{font-size:24px;color:#2886A9}
+.shrimp-note{color:#4B6475;font-size:12px;line-height:1.6;margin:6px 0 13px}.shrimp-photo-picker label{display:block;text-align:center;background:linear-gradient(125deg,#0D8DB3,#087D8C);padding:13px;border-radius:12px;color:#fff;font-weight:800;cursor:pointer}.shrimp-photo-picker input{display:none}.shrimp-toolbar{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:5px;margin:12px 0}.shrimp-toolbar button{font-size:11px;padding:9px 3px;border:1px solid #D9E6EC;border-radius:10px;background:#F3F8FA;color:#3E5C70;font-weight:700}.shrimp-toolbar button.active{background:#D5EEF9;border-color:#63B7D5;color:#096889}.shrimp-canvas-wrap{position:relative;min-height:190px;border:1px dashed #B7D3E0;border-radius:13px;background:#EDF5F8;overflow:hidden;display:flex;align-items:center;justify-content:center}.shrimp-canvas-wrap canvas{display:block;width:100%;height:auto;touch-action:manipulation;cursor:crosshair}.shrimp-canvas-wrap canvas:not([width]){display:none}.shrimp-canvas-wrap>span{position:absolute;color:#5D7482;padding:20px;text-align:center;font-size:12px;pointer-events:none}.shrimp-action-row{display:flex;gap:8px;margin:10px 0}.shrimp-action-row button{flex:1;border:1px solid #D9E6EC;background:#F4FAFC;padding:11px;border-radius:10px;color:#296279;font-weight:700}.shrimp-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px;margin:12px 0}.shrimp-stats>div{display:flex;flex-direction:column;gap:5px;background:#E9F6F8;border-radius:12px;padding:11px 8px;min-width:0}.shrimp-stats small{font-size:10px;color:#4B6675}.shrimp-stats b{font-size:15px;color:#123C55;overflow-wrap:anywhere}.shrimp-help{font-size:12px;color:#2C6578;background:#EFF9FD;padding:11px;border-radius:10px;line-height:1.5}.shrimp-field-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin:12px 0}.shrimp-field-grid label{display:flex;flex-direction:column;gap:5px;font-size:11px;font-weight:700;color:#395B6C;min-width:0}.shrimp-field-grid input{width:100%;min-height:43px;border:1px solid #CFDFE8;border-radius:10px;background:#fff;color:#16384D;padding:9px;font:inherit;font-size:14px;box-sizing:border-box}.shrimp-previous{margin-top:17px;display:flex;flex-direction:column;gap:8px}.shrimp-previous>b{font-size:14px}.shrimp-previous small,.shrimp-previous-item{font-size:12px;color:#506B7B}.shrimp-previous-item{background:#F2F8FB;border-radius:9px;padding:9px}
+
 </style>
 </head>
 <body>
@@ -2636,7 +2685,7 @@ function weatherSummaryView(){
  '<div class="weather-summary-cell wind"><span class="weather-metric-icon" aria-hidden="true">🌬️</span><small>Tốc độ gió</small><strong>'+weatherNumber(d.wind_speed_10m,0)+' <em>km/h</em></strong></div>'+
  '<div class="weather-summary-cell rain"><span class="weather-metric-icon" aria-hidden="true">🌧️</span><small>Lượng mưa</small><strong>'+weatherNumber(d.precipitation,1)+' <em>mm</em></strong></div></div>':
  '<div class="weather-muted weather-no-data">'+esc(weatherError||'Chưa có dữ liệu thời tiết. Hãy mở dự báo 7 ngày để chọn khu vực.')+'</div>';
- return '<section class="card weather-card weather-overview"><div class="weather-head"><div><h2>🌤️ Thời tiết khu vực ao</h2><div class="weather-sub">📍 '+loc+'</div></div></div>'+current+
+ return '<section class="card weather-card weather-overview"><div class="weather-head"><div><h2><span class="home-heading-weather-icon" aria-hidden="true">🌤️</span>Thời tiết khu vực ao</h2><div class="weather-sub">📍 '+loc+'</div></div></div>'+current+
  '<button class="home-detail-link" data-act="weatherweek">Xem dự báo 7 ngày →</button></section>';
 }
 /* Chỉ ẩn thông báo theo lựa chọn người dùng; không sửa dữ liệu ao. */
@@ -2746,6 +2795,7 @@ function pondView(p){
   if(tab==='tasks'){
     h+='<div class="pond-tab-lead"><b>Công việc trong ao</b><small>Ghi nhanh hoạt động chăm sóc và quản lý vụ nuôi.</small></div>';
   h+='<div class="reference-actions">'+[['feed','Cho ăn'],['water','Đo nước'],['abw','Cân mẫu'],['cost','Chi phí']].map(function(a){return '<button class="ref-action" data-k="'+a[0]+'" data-act="form" data-kind="'+a[0]+'" data-pond="'+p.id+'"><span class="ref-action-icon">'+ic(a[0])+'</span><span>'+a[1]+'</span></button>';}).join('')+'</div>';
+  h+='<button type="button" class="shrimp-launch" data-act="shrimp-photo" data-pond="'+esc(p.id)+'"><span class="shrimp-launch-ico">📷</span><span><b>Chụp ảnh đếm tôm</b><small>Đánh dấu số con · Đo chiều dài · Ước tính cỡ tôm</small></span><span>›</span></button>';
   h+='<div class="section"><h2>Thao tác khác</h2><div class="actions">'+['treat',isNur(c)?'xfer':'harvest','death','note'].map(function(k){return '<button class="act" data-k="'+k+'" data-act="'+(k==='xfer'?'xfer':'form')+'" data-kind="'+k+'" data-pond="'+p.id+'">'+ic(k)+TAGN[k]+'</button>';}).join('')+'</div></div>';
   h+='<div class="section">'+(ui.endAsk?'<div class="card" style="padding:14px;display:flex;flex-direction:column;gap:10px"><b>Kết thúc vụ nuôi ở '+p.name+'?</b><span style="color:var(--ink2);font-size:14px">Dữ liệu vụ này vẫn được giữ trong phần Các vụ trước. Ao sẽ chuyển sang trạng thái trống.</span><div style="display:flex;gap:8px"><button class="cta danger" data-act="endyes">Kết thúc vụ</button><button class="cta ghost" data-act="endno">Hủy</button></div></div>':'<button class="cta ghost block" data-act="endask">Kết thúc vụ nuôi</button>')+'</div>';
   }
@@ -3881,12 +3931,65 @@ function maybeAskName(){if(!meName&&!asked&&$('#sheet').hidden){asked=true;openN
 var tt=null;
 function toast(m){var t=$('#toast');t.textContent=m;t.hidden=false;clearTimeout(tt);tt=setTimeout(function(){t.hidden=true;},2600);}
 
+
+/* Ảnh tôm trên khay: đếm có xác nhận bằng chạm, đo có vật chuẩn. Không nhận diện AI giả. */
+var SHRIMP_PHOTO_KEY='aotom_shrimp_photo_measure_v1';
+var shrimpPhotoSession=null;
+function shrimpPhotoSaved(){try{var a=JSON.parse(localStorage.getItem(SHRIMP_PHOTO_KEY)||'[]');return Array.isArray(a)?a:[];}catch(e){return [];}}
+function shrimpPhotoOpen(pid){
+ var p=pondOf(pid);if(!p){toast('Không tìm thấy ao');return;}
+ shrimpPhotoSession={pid:pid,img:null,canvas:null,mode:'count',marks:[],scalePoints:[],lengths:[],pending:null};
+ var prev=shrimpPhotoSaved().filter(function(x){return x.pid===pid;}).sort(function(a,b){return b.time-a.time;}).slice(0,5);
+ var h='<div class="panel-h"><div><div class="eyebrow">'+esc(p.name)+'</div><h2>📷 Đếm tôm & đo mẫu</h2></div><button class="x" data-act="close" aria-label="Đóng">×</button></div>'+
+ '<p class="shrimp-note">Chụp thẳng từ trên xuống, khay trắng nước nông, tôm tách nhau. <b>Đếm bằng cách chạm từng con trên ảnh.</b> Muốn đo cần đặt thước trong khay cùng mặt phẳng với tôm.</p>'+
+ '<div class="shrimp-photo-picker"><label for="shrimp-image-input">📷 Chụp ảnh / Chọn ảnh<input id="shrimp-image-input" type="file" accept="image/*" capture="environment"></label></div>'+
+ '<div class="shrimp-toolbar"><button data-act="shrimp-mode" data-v="count" class="active" type="button">① Đếm con</button><button data-act="shrimp-mode" data-v="scale" type="button">📏 Thước chuẩn</button><button data-act="shrimp-mode" data-v="length" type="button">↔ Đo chiều dài</button></div>'+
+ '<div id="shrimp-canvas-wrap" class="shrimp-canvas-wrap"><canvas id="shrimp-photo-canvas" aria-label="Ảnh tôm để chạm đánh dấu"></canvas><span id="shrimp-photo-placeholder">Ảnh sẽ hiện ở đây. Chạm vào từng con tôm để đếm.</span></div>'+
+ '<div class="shrimp-action-row"><button type="button" data-act="shrimp-undo">↶ Hoàn tác</button><button type="button" data-act="shrimp-reset">↻ Xóa đánh dấu</button></div>'+
+ '<div class="shrimp-stats"><div><small>Số tôm đánh dấu</small><b id="shrimp-count">0 con</b></div><div><small>Chiều dài trung bình</small><b id="shrimp-length">—</b></div><div><small>Khối lượng ước tính / con</small><b id="shrimp-weight">—</b></div></div>'+
+ '<div class="shrimp-help" id="shrimp-photo-hint">Chế độ đếm: chạm vào giữa mỗi con tôm. Có thể hoàn tác nếu chạm nhầm.</div>'+
+ '<div class="shrimp-field-grid"><label>Độ dài đoạn thước chuẩn (cm)<input id="shrimp-scale-cm" type="number" min="0.1" step="0.1" inputmode="decimal" value="5"></label><label>Số con điều chỉnh<input id="shrimp-count-edit" type="number" min="0" step="1" inputmode="numeric" placeholder="Theo dấu chạm"></label></div>'+
+ '<p class="shrimp-note">Đo chiều dài: sau khi hiệu chuẩn, chạm <b>đầu và cuối thân tôm</b> cho mỗi con. Tôm cong sẽ cần nhiều đoạn đo hơn; kết quả từ hai điểm chỉ là chiều dài thẳng ước lượng.</p>'+
+ '<div class="shrimp-field-grid"><label>Chiều dài mẫu cân thật (cm)<input id="shrimp-reference-cm" type="number" min="0.1" step="0.1" placeholder="VD: 8" inputmode="decimal"></label><label>Khối lượng mẫu cân thật (g/con)<input id="shrimp-reference-g" type="number" min="0.01" step="0.01" placeholder="VD: 5" inputmode="decimal"></label></div>'+
+ '<p class="shrimp-note">Trọng lượng chỉ được <b>ước lượng</b> theo công thức tỷ lệ chiều dài³ từ mẫu cân thật cùng giống/giai đoạn, không phải cân trực tiếp bằng camera.</p>'+
+ '<button type="button" data-act="shrimp-save" class="cta block">Lưu kết quả cho ao này</button>'+
+ '<div class="shrimp-previous"><b>Lần đo gần đây</b>'+(prev.length?prev.map(function(x){return '<div class="shrimp-previous-item"><span>'+esc(new Date(x.time).toLocaleDateString('vi-VN'))+' · '+x.count+' con'+(x.length?' · '+x.length.toFixed(2)+' cm':'')+(x.weight?' · ~'+x.weight.toFixed(2)+' g/con':'')+'</span></div>';}).join(''):'<small>Chưa có lần đo nào.</small>')+'</div>';
+ sheetOpen(h);
+ var inp=document.getElementById('shrimp-image-input');
+ inp.addEventListener('change',function(){var f=inp.files&&inp.files[0];if(!f)return;if(!/^image\//.test(f.type)){toast('Hãy chọn ảnh hợp lệ');return;}if(f.size>20*1024*1024){toast('Ảnh quá lớn (tối đa 20MB)');return;}
+ var url=URL.createObjectURL(f),im=new Image();im.onload=function(){if(!shrimpPhotoSession||shrimpPhotoSession.pid!==pid){URL.revokeObjectURL(url);return;}var st=shrimpPhotoSession;st.img=im;st.marks=[];st.scalePoints=[];st.lengths=[];st.pending=null;st.canvas=document.getElementById('shrimp-photo-canvas');if(!st.canvas){URL.revokeObjectURL(url);return;}var factor=Math.min(1,1100/Math.max(im.naturalWidth,im.naturalHeight));st.canvas.width=Math.round(im.naturalWidth*factor);st.canvas.height=Math.round(im.naturalHeight*factor);URL.revokeObjectURL(url);document.getElementById('shrimp-photo-placeholder').style.display='none';shrimpPhotoDraw();shrimpPhotoUpdate();};im.onerror=function(){URL.revokeObjectURL(url);toast('Không đọc được ảnh');};im.src=url;
+ });
+ document.getElementById('shrimp-photo-canvas').addEventListener('click',shrimpPhotoCanvasClick);
+ ['shrimp-reference-cm','shrimp-reference-g','shrimp-count-edit','shrimp-scale-cm'].forEach(function(id){document.getElementById(id).addEventListener('input',shrimpPhotoUpdate);});
+}
+function shrimpPhotoPxDist(a,b){return Math.hypot(a.x-b.x,a.y-b.y);}
+function shrimpPhotoCmPerPx(){var st=shrimpPhotoSession,cm=parseFloat(document.getElementById('shrimp-scale-cm')?.value);if(!st||st.scalePoints.length!==2||!(cm>0))return null;var d=shrimpPhotoPxDist(st.scalePoints[0],st.scalePoints[1]);return d>0?cm/d:null;}
+function shrimpPhotoCanvasClick(ev){var st=shrimpPhotoSession;if(!st||!st.img||!st.canvas)return;var r=st.canvas.getBoundingClientRect();var p={x:(ev.clientX-r.left)*st.canvas.width/r.width,y:(ev.clientY-r.top)*st.canvas.height/r.height};if(st.mode==='count'){st.marks.push(p);}
+ else if(st.mode==='scale'){st.scalePoints.push(p);if(st.scalePoints.length>2)st.scalePoints=[p];}
+ else{if(!st.pending)st.pending=p;else{st.lengths.push([st.pending,p]);st.pending=null;}}
+ shrimpPhotoDraw();shrimpPhotoUpdate();}
+function shrimpPhotoDraw(){var st=shrimpPhotoSession;if(!st||!st.img||!st.canvas)return;var c=st.canvas,ctx=c.getContext('2d');ctx.clearRect(0,0,c.width,c.height);ctx.drawImage(st.img,0,0,c.width,c.height);var lw=Math.max(2,c.width/430);ctx.font='bold '+Math.max(13,c.width/38)+'px system-ui';ctx.textAlign='center';ctx.textBaseline='middle';
+ st.marks.forEach(function(p,i){ctx.fillStyle='rgba(0,153,106,.77)';ctx.beginPath();ctx.arc(p.x,p.y,c.width/48,0,Math.PI*2);ctx.fill();ctx.strokeStyle='#fff';ctx.lineWidth=lw;ctx.stroke();ctx.fillStyle='#fff';ctx.fillText(i+1,p.x,p.y);});
+ function seg(a,b,color){ctx.strokeStyle=color;ctx.lineWidth=lw*2;ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);ctx.stroke();[a,b].forEach(function(p){ctx.beginPath();ctx.arc(p.x,p.y,lw*2.3,0,7);ctx.fillStyle=color;ctx.fill();});}
+ if(st.scalePoints.length===2)seg(st.scalePoints[0],st.scalePoints[1],'#F9B73B');else if(st.scalePoints.length===1){ctx.fillStyle='#F9B73B';ctx.beginPath();ctx.arc(st.scalePoints[0].x,st.scalePoints[0].y,lw*3,0,7);ctx.fill();}
+ st.lengths.forEach(function(pair){seg(pair[0],pair[1],'#48C7FF');});if(st.pending){ctx.fillStyle='#48C7FF';ctx.beginPath();ctx.arc(st.pending.x,st.pending.y,lw*3,0,7);ctx.fill();}}
+function shrimpPhotoCalc(){var st=shrimpPhotoSession;if(!st)return null;var cmpp=shrimpPhotoCmPerPx();var lens=cmpp?st.lengths.map(function(pair){return shrimpPhotoPxDist(pair[0],pair[1])*cmpp;}):[];var avg=lens.length?lens.reduce(function(a,b){return a+b;},0)/lens.length:null;var a=parseFloat(document.getElementById('shrimp-reference-cm')?.value),b=parseFloat(document.getElementById('shrimp-reference-g')?.value);var weight=avg&&a>0&&b>0?b*Math.pow(avg/a,3):null;var countEl=document.getElementById('shrimp-count-edit'),manual=countEl&&countEl.value!==''?Math.max(0,Math.round(+countEl.value)):null;return {count:manual===null?st.marks.length:manual,length:avg,weight:weight,measured:lens.length,scale:!!cmpp};}
+function shrimpPhotoUpdate(){var st=shrimpPhotoSession;if(!st)return;var x=shrimpPhotoCalc();if(!x)return;document.getElementById('shrimp-count').textContent=x.count+' con';document.getElementById('shrimp-length').textContent=x.length?x.length.toFixed(2)+' cm':'—';document.getElementById('shrimp-weight').textContent=x.weight?'~'+x.weight.toFixed(2)+' g':'—';var info=st.mode==='count'?'Chạm giữa từng con tôm để đánh số.':st.mode==='scale'?'Chạm hai đầu một đoạn thước chuẩn trong ảnh.':'Chạm lần lượt hai đầu thân tôm (mỗi con 2 điểm).';document.getElementById('shrimp-photo-hint').textContent=info+' Đã đánh dấu '+st.marks.length+' con, '+st.lengths.length+' chiều dài.';}
+function shrimpPhotoUndo(){var st=shrimpPhotoSession;if(!st)return;if(st.mode==='count')st.marks.pop();else if(st.mode==='scale')st.scalePoints.pop();else if(st.pending)st.pending=null;else st.lengths.pop();shrimpPhotoDraw();shrimpPhotoUpdate();}
+function shrimpPhotoSave(){var st=shrimpPhotoSession;if(!st||!st.img){toast('Bạn cần chọn ảnh trước');return;}var x=shrimpPhotoCalc();if(!x||!x.count){toast('Hãy đánh dấu hoặc nhập số con');return;}
+ var rows=shrimpPhotoSaved();rows.push({id:uid(),pid:st.pid,cropId:(activeCrop(st.pid)||{}).id||null,time:Date.now(),count:x.count,length:x.length?Math.round(x.length*100)/100:null,weight:x.weight?Math.round(x.weight*100)/100:null,segments:x.measured,method:'manual-photo',imageStored:false});try{localStorage.setItem(SHRIMP_PHOTO_KEY,JSON.stringify(rows.slice(-250)));}catch(e){toast('Không thể lưu kết quả');return;}sheetClose();shrimpPhotoSession=null;toast('Đã lưu kết quả đếm tôm cho ao');}
+
 /* ---------- sự kiện ---------- */
 function onClick(ev){
   var el=ev.target.closest('[data-act]');if(!el)return;
   var a=el.getAttribute('data-act'),pid=el.getAttribute('data-pond'),id=el.getAttribute('data-id');
   if(a==='dismissalert'){try{dismissHomeAlert(decodeURIComponent(id||''));}catch(e){toast('Không thể ẩn thông báo');}}
   else if(a==='dismissadvice'){try{dismissAdvice(decodeURIComponent(id||''));}catch(e){toast('Không thể ẩn lời khuyên');}}
+  else if(a==='shrimp-photo')shrimpPhotoOpen(pid);
+  else if(a==='shrimp-mode'){if(shrimpPhotoSession){shrimpPhotoSession.mode=el.getAttribute('data-v');document.querySelectorAll('.shrimp-toolbar button').forEach(function(x){x.classList.toggle('active',x===el);});shrimpPhotoUpdate();}}
+  else if(a==='shrimp-undo')shrimpPhotoUndo();
+  else if(a==='shrimp-reset'){if(shrimpPhotoSession){shrimpPhotoSession.marks=[];shrimpPhotoSession.scalePoints=[];shrimpPhotoSession.lengths=[];shrimpPhotoSession.pending=null;shrimpPhotoDraw();shrimpPhotoUpdate();}}
+  else if(a==='shrimp-save')shrimpPhotoSave();
   else if(a==='pondconfig')openPondConfig(pid);
   else if(a==='feedtimes')openFeedTimes(pid);
   else if(a==='addfeedtime'){var list=$('#feed-time-list');if(!list)return;if(list.querySelectorAll('input').length>=8){toast('Tối đa 8 cữ ăn.');return;}list.insertAdjacentHTML('beforeend','<div class="feed-time-row"><input aria-label="Giờ cho ăn" type="time" required><button type="button" data-act="removefeedtime" aria-label="Xóa cữ">×</button></div>');}
