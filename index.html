@@ -995,6 +995,224 @@ details.adv .at small{
 #app .menu-welcome b,
 #app .menu-welcome span{color:#FFFFFF!important}
 
+
+/* ===== Tổng quan nền tối + icon nền tôm + module kính mờ kiểu iPhone ===== */
+:root{
+  --ov-glass-border: rgba(255,255,255,.14);
+  --ov-glass-shadow: 0 16px 38px -24px rgba(0,0,0,.55);
+  --ov-glass-bg: rgba(19,28,39,.46);
+  --ov-glass-bg-strong: rgba(22,33,46,.60);
+  --ov-title-fg: #F8FBFF;
+  --ov-sub-fg: rgba(235,244,255,.82);
+  --ov-accent-blue: #7FD3FF;
+  --ov-accent-amber: #F8D27A;
+  --ov-accent-green: #7DE0BC;
+}
+body{
+  background:
+    radial-gradient(1000px 600px at 15% 0%, rgba(18,88,140,.35), transparent 60%),
+    radial-gradient(780px 540px at 100% 25%, rgba(8,154,156,.24), transparent 55%),
+    linear-gradient(180deg,#09131E 0%, #0C1824 45%, #0E1E28 100%) !important;
+  color:#F3F7FC !important;
+}
+body::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  z-index:0;
+  opacity:.12;
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cg fill='none' stroke='%23AEEBFF' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M8 35c10-10 18-13 28-12 2-4 6-7 10-8-2 3-2 6-1 9 5 3 8 8 9 14-7-2-12-1-17 2-7 4-16 4-29-5Z'/%3E%3Cpath d='M18 31c4-3 9-5 14-4'/%3E%3Cpath d='M35 30c2 1 4 3 6 6'/%3E%3Ccircle cx='40' cy='26' r='1.6' fill='%23AEEBFF' stroke='none'/%3E%3C/g%3E%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cg fill='none' stroke='%23FFD89A' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M7 27c7-7 13-9 20-8 2-3 5-5 8-6-1 2-2 4-1 6 4 2 6 6 7 10-5-1-9 0-12 2-5 3-11 3-22-4Z'/%3E%3Ccircle cx='30' cy='20' r='1.2' fill='%23FFD89A' stroke='none'/%3E%3C/g%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 160px 160px, 210px 210px;
+  background-position: 18px 24px, 96px 120px;
+}
+#app{position:relative; z-index:1;}
+#app:has(>.overview-hero-edge){
+  gap:34px !important;
+  row-gap:34px !important;
+}
+#app>.overview-hero-edge{
+  background:
+    linear-gradient(135deg, rgba(17,44,76,.82) 0%, rgba(15,87,138,.74) 55%, rgba(8,149,155,.68) 100%) !important;
+  border-bottom:1px solid rgba(255,255,255,.10) !important;
+  box-shadow:0 20px 40px -28px rgba(0,0,0,.72)!important;
+}
+#app>.overview-hero-edge::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:
+    radial-gradient(240px 180px at 85% 18%, rgba(255,255,255,.09), transparent 70%),
+    radial-gradient(300px 220px at 14% 110%, rgba(125,224,188,.12), transparent 70%);
+  pointer-events:none;
+}
+#app>.overview-hero-edge .hero-weekday,
+#app>.overview-hero-edge .hero-date,
+#app>.overview-hero-edge .hero-today,
+#app>.overview-hero-edge .hero-summary p,
+#app>.overview-hero-edge .hero-brand span,
+#app>.overview-hero-edge .hero-sync,
+#app>.overview-hero-edge .overview-metrics small,
+#app>.overview-hero-edge .overview-metrics strong,
+#app>.overview-hero-edge .overview-metrics em,
+#app>.overview-hero-edge .overview-hero-icon,
+#app>.overview-hero-edge .hero-date-chip{
+  color:#F7FBFF !important;
+}
+#app>.overview-hero-edge .overview-metrics>div,
+#app>.overview-hero-edge .hero-date-row,
+#app>.overview-hero-edge .overview-hero-icon{
+  background:rgba(255,255,255,.10)!important;
+  border:1px solid rgba(255,255,255,.16)!important;
+  backdrop-filter: blur(10px) saturate(130%) !important;
+  -webkit-backdrop-filter: blur(10px) saturate(130%) !important;
+}
+
+/* Modules kiểu glass */
+#app:has(>.overview-hero-edge) .home-module-weather,
+#app:has(>.overview-hero-edge) .home-module-alert,
+#app:has(>.overview-hero-edge) .home-module-pond{
+  background:var(--ov-glass-bg)!important;
+  border:1px solid var(--ov-glass-border)!important;
+  box-shadow:var(--ov-glass-shadow)!important;
+  backdrop-filter: blur(22px) saturate(155%) !important;
+  -webkit-backdrop-filter: blur(22px) saturate(155%) !important;
+  overflow:visible!important;
+}
+#app:has(>.overview-hero-edge) .home-module-weather{border-left:1px solid var(--ov-glass-border)!important}
+#app:has(>.overview-hero-edge) .home-module-alert{border-left:1px solid var(--ov-glass-border)!important}
+#app:has(>.overview-hero-edge) .home-module-pond{border-left:1px solid var(--ov-glass-border)!important}
+
+/* Heading kiểu iPhone glass */
+#app:has(>.overview-hero-edge) .home-module-weather .weather-head,
+#app:has(>.overview-hero-edge) .home-module-alert>.section-heading,
+#app:has(>.overview-hero-edge) .home-module-pond>.section-heading{
+  background:rgba(255,255,255,.12)!important;
+  border:1px solid rgba(255,255,255,.18)!important;
+  box-shadow:0 10px 24px -22px rgba(0,0,0,.52)!important;
+  backdrop-filter: blur(18px) saturate(145%) !important;
+  -webkit-backdrop-filter: blur(18px) saturate(145%) !important;
+}
+#app:has(>.overview-hero-edge) .home-module-weather .weather-head h2,
+#app:has(>.overview-hero-edge) .home-module-alert .section-heading h2,
+#app:has(>.overview-hero-edge) .home-module-pond .section-heading h2,
+#app:has(>.overview-hero-edge) .home-module-weather .weather-head .si,
+#app:has(>.overview-hero-edge) .home-module-alert .section-heading .si,
+#app:has(>.overview-hero-edge) .home-module-pond .section-heading .si{
+  color:var(--ov-title-fg)!important;
+}
+#app:has(>.overview-hero-edge) .section-counter{
+  background:rgba(255,255,255,.16)!important;
+  border:1px solid rgba(255,255,255,.18)!important;
+  color:#FFFFFF!important;
+  backdrop-filter: blur(10px) !important;
+  -webkit-backdrop-filter: blur(10px) !important;
+}
+
+/* Weather content */
+#app:has(>.overview-hero-edge) .home-module-weather .weather-card{
+  background:rgba(255,255,255,.08)!important;
+  border:1px solid rgba(255,255,255,.10)!important;
+  box-shadow:none!important;
+}
+#app:has(>.overview-hero-edge) .home-module-weather .weather-main-visual{
+  background:linear-gradient(120deg,rgba(127,211,255,.14),rgba(255,255,255,.06))!important;
+}
+#app:has(>.overview-hero-edge) .home-module-weather .weather-main-copy small,
+#app:has(>.overview-hero-edge) .home-module-weather .weather-main-copy span,
+#app:has(>.overview-hero-edge) .home-module-weather .weather-summary-cell small{
+  color:var(--ov-sub-fg)!important;
+}
+#app:has(>.overview-hero-edge) .home-module-weather .weather-main-copy strong,
+#app:has(>.overview-hero-edge) .home-module-weather .weather-summary-cell strong{
+  color:#FFFFFF!important;
+}
+#app:has(>.overview-hero-edge) .home-module-weather .weather-summary-cell{
+  border:1px solid rgba(255,255,255,.08)!important;
+}
+#app:has(>.overview-hero-edge) .home-module-weather .weather-summary-cell.humidity{background:rgba(92,161,224,.18)!important}
+#app:has(>.overview-hero-edge) .home-module-weather .weather-summary-cell.wind{background:rgba(76,184,157,.16)!important}
+#app:has(>.overview-hero-edge) .home-module-weather .weather-summary-cell.rain{background:rgba(228,176,88,.16)!important}
+#app:has(>.overview-hero-edge) .home-module-weather .weather-main-icon{
+  background:rgba(255,255,255,.12)!important;
+}
+#app:has(>.overview-hero-edge) .home-module-weather .weather-btn,
+#app:has(>.overview-hero-edge) .home-module-weather .weather-btn.primary{
+  background:rgba(255,255,255,.12)!important;
+  border:1px solid rgba(255,255,255,.16)!important;
+  color:#F6FAFF!important;
+}
+
+/* Alerts / advice */
+#app:has(>.overview-hero-edge) .home-module-alert .alert{
+  background:rgba(255,255,255,.09)!important;
+  border:1px solid rgba(255,255,255,.12)!important;
+  box-shadow:none!important;
+}
+#app:has(>.overview-hero-edge) .home-module-alert .alert b,
+#app:has(>.overview-hero-edge) .home-module-alert .alert strong{
+  color:#FFFFFF!important;
+}
+#app:has(>.overview-hero-edge) .home-module-alert .alert small,
+#app:has(>.overview-hero-edge) .home-module-alert .alert p,
+#app:has(>.overview-hero-edge) .home-module-alert .alert span,
+#app:has(>.overview-hero-edge) .home-module-alert .link{
+  color:var(--ov-sub-fg)!important;
+}
+#app:has(>.overview-hero-edge) .home-module-alert .alert .close,
+#app:has(>.overview-hero-edge) .home-module-alert [data-act="dismiss"]{
+  background:rgba(255,255,255,.14)!important;
+  border:1px solid rgba(255,255,255,.16)!important;
+  color:#FFFFFF!important;
+}
+
+/* Pond cards */
+#app:has(>.overview-hero-edge) .home-module-pond .pond-section-title h3,
+#app:has(>.overview-hero-edge) .home-module-pond .pond-section-title small,
+#app:has(>.overview-hero-edge) .home-module-pond .pond-section-group>small{
+  color:#E9F7F2!important;
+}
+#app:has(>.overview-hero-edge) .home-module-pond .pond-live,
+#app:has(>.overview-hero-edge) .home-module-pond .pond:not(.pond-live){
+  background:rgba(255,255,255,.10)!important;
+  border:1px solid rgba(255,255,255,.13)!important;
+  box-shadow:none!important;
+}
+#app:has(>.overview-hero-edge) .home-module-pond .pond h2,
+#app:has(>.overview-hero-edge) .home-module-pond .pond b,
+#app:has(>.overview-hero-edge) .home-module-pond .pond strong{
+  color:#FFFFFF!important;
+}
+#app:has(>.overview-hero-edge) .home-module-pond .pond .sub,
+#app:has(>.overview-hero-edge) .home-module-pond .pond .chip,
+#app:has(>.overview-hero-edge) .home-module-pond .pond small,
+#app:has(>.overview-hero-edge) .home-module-pond .pond span{
+  color:rgba(240,249,246,.82)!important;
+}
+#app:has(>.overview-hero-edge) .home-module-pond .pondsvg{
+  background:rgba(255,255,255,.13)!important;
+}
+#app:has(>.overview-hero-edge) .home-module-pond .add-pond-btn,
+#app:has(>.overview-hero-edge) .home-module-pond .pond-detail-btn{
+  background:linear-gradient(135deg,rgba(39,159,132,.88),rgba(23,122,104,.92))!important;
+  color:#FFFFFF!important;
+  border:1px solid rgba(255,255,255,.10)!important;
+  box-shadow:0 10px 22px -18px rgba(20,88,72,.75)!important;
+}
+#app:has(>.overview-hero-edge) .home-module-pond .pond-detail-btn .si{
+  color:#FFFFFF!important;
+}
+
+/* Tổng quan page text outside modules */
+#app:has(>.overview-hero-edge) .home-module-pond .section-heading,
+#app:has(>.overview-hero-edge) .home-module-alert .section-heading,
+#app:has(>.overview-hero-edge) .home-module-weather .weather-head{
+  margin-bottom:16px!important;
+}
+
 </style>
 </head>
 <body>
