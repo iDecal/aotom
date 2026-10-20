@@ -916,6 +916,22 @@ details.adv .at small{
 .advice-dismissible .advice-dismiss:active{color:#AF3838;background:#FFEDED}
 .advice-dismissible .advice-dismiss:focus-visible{outline:2px solid #117DA1;outline-offset:2px}
 
+
+/* Tổng quan thoáng hơn: tăng khoảng trắng CHỈ giữa các module cấp cao */
+#app:has(>.overview-hero-edge){
+  row-gap:38px!important;
+  gap:38px!important;
+}
+#app:has(>.overview-hero-edge)>.overview-hero-edge{margin-bottom:0!important}
+#app:has(>.overview-hero-edge)>.home-module{
+  margin-block:0!important;
+  flex-shrink:0;
+}
+/* Trên màn hình nhỏ vẫn ưu tiên khoảng thở giữa các phần */
+@media(max-width:390px){
+  #app:has(>.overview-hero-edge){gap:32px!important;row-gap:32px!important}
+}
+
 </style>
 </head>
 <body>
