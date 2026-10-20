@@ -932,6 +932,69 @@ details.adv .at small{
   #app:has(>.overview-hero-edge){gap:32px!important;row-gap:32px!important}
 }
 
+
+/* Bố cục Tổng quan: tiêu đề luôn nằm trong module, tránh chồng lên module trước */
+#app:has(>.overview-hero-edge){
+  gap:38px!important;
+  row-gap:38px!important;
+}
+#app:has(>.overview-hero-edge)>.home-module{
+  margin:0!important;
+  overflow:visible!important;
+  min-width:0!important;
+}
+#app:has(>.overview-hero-edge)>.home-module-alert>.section-heading,
+#app:has(>.overview-hero-edge)>.home-module-pond>.section-heading{
+  position:relative!important;
+  top:auto!important;
+  transform:none!important;
+  margin:0 0 16px!important;
+  box-sizing:border-box!important;
+  width:100%!important;
+}
+#app:has(>.overview-hero-edge)>.home-module-weather{
+  margin:0!important;
+}
+#app:has(>.overview-hero-edge)>.home-module-weather .weather-head{
+  top:auto!important;
+  transform:none!important;
+  margin:0 0 13px!important;
+}
+#app:has(>.overview-hero-edge)>.home-module-weather .weather-card{
+  overflow:hidden!important;
+  padding-top:16px!important;
+}
+#app:has(>.overview-hero-edge)>.home-module-alert,
+#app:has(>.overview-hero-edge)>.home-module-pond{
+  padding-top:15px!important;
+}
+@media(max-width:390px){
+  #app:has(>.overview-hero-edge){gap:32px!important;row-gap:32px!important}
+}
+
+/* Menu: toàn bộ chữ trong các thẻ nội dung màu đen đậm, vẫn giữ chữ trắng trên banner xanh */
+#app .menu-grid .menu-tile,
+#app .menu-grid .menu-tile b,
+#app .menu-grid .menu-tile small,
+#app .menu-grid .menu-chevron,
+#app .menu-list-item,
+#app .menu-list-item b,
+#app .menu-list-item small,
+#app .settings-block,
+#app .settings-block h2,
+#app .settings-block p,
+#app .settings-block small,
+#app .menu-inline-head h1,
+#app .menu-top h1,
+#app .menu-top .eyebrow,
+#app .menu-item-body,
+#app .menu-item-body small{
+  color:#162536!important;
+}
+#app .menu-welcome,
+#app .menu-welcome b,
+#app .menu-welcome span{color:#FFFFFF!important}
+
 </style>
 </head>
 <body>
@@ -1689,7 +1752,7 @@ var CATS=['Giống','Thức ăn','Điện','Thuốc / men','Nhân công','Khác'
 var KEY='aotom.crops.v1';
 
 var ICON={
- feed:'<path d="M12 22V8"/><path d="M12 8c-2-.3-3.3-1.6-3.5-3.8 2 .3 3.3 1.6 3.5 3.8zM12 8c2-.3 3.3-1.6 3.5-3.8-2 .3-3.3 1.6-3.5 3.8z"/><path d="M12 13.5c-2-.3-3.3-1.6-3.5-3.8M12 13.5c2-.3 3.3-1.6 3.5-3.8M12 19c-2-.3-3.3-1.6-3.5-3.8M12 19c2-.3 3.3-1.6 3.5-3.8"/>',
+ feed:'<path d="M2 17.5l5.8-2.2 4.1 1.2 3.1-1.1c1.2-.4 2.1.9 1.2 1.8l-4.2 3.2a4 4 0 0 1-3.2.7L3 20"/><path d="M3.2 13.8l5-1.8 5.9 1.5 3-.7"/><circle cx="15.5" cy="8.7" r=".8" fill="currentColor" stroke="none"/><circle cx="19.7" cy="7" r=".8" fill="currentColor" stroke="none"/><circle cx="18.3" cy="11.6" r=".7" fill="currentColor" stroke="none"/><circle cx="21" cy="14" r=".7" fill="currentColor" stroke="none"/><circle cx="12.3" cy="5.8" r=".7" fill="currentColor" stroke="none"/>',
  water:'<path d="M9 8s4 4.3 4 7.3a4 4 0 0 1-8 0C5 12.3 9 8 9 8z"/><path d="M16 3.5s3 3.2 3 5.4a3 3 0 0 1-6 0c0-2.2 3-5.4 3-5.4z"/>',
  abw:'<path d="M4 20h16M12 4v16M5 8h14"/><path d="M5 8l-2.5 6a3 3 0 0 0 5 0zM19 8l-2.5 6a3 3 0 0 0 5 0z"/>',
  coin:'<circle cx="12" cy="12" r="9"/><path d="M9 9.5c0-1.2 1.3-2 3-2s3 .8 3 2-1.3 1.8-3 2-3 .8-3 2 1.3 2 3 2 3-.8 3-2M12 6v1.5M12 16.5V18"/>',
