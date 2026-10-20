@@ -553,6 +553,44 @@ nav .in{max-width:620px!important;grid-template-columns:1fr 1fr 72px 1fr 1fr!imp
 .pond-tab-lead b{font-size:17px;color:var(--ink)}
 .pond-tab-lead small{font-size:12px;color:var(--ink2);line-height:1.5}
 
+
+/* Menu dưới cùng dành riêng cho Chi tiết ao */
+#main-bottom-nav.pond-bottom-mode{background:#fff!important;border-top:1px solid #E4EEF1!important;box-shadow:0 -5px 23px rgba(17,60,74,.08)!important}
+#main-bottom-nav.pond-bottom-mode .in{display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:6px!important;align-items:center!important;max-width:620px!important}
+.pond-bottom-item{display:flex;flex-direction:column;justify-content:center;align-items:center;gap:3px;border:0;background:transparent;border-radius:12px;min-height:59px;padding:5px 0 4px;color:#547282;font-size:11px;font-weight:700;white-space:nowrap}
+.pond-bottom-icon{display:flex;align-items:center;justify-content:center;width:33px;height:32px;border-radius:11px;background:#E8F5F7;color:#087E9A}
+.pond-bottom-icon svg{width:21px;height:21px}
+.pond-bottom-tasks .pond-bottom-icon{background:#E8F7EF;color:#15845A}
+.pond-bottom-reports .pond-bottom-icon{background:#FFF2D8;color:#AB6C17}
+.pond-bottom-journal .pond-bottom-icon{background:#EEE9FA;color:#7956B1}
+.pond-bottom-item.selected{background:#F2F8FA;color:#17394B}
+.pond-bottom-item.selected .pond-bottom-icon{box-shadow:inset 0 0 0 1px currentColor}
+
+
+/* Chi tiết ao: cài đặt ưu tiên đầu trang và thống kê trong popup */
+.pond-settings-top{display:flex;flex-direction:column;gap:10px;margin:2px 0 3px}
+.pond-settings-label{display:flex;align-items:center;gap:6px;color:#526579;font-size:11px;font-weight:800;letter-spacing:.07em}
+.pond-settings-label .si{width:16px;height:16px;margin:0;color:#66829B}
+.pond-setting-row.pond-setting-cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:0}
+.pond-setting-cards button{min-width:0;min-height:73px!important;display:flex!important;align-items:center!important;justify-content:flex-start!important;text-align:left!important;gap:9px!important;padding:12px 10px!important;background:#F1F6FA!important;border:1px solid #DCE7ED!important;border-radius:15px!important;color:#1B4054!important;box-shadow:none!important}
+.pond-setting-cards button>span:nth-child(2){display:flex;flex-direction:column;gap:3px;font-size:12px;font-weight:750;line-height:1.3;min-width:0}
+.pond-setting-cards button small{font-size:10px;font-weight:500;color:#658092}
+.pond-setting-cards .ps-icon{width:30px;height:30px;border-radius:9px;display:grid;place-items:center;flex-shrink:0;background:#DFEBF4;color:#227D9B}
+.pond-setting-cards .ps-icon .si{margin:0;width:17px;height:17px}
+.pond-setting-cards button:nth-child(2) .ps-icon{background:#E5F4E9;color:#30875B}
+.pond-setting-cards .ps-chevron{margin-left:auto;opacity:.55;font-size:19px}
+.pond-stat-open{width:100%;display:flex;align-items:center;gap:8px;justify-content:flex-start;padding:13px 14px;border:1px solid #CFE5EC;border-radius:14px;background:#EAF6F9;color:#16677E;font-size:13px;font-weight:750;text-align:left}
+.pond-stat-open .si{width:18px;height:18px;margin:0}
+.pond-stat-open span:last-child{margin-left:auto;font-size:23px;font-weight:400}
+.pond-stat-popup{display:flex;flex-direction:column;gap:12px;padding-top:8px}
+.pond-stat-popup-title{display:flex;gap:7px;align-items:center;font-size:14px;font-weight:800;margin-top:8px;color:#183D50}
+.pond-stat-popup-title .si{width:17px;height:17px;margin:0}
+.pond-stat-popup .grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+.pond-stat-popup .cell{background:#F1F7FA;border-radius:12px;padding:11px;min-width:0}
+.pond-stat-facts{display:grid;grid-template-columns:1fr auto;gap:11px;background:#F2F7FA;border-radius:13px;padding:13px;font-size:12px}
+.pond-stat-facts span{color:#607585}.pond-stat-facts b{text-align:right;color:#17394B}
+@media(max-width:390px){.pond-setting-cards button{padding:10px 7px!important;gap:6px!important}.pond-setting-cards .ps-chevron{display:none}.pond-setting-cards .ps-icon{width:27px;height:27px}}
+
 </style>
 </head>
 <body>
@@ -1186,7 +1224,7 @@ document.getElementById('bk-file').addEventListener('change',function(e){
 });
 })();
 </script>
-<nav><div class="in">
+<nav id="main-bottom-nav"><div class="in">
   <button class="nb" data-act="home" id="nb-home"></button>
   <button class="nb" data-act="advice" id="nb-adv"></button>
   <button class="fab" data-act="pick" aria-label="Ghi nhanh"></button>
@@ -1626,27 +1664,19 @@ function histRows(pid){
 }
 function pondView(p){
   var c=activeCrop(p.id),h='<button class="back" data-act="home">'+ic('back').replace('<svg','<svg width="20" height="20"')+'Tổng quan</button>';
-  var settings='<div class="pond-setting-row"><button type="button" data-act="pondedit" data-pond="'+esc(p.id)+'">'+si('grid')+' Thông tin ao</button><button type="button" data-act="feedtimes" data-pond="'+esc(p.id)+'">'+si('cal')+' Giờ cho ăn</button></div>';
+  var settings='<div class="pond-settings-top"><div class="pond-settings-label">'+si('grid')+' CÀI ĐẶT AO NUÔI</div><div class="pond-setting-row pond-setting-cards"><button type="button" data-act="pondedit" data-pond="'+esc(p.id)+'"><span class="ps-icon">'+si('grid')+'</span><span>Thông tin ao<small>Chỉnh sửa cấu hình</small></span><span class="ps-chevron">›</span></button><button type="button" data-act="feedtimes" data-pond="'+esc(p.id)+'"><span class="ps-icon">'+si('cal')+'</span><span>Giờ cho ăn<small>Cài đặt các cữ</small></span><span class="ps-chevron">›</span></button></div></div>';
   if(!c){
-    h+='<div class="card hero"><h1>'+esc(p.name)+'</h1><p>Ao đang trống · Chưa có vụ nuôi đang hoạt động</p><button class="cta block" data-act="stock" data-pond="'+p.id+'">Thả giống vụ mới</button></div>'+settings+histRows(p.id);
+    h+=settings;h+='<div class="card hero"><h1>'+esc(p.name)+'</h1><p>Ao đang trống · Chưa có vụ nuôi đang hoạt động</p><button class="cta block" data-act="stock" data-pond="'+p.id+'">Thả giống vụ mới</button></div>'+histRows(p.id);
     return h;
   }
   var s=stats(c,p),lw=latestWater(s.E),al=alertsFor(c,p,s).filter(function(a){return a.lv==='bad'||a.lv==='warn';});
+  h+=settings;
   h+='<div class="card hero reference-hero"><div class="hero-top"><div class="hero-main"><h1>'+p.name.replace('Ao ','Ao ')+'<small>m²</small></h1><div class="sub">Thả ngày: '+esc(c.stockDate)+' · Mật độ: '+fmt(s.density,0)+' con/m²</div></div><div class="hero-day"><strong class="num">N'+s.doc+'</strong><span>NGÀY NUÔI</span></div></div>'+
    '<div class="hero-stats"><div><span>Tổng giống thả</span><b class="num">'+fmt(c.qty)+' con</b></div><div><span>Tổng thức ăn đã dùng</span><b class="num">'+fmt(s.totalFeed,1)+' kg</b></div></div></div>';
-  h+=settings;
   var tab=ui.pondTab||'overview';
-  h+='<nav class="pond-page-tabs" aria-label="Menu chi tiết ao">'+[
-    ['overview','Tổng quan','◈'],['tasks','Công việc','☑'],['reports','Báo cáo','▥'],['journal','Nhật ký','☷']
-  ].map(function(t){return '<button type="button" data-act="pondtab" data-v="'+t[0]+'" class="'+(tab===t[0]?'active':'')+'" aria-current="'+(tab===t[0]?'page':'false')+'"><span>'+t[2]+'</span>'+t[1]+'</button>';}).join('')+'</nav>';
   if(tab==='overview'){
   h+='<div class="section pond-water-first"><h2 class="sec-h">'+si('water')+'Chỉ số nước mới nhất</h2>'+lastWaterLine(s.E)+waterCells(lw)+'</div>';
-  h+='<details class="more-details"><summary>'+si('grid')+' Xem thông tin và thống kê chi tiết <span>⌄</span></summary><div class="details-inside"><div class="grid2">'+
-   cell('Số tôm thả',fmt(c.qty),'con','shrimp')+cell('Mật độ',fmt(s.density,0),'con/m²','grid')+
-   cell('Cỡ tôm',(s.w>=1?fmt(s.w,1):fmt(s.w,2)),'g'+(s.measured?'':' (ước)'),'abw')+cell('Cỡ con/kg',fmt(1000/s.w),'con/kg','abw')+
-   cell('Sống ước tính',fmt(s.surv*100,0),'%','heart')+cell('Sinh khối',fmt(s.biomass,0),'kg','abw')+
-   cell('Tăng trưởng',s.adg!=null?fmt(s.adg,2):'—','g/ngày','trend')+cell('Thức ăn đã dùng',fmt(s.totalFeed,0),'kg','feed')+
-   cell('FCR',s.fcr?fmt(s.fcr,2):'—',s.m.hk?'':'tạm tính','gauge')+cell('Gợi ý hôm nay',fmt(s.rec,1),'kg · đã '+fmt(s.fedToday,1),'feed')+'</div></div></details>';
+  h+='<button type="button" class="pond-stat-open" data-act="pondstats" data-pond="'+esc(p.id)+'">'+si('grid')+' Xem thông tin & thống kê chi tiết <span>›</span></button>';
   var AD=adviceFor(c,p,s);
   if(AD.length)h+='<div class="section"><h2 class="sec-h">'+si('bulb')+'Lời khuyên cho ao này</h2><div class="stack">'+AD.map(advCard).join('')+'</div></div>';
   h+=todayInfo(c);
@@ -1671,6 +1701,19 @@ function pondView(p){
     h+='<div class="section ref-journal"><h2>Nhật ký ghi chép</h2>'+logList(s)+'</div>';
   }
   return h;
+}
+function openPondStats(pid){
+ var p=pondOf(pid),c=p&&activeCrop(p.id);if(!p||!c){toast('Ao chưa có vụ nuôi đang hoạt động');return;}
+ var s=stats(c,p),m=money(c),lw=latestWater(s.E);
+ var details=cell('Số tôm thả',fmt(c.qty),'con','shrimp')+cell('Mật độ',fmt(s.density,0),'con/m²','grid')+
+ cell('Cỡ tôm',(s.w>=1?fmt(s.w,1):fmt(s.w,2)),'g'+(s.measured?'':' (ước)'),'abw')+cell('Cỡ con/kg',fmt(1000/s.w),'con/kg','abw')+
+ cell('Sống ước tính',fmt(s.surv*100,0),'%','heart')+cell('Sinh khối',fmt(s.biomass,0),'kg','abw')+
+ cell('Tăng trưởng',s.adg!=null?fmt(s.adg,2):'—','g/ngày','trend')+cell('Thức ăn đã dùng',fmt(s.totalFeed,0),'kg','feed')+
+ cell('FCR',s.fcr?fmt(s.fcr,2):'—',s.m.hk?'':'tạm tính','gauge')+cell('Gợi ý hôm nay',fmt(s.rec,1),'kg · đã '+fmt(s.fedToday,1),'feed');
+ sheetOpen('<div class="panel-h"><div><div class="eyebrow">'+esc(p.name)+' · Ngày nuôi '+s.doc+'</div><h2>Thông tin & thống kê</h2></div><button class="x" data-act="close" aria-label="Đóng">×</button></div>'+
+ '<div class="pond-stat-popup"><div class="pond-stat-popup-title">'+si('grid')+' Thông số vụ nuôi</div><div class="grid2">'+details+'</div>'+
+ '<div class="pond-stat-popup-title">'+si('water')+' Chỉ số nước mới nhất</div>'+lastWaterLine(s.E)+waterCells(lw)+
+ '<div class="pond-stat-popup-title">'+si('cal')+' Thông tin vụ nuôi</div><div class="pond-stat-facts"><span>Ngày thả giống</span><b>'+esc(dmy(c.stockDate))+'</b><span>Diện tích ao</span><b>'+fmt(p.area)+' m²</b><span>Tổng chi ghi nhận</span><b>'+mnyS(m.cost)+'</b><span>Doanh thu ghi nhận</span><b>'+mnyS(m.rev)+'</b></div></div>');
 }
 function cell(l,v,u,i){return '<div class="cell"><span>'+(i?si(i):'')+l+'</span><b class="num">'+v+(u?'<small>'+u+'</small>':'')+'</b></div>';}
 
@@ -2620,7 +2663,24 @@ function render(){
   a.innerHTML=h;
   var backup=document.getElementById('bk');if(backup)backup.style.display=(ui.view==='inventory'&&ui.menuSection==='menu')?'flex':'none';
   if(v==='home'&&weatherLocation&&!weatherBusy)fetchWeather(false);
-  var cls={home:v==='home'||v==='pond',adv:v==='advice',money:v==='journal',kb:v==='inventory'||v==='kb'||v==='topic'};$('#nb-home').className='nb'+(cls.home?' on':'');$('#nb-adv').className='nb'+(cls.adv?' on':'');$('#nb-money').className='nb'+(cls.money?' on':'');$('#nb-kb').className='nb'+(cls.kb?' on':'');
+  var bottom=document.getElementById('main-bottom-nav');
+  if(v==='pond'&&ui.pond){
+    var current=ui.pondTab||'overview';
+    bottom.classList.add('pond-bottom-mode');
+    bottom.querySelector('.in').innerHTML=[
+      ['home','Tổng quan','home','overview'],
+      ['pondtab','Công việc','tasks','tasks'],
+      ['pondtab','Báo cáo','reports','reports'],
+      ['pondtab','Nhật ký','journal','journal']
+    ].map(function(z){var active=z[3]===current&&z[0]==='pondtab';
+      var path=z[2]==='home'?'<path d="M3 11.5 12 4l9 7.5V21h-6v-6H9v6H3z"/>':z[2]==='tasks'?'<rect x="4" y="4" width="16" height="17" rx="2"/><path d="m8 11 2 2 4-4M8 17h8"/>':z[2]==='reports'?'<path d="M4 20V12h4v8M10 20V5h4v15M16 20v-9h4v9M3 20h18"/>':'<path d="M6 3h12a2 2 0 0 1 2 2v16H6a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2zM4 6v12M9 9h7M9 13h7M9 17h5"/>';
+      return '<button class="pond-bottom-item pond-bottom-'+z[2]+(active?' selected':'')+'" data-act="'+z[0]+'"'+(z[0]==='pondtab'?' data-v="'+z[3]+'"':'')+'><span class="pond-bottom-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+path+'</svg></span><span>'+z[1]+'</span></button>';
+    }).join('');
+  }else{
+    bottom.classList.remove('pond-bottom-mode');
+    if(!bottom.querySelector('#nb-home'))bottom.querySelector('.in').innerHTML='<button class="nb" data-act="home" id="nb-home"></button><button class="nb" data-act="advice" id="nb-adv"></button><button class="fab" data-act="pick" aria-label="Ghi nhanh"></button><button class="nb" data-act="journal" id="nb-money"></button><button class="nb" data-act="kb" id="nb-kb"></button>';
+  }
+  var cls={home:v==='home'||v==='pond',adv:v==='advice',money:v==='journal',kb:v==='inventory'||v==='kb'||v==='topic'};if(v==='pond'&&ui.pond)return;$('#nb-home').className='nb'+(cls.home?' on':'');$('#nb-adv').className='nb'+(cls.adv?' on':'');$('#nb-money').className='nb'+(cls.money?' on':'');$('#nb-kb').className='nb'+(cls.kb?' on':'');
 }
 
 /* ---------- biểu mẫu ---------- */
@@ -2756,6 +2816,7 @@ function onClick(ev){
   if(a==='feedtimes')openFeedTimes(pid);
   else if(a==='addfeedtime'){var list=$('#feed-time-list');if(!list)return;if(list.querySelectorAll('input').length>=8){toast('Tối đa 8 cữ ăn.');return;}list.insertAdjacentHTML('beforeend','<div class="feed-time-row"><input aria-label="Giờ cho ăn" type="time" required><button type="button" data-act="removefeedtime" aria-label="Xóa cữ">×</button></div>');}
   else if(a==='removefeedtime'){var row=el.closest('.feed-time-row');if(row)row.remove();}
+  else if(a==='pondstats')openPondStats(pid);
   else if(a==='pondtab'){ui.pondTab=el.getAttribute('data-v')||'overview';ui.endAsk=false;render();window.scrollTo(0,0);}
   else if(a==='weather-refresh'){weatherFetched=0;fetchWeather(true);}
   else if(a==='weather-edit'){weatherEdit=true;render();}
