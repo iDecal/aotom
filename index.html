@@ -754,6 +754,168 @@ nav .in{max-width:620px!important;grid-template-columns:1fr 1fr 72px 1fr 1fr!imp
 #app .home-dismissible-alert .home-alert-dismiss:active{background:#FCE8E8;color:#B53131}
 #app .home-dismissible-alert .home-alert-dismiss:focus-visible,#app .home-dismissible-alert .home-alert-open:focus-visible{outline:2px solid #117DA1;outline-offset:2px}
 
+
+/* Đổi banner trang tổng quan sang xanh như ảnh tham chiếu */
+#app>.overview-hero-edge,
+#app .overview-hero,
+.overview-hero,
+.overview-hero-edge{
+  background:linear-gradient(120deg,#077CA8 0%, #0A90B2 52%, #0C9DAB 100%) !important;
+}
+#app>.overview-hero-edge{
+  box-shadow:0 12px 26px -20px rgba(7,124,168,.42)!important;
+}
+#app>.overview-hero-edge .hero-date-row{
+  background:rgba(255,255,255,.16)!important;
+  border:1px solid rgba(255,255,255,.20)!important;
+}
+#app>.overview-hero-edge .overview-metrics>div{
+  background:rgba(255,255,255,.13)!important;
+  border:1px solid rgba(255,255,255,.16)!important;
+}
+#app>.overview-hero-edge .overview-hero-icon,
+#app>.overview-hero-edge .hero-brand-icon{
+  background:rgba(255,255,255,.14)!important;
+  border-color:rgba(255,255,255,.18)!important;
+}
+
+
+.farm-settings-summary{display:flex;align-items:center;justify-content:space-between;gap:12px;background:var(--surface2);border:1px solid var(--line);padding:13px;border-radius:14px}
+.farm-settings-summary>div{display:flex;flex-direction:column;gap:5px;min-width:0}
+.farm-settings-summary b{font-size:15px;color:var(--ink);overflow-wrap:anywhere}
+.farm-settings-summary small{font-size:12px;color:var(--ink2)}
+.farm-settings-summary button{flex:none;border:0;border-radius:11px;padding:11px 12px;background:#0C88A6;color:white;font-size:12px;font-weight:750}
+.hero-brand>span:last-child{min-width:0;overflow-wrap:anywhere;line-height:1.3}
+@media(max-width:380px){.farm-settings-summary{align-items:stretch;flex-direction:column}.farm-settings-summary button{width:100%}}
+
+/* Chỉnh phần text bên trong thẻ Lời khuyên: nhỏ hơn, nhạt hơn */
+details.adv .at small{
+  color:var(--ink2)!important;
+  font-size:12px!important;
+  line-height:1.45!important;
+}
+.adv-b{
+  padding:0 14px 12px 44px!important;
+}
+.adv-b ul{
+  margin:0!important;
+  padding-left:18px!important;
+  display:flex!important;
+  flex-direction:column!important;
+  gap:6px!important;
+}
+.adv-b ul li{
+  color:var(--ink2)!important;
+  font-size:12px!important;
+  line-height:1.65!important;
+  font-weight:500!important;
+}
+.adv-b ul li::marker{
+  color:#5D7283!important;
+}
+.adv-f{
+  color:var(--ink2)!important;
+  font-size:12px!important;
+}
+.adv-f span{
+  color:var(--ink2)!important;
+}
+.adv-f .link{
+  font-size:12px!important;
+}
+
+
+/* 20-10: tiêu đề module nhô 1/2 ra ngoài nền, có chiều sâu */
+#app:has(>.overview-hero-edge) .home-module-alert,
+#app:has(>.overview-hero-edge) .home-module-pond{
+  overflow:visible!important;
+  margin-top:30px!important;
+  padding-top:0!important;
+  gap:16px!important;
+}
+#app:has(>.overview-hero-edge) .home-module-alert>.section-heading,
+#app:has(>.overview-hero-edge) .home-module-pond>.section-heading{
+  position:relative!important;
+  z-index:2!important;
+  flex-shrink:0!important;
+  min-height:60px!important;
+  margin:-30px 0 2px!important;
+  padding:12px 15px!important;
+  border-radius:16px!important;
+  box-shadow:0 6px 15px rgba(33,60,77,.095)!important;
+}
+#app:has(>.overview-hero-edge) .home-module-alert>.section-heading{
+  background:#EBCB9E!important;
+  border:1px solid #E4BE87!important;
+}
+#app:has(>.overview-hero-edge) .home-module-pond>.section-heading{
+  background:#ABDCC9!important;
+  border:1px solid #94D0B8!important;
+}
+#app:has(>.overview-hero-edge) .home-module-alert>.section-heading h2,
+#app:has(>.overview-hero-edge) .home-module-pond>.section-heading h2{
+  font-size:21px!important;
+  font-weight:850!important;
+  line-height:1.25!important;
+  color:#153449!important;
+}
+#app:has(>.overview-hero-edge) .home-module-alert>.section-heading .si,
+#app:has(>.overview-hero-edge) .home-module-pond>.section-heading .si{
+  width:25px!important;
+  height:25px!important;
+}
+#app:has(>.overview-hero-edge) .home-module-weather{
+  overflow:visible!important;
+  margin-top:30px!important;
+}
+#app:has(>.overview-hero-edge) .home-module-weather .weather-card{
+  overflow:visible!important;
+  padding-top:0!important;
+  gap:14px!important;
+}
+#app:has(>.overview-hero-edge) .home-module-weather .weather-head{
+  position:relative!important;
+  z-index:2!important;
+  margin-top:-30px!important;
+  min-height:60px!important;
+  padding:10px 15px!important;
+  border-radius:16px!important;
+  background:#B9DEEF!important;
+  border:1px solid #A0D0E6!important;
+  box-shadow:0 6px 15px rgba(33,60,77,.095)!important;
+}
+#app:has(>.overview-hero-edge) .home-module-weather .weather-head h2{
+  font-size:21px!important;
+  font-weight:850!important;
+  line-height:1.25!important;
+  color:#153449!important;
+}
+@media(max-width:390px){
+  #app:has(>.overview-hero-edge) .home-module-alert>.section-heading h2,
+  #app:has(>.overview-hero-edge) .home-module-pond>.section-heading h2,
+  #app:has(>.overview-hero-edge) .home-module-weather .weather-head h2{font-size:19px!important;}
+  #app:has(>.overview-hero-edge) .home-module-alert>.section-heading,
+  #app:has(>.overview-hero-edge) .home-module-pond>.section-heading,
+  #app:has(>.overview-hero-edge) .home-module-weather .weather-head{padding:10px 11px!important;}
+}
+
+
+/* Sửa thông báo bị giãn lệch: icon + nội dung cùng một hàng, X cố định bên phải */
+#app .home-dismissible-alert{display:grid!important;grid-template-columns:minmax(0,1fr) 28px!important;align-items:start!important;gap:8px!important;padding:12px!important;min-width:0!important}
+#app .home-dismissible-alert .home-alert-open{display:grid!important;grid-template-columns:24px minmax(0,1fr)!important;align-items:start!important;justify-content:start!important;gap:9px!important;width:100%!important;min-width:0!important;margin:0!important;padding:0!important;text-align:left!important;line-height:1.45!important;letter-spacing:normal!important}
+#app .home-dismissible-alert .home-alert-open>.ai{grid-column:1!important;width:24px!important;display:block!important;margin:2px 0 0!important}
+#app .home-dismissible-alert .home-alert-open>span.at-content{grid-column:2!important;min-width:0!important;display:block!important;margin:0!important}
+#app .home-dismissible-alert .home-alert-open b{display:block!important;font-size:13px!important;line-height:1.45!important;font-weight:700!important;overflow-wrap:anywhere!important}
+#app .home-dismissible-alert .home-alert-open small{display:block!important;font-size:12px!important;margin-top:4px!important;line-height:1.45!important}
+#app .home-dismissible-alert .home-alert-dismiss{grid-column:2!important;grid-row:1!important;align-self:start!important;margin:0!important;width:27px!important;height:27px!important}
+/* Lời khuyên có nút ẩn x: vẫn mở/đóng nội dung bình thường */
+.advice-dismissible{position:relative!important;min-width:0!important}
+.advice-dismissible>details.adv{width:100%!important}
+.advice-dismissible>details.adv>summary{padding-right:50px!important}
+.advice-dismissible .advice-dismiss{position:absolute;z-index:2;right:12px;top:11px;width:27px;height:27px;border-radius:9px;border:1px solid #DCE6EB;background:#F8FAFC;color:#607788;display:grid;place-items:center;font-size:19px;font-weight:500;line-height:1;cursor:pointer;box-shadow:0 1px 3px rgba(20,43,59,.05)}
+.advice-dismissible .advice-dismiss:active{color:#AF3838;background:#FFEDED}
+.advice-dismissible .advice-dismiss:focus-visible{outline:2px solid #117DA1;outline-offset:2px}
+
 </style>
 </head>
 <body>
@@ -1428,6 +1590,16 @@ body>nav .fab-plus{font-family:Arial,Helvetica,sans-serif!important;display:bloc
 #app .home-module-pond .pond-detail-btn:active{background:linear-gradient(115deg,#06687E,#06867F)!important}
 @media(max-width:390px){#app .home-module-pond .pond-section-group>.stack{gap:18px!important}#app .home-module-pond .pond-iconbox{width:49px;height:49px}#app .home-module-pond .pond-shrimp-emoji{font-size:29px}#app .home-module-pond .pond-detail-btn{min-height:47px!important}}
 
+
+/* 2026-10-20: lịch nhiều màu không nền, heading trang chủ rõ ràng hơn */
+#app>.overview-hero-edge .hero-calendar{background:transparent!important;border:0!important;box-shadow:none!important;width:46px!important;height:46px!important;border-radius:0!important;display:grid!important;place-items:center!important;padding:0!important;color:inherit!important}
+#app>.overview-hero-edge .hero-calendar svg{width:39px!important;height:39px!important;max-width:none!important;display:block!important}
+#app .home-module .section-heading h2{font-size:20px!important;line-height:1.3!important;letter-spacing:-.015em!important;font-weight:850!important}
+#app .home-module .section-heading .si{width:24px!important;height:24px!important;flex:none!important}
+#app .home-module-alert .section-heading,#app .home-module-pond .section-heading{min-height:56px!important;padding:12px 13px!important}
+#app .home-module-weather .weather-head h2,#app .home-module-weather .section-heading h2,#app .home-module-weather h2{font-size:20px!important;line-height:1.3!important;font-weight:850!important}
+@media(max-width:390px){#app .home-module .section-heading h2,#app .home-module-weather .weather-head h2,#app .home-module-weather h2{font-size:18px!important}#app .home-module-alert .section-heading,#app .home-module-pond .section-heading{min-height:53px!important}}
+
 </style>
 
 <div id="app"></div>
@@ -1850,6 +2022,23 @@ function fetchWeather(force){
 }
 function chooseWeatherCity(city){weatherBusy=true;weatherError='';render();fetch('https://geocoding-api.open-meteo.com/v1/search?name='+encodeURIComponent(city)+'&count=5&language=vi&format=json').then(function(r){if(!r.ok)throw Error();return r.json();}).then(function(d){weatherBusy=false;if(!d.results||!d.results.length)throw Error('Không tìm thấy địa điểm. Thử nhập tên thành phố hoặc huyện gần ao.');var x=d.results[0];saveWeatherLocation({lat:x.latitude,lon:x.longitude,name:[x.name,x.admin1,x.country].filter(Boolean).join(', ')});}).catch(function(e){weatherBusy=false;weatherError=e.message||'Không tìm thấy địa điểm hoặc mất kết nối mạng.';render();});}
 
+var FARM_SETTINGS_KEY='aotom.farm.profile.v1';
+var farmProfile={name:'Trại tôm thẻ',owner:'',address:'',phone:'',note:''};
+try{var _farm=JSON.parse(localStorage.getItem(FARM_SETTINGS_KEY)||'null');if(_farm&&typeof _farm==='object'){['name','owner','address','phone','note'].forEach(function(k){if(typeof _farm[k]==='string')farmProfile[k]=_farm[k];});}}catch(e){}
+function openFarmSettings(){
+  var fields=[['name','Tên trại nuôi *','VD: Trại tôm Bình An',60],['owner','Người quản lý','Họ tên người phụ trách',60],['address','Địa chỉ / khu vực trại','VD: Xã Đề Gi, tỉnh Gia Lai',140],['phone','Số điện thoại','Số điện thoại liên hệ',20]];
+  var html='<div class="panel-h"><div><div class="eyebrow">Thông tin trại nuôi</div><h2>⚙️ Cài đặt trại</h2></div><button class="x" type="button" data-act="close" aria-label="Đóng">×</button></div><form id="farm-settings-form" class="stack" novalidate>'+
+    fields.map(function(f){return '<div class="fld"><label for="farm-'+f[0]+'">'+f[1]+'</label><div class="inp"><input type="text" id="farm-'+f[0]+'" name="'+f[0]+'" maxlength="'+f[3]+'" placeholder="'+f[2]+'" value="'+esc(farmProfile[f[0]]||'')+'"></div></div>';}).join('')+
+    '<div class="fld"><label for="farm-note">Ghi chú</label><div class="inp"><textarea id="farm-note" name="note" rows="3" maxlength="300" placeholder="Ghi chú về trại nuôi">'+esc(farmProfile.note||'')+'</textarea></div></div><div id="farm-settings-error" class="err" role="alert"></div><button class="cta block" type="submit">Lưu thông tin trại</button></form>';
+  sheetOpen(html);
+  document.getElementById('farm-settings-form').addEventListener('submit',function(ev){
+    ev.preventDefault();var f=ev.currentTarget,n=String(f.elements.name.value||'').trim();
+    if(!n){document.getElementById('farm-settings-error').textContent='Vui lòng nhập tên trại.';return;}
+    var next={name:n,owner:String(f.elements.owner.value||'').trim(),address:String(f.elements.address.value||'').trim(),phone:String(f.elements.phone.value||'').trim(),note:String(f.elements.note.value||'').trim()};
+    try{localStorage.setItem(FARM_SETTINGS_KEY,JSON.stringify(next));}catch(e){document.getElementById('farm-settings-error').textContent='Không lưu được dữ liệu trên thiết bị này.';return;}
+    farmProfile=next;sheetClose();render();toast('Đã lưu thông tin trại nuôi');
+  });
+}
 var HOME_SETTINGS_KEY='aotom.home.layout.v2';
 var HOME_MODULES=[['weather','Thời tiết','🌦️'],['alert','Cảnh báo & nhắc nhở','🔔'],['pond','Danh sách ao','🦐']];
 function defaultHomeSettings(){return {order:['weather','alert','pond'],visible:{weather:true,alert:true,pond:true}};}
@@ -1858,6 +2047,7 @@ try{var _hs=JSON.parse(localStorage.getItem(HOME_SETTINGS_KEY)||'null');if(_hs&&
 function saveHomeSettings(){try{localStorage.setItem(HOME_SETTINGS_KEY,JSON.stringify(homeSettings));}catch(e){toast('Không lưu được tùy chỉnh trên máy này.');}}
 function settingsView(header){
  return header+'<div class="settings-intro">⚙️ <b>Cài đặt ứng dụng</b><small>Tùy chỉnh ao nuôi và cách hiển thị trang Tổng quan.</small></div>'+
+ '<div class="settings-block farm-settings-block"><h2>🏠 Cài đặt trại nuôi</h2><p>Đặt tên trại, địa chỉ và thông tin người quản lý. Tên trại sẽ hiển thị trên trang Tổng quan.</p><div class="farm-settings-summary"><div><b>'+esc(farmProfile.name||'Trại tôm thẻ')+'</b><small>'+esc(farmProfile.address||'Chưa nhập khu vực trại')+'</small></div><button type="button" data-act="farmsettings">⚙️ Chỉnh sửa</button></div></div>'+
  '<div class="settings-block"><h2>🏡 Hiển thị trang chủ</h2><p>Chọn mục muốn hiển thị; kéo giữ biểu tượng ☰ để đổi thứ tự ưu tiên.</p><div id="home-sort-list">'+homeSettings.order.map(function(id){var meta=HOME_MODULES.filter(function(x){return x[0]===id;})[0];return '<div class="home-sort-item" data-module="'+id+'" draggable="true"><span class="drag-grip" title="Kéo để sắp xếp">☰</span><span class="sort-icon">'+meta[2]+'</span><span class="sort-label">'+meta[1]+'</span><label class="setting-switch"><input type="checkbox" data-role="home-visible" data-module="'+id+'"'+(homeSettings.visible[id]?' checked':'')+'><span>Hiện</span></label><div class="sort-arrows"><button data-act="home-up" data-module="'+id+'" aria-label="Đưa lên">↑</button><button data-act="home-down" data-module="'+id+'" aria-label="Đưa xuống">↓</button></div></div>';}).join('')+'</div></div>'+
  '<div class="settings-block"><h2>🦐 Cài đặt ao nuôi</h2><p>Thêm ao ương / ao vèo, ao nuôi thương phẩm hoặc ao lắng. Chọn ao để chỉnh sửa thông tin và cữ ăn.</p><div class="settings-ponds">'+(PONDS.length?PONDS.map(function(p){return '<div class="settings-pond-row"><div class="settings-pond-identity"><b>'+esc(p.name)+'</b><small>'+pondKindLabel(p)+' · '+fmt(p.area)+' m²</small></div><div class="settings-pond-actions"><button data-act="pondedit" data-pond="'+esc(p.id)+'">✎ Sửa</button><button data-act="feedtimes" data-pond="'+esc(p.id)+'">◷ Giờ ăn</button><button class="settings-delete-pond" data-act="ponddelete" data-pond="'+esc(p.id)+'">Xóa</button></div></div>';}).join(''):'<p>Chưa có ao nào. Nhấn nút bên dưới để tạo ao đầu tiên.</p>')+'</div><button data-act="pondadd" class="settings-create-pond">＋ Thêm ao nuôi</button><small class="settings-safe-note">Để bảo vệ nhật ký và báo cáo, chỉ có thể xóa ao chưa có vụ nuôi.</small></div>';
 }
@@ -1898,8 +2088,8 @@ function homeView(){
   var dismissed=hiddenAlertsRead();al=al.filter(function(a){return !dismissed[alertIdentity(a)];});
   var weekday=new Date().toLocaleDateString('vi-VN',{weekday:'long'});
   var dateToday=new Date().toLocaleDateString('vi-VN',{day:'2-digit',month:'2-digit',year:'numeric'});
-  var dateIcon='<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M7 3v4M17 3v4M3 10h18"/><path d="m9 15 2 2 4-4"/></svg>';
-  var h='<section class="overview-hero overview-hero-edge"><div class="hero-topbar"><div class="hero-brand"><span class="hero-brand-icon">'+ic('shrimp')+'</span><span>Trại tôm thẻ</span></div><div class="hero-sync"><i></i>'+(mode==='local'?'Trên máy này':'Đã đồng bộ')+'</div></div>'+
+  var dateIcon='<svg width="34" height="34" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect x="5" y="8" width="30" height="27" rx="6" fill="#F3FAFF" stroke="#9BD6F5" stroke-width="1.5"/><path d="M5 14C5 10.6863 7.68629 8 11 8H29C32.3137 8 35 10.6863 35 14V17H5V14Z" fill="#F98B65"/><path d="M13 5V11M27 5V11" stroke="#FFD166" stroke-width="3.5" stroke-linecap="round"/><rect x="10" y="21" width="7" height="6" rx="2" fill="#69C9C5"/><rect x="22" y="21" width="7" height="6" rx="2" fill="#8CA8E9"/><path d="M12 31H27" stroke="#FFB65C" stroke-width="3" stroke-linecap="round"/></svg>';
+  var h='<section class="overview-hero overview-hero-edge"><div class="hero-topbar"><div class="hero-brand"><span class="hero-brand-icon">'+ic('shrimp')+'</span><span>'+esc(farmProfile.name||'Trại tôm thẻ')+'</span></div><div class="hero-sync"><i></i>'+(mode==='local'?'Trên máy này':'Đã đồng bộ')+'</div></div>'+
     '<div class="hero-date-row"><div class="hero-calendar">'+dateIcon+'</div><div class="hero-date-text"><strong>'+esc(weekday)+'</strong><span>'+esc(dateToday)+'</span></div><span class="hero-today-pill">Hôm nay</span></div>'+
     '<div class="hero-summary"><div><p>Theo dõi tình trạng ao nuôi, thời tiết và thông tin hôm nay.</p></div><div class="overview-hero-icon">'+ic('shrimp')+'</div></div>'+
     '<div class="overview-metrics"><div><small>Ao đang nuôi</small><strong class="num">'+act+'<em> / '+PONDS.length+'</em></strong></div><div><small>Tổng diện tích</small><strong class="num">'+fmt(sum(PONDS,function(p){return p.area;}))+'<em> m²</em></strong></div></div></section>';
@@ -1909,7 +2099,7 @@ function homeView(){
   else if(!act&&PONDS.length)h+='<div class="empty">Chưa có ao nào đang nuôi. Bấm Thả giống ở một ao bên dưới. Sau đó ứng dụng sẽ nhắc đo nước, cho ăn, cân mẫu và báo khi chỉ số nước lệch.</div>';
   else if(!act&&!PONDS.length)h+='<div class="empty">Bắt đầu bằng cách thêm thông tin ao nuôi bên dưới.</div>';
   else if(!al.length)h+='<div class="alert good">'+ai('good')+'<div><b>Mọi thứ ổn</b><small>Chưa có chỉ số nào lệch.</small></div></div>';
-  else h+='<div class="stack">'+al.slice(0,3).map(function(a){var key=encodeURIComponent(alertIdentity(a));return '<div class="alert home-dismissible-alert '+a.lv+'"><button class="home-alert-open" data-act="open" data-pond="'+a.pid+'" aria-label="Xem chi tiết thông báo">'+ai(a.lv)+'<span><b>'+esc(a.t)+'</b><small>'+esc(a.s)+'</small></span></button><button class="home-alert-dismiss" data-act="dismissalert" data-id="'+key+'" aria-label="Ẩn thông báo này" title="Ẩn thông báo">×</button></div>';}).join('')+'</div>';
+  else h+='<div class="stack">'+al.slice(0,3).map(function(a){var key=encodeURIComponent(alertIdentity(a));return '<div class="alert home-dismissible-alert '+a.lv+'"><button class="home-alert-open" data-act="open" data-pond="'+a.pid+'" aria-label="Xem chi tiết thông báo">'+ai(a.lv)+'<span class="at-content"><b>'+esc(a.t)+'</b><small>'+esc(a.s)+'</small></span></button><button class="home-alert-dismiss" data-act="dismissalert" data-id="'+key+'" aria-label="Ẩn thông báo này" title="Ẩn thông báo">×</button></div>';}).join('')+'</div>';
   if(act)h+='<button class="link" data-act="advice" style="align-self:flex-start">'+(al.length>3?'Còn '+(al.length-3)+' mục nữa · ':'')+'Xem lời khuyên chi tiết</button>';
   h+='</div>';homeBlocks.alert=h;h='<div class="section pond-section home-module home-module-pond"><div class="section-heading"><h2 class="sec-h">'+si('pond')+'Danh sách ao nuôi</h2><span class="section-counter">'+PONDS.length+' ao</span></div>';
   if(activeP.length){
@@ -1985,7 +2175,7 @@ function pondView(p){
   if(tab==='overview'){
   h+='<div class="section pond-water-first"><h2 class="sec-h">'+si('water')+'Chỉ số nước mới nhất</h2>'+lastWaterLine(s.E)+waterCells(lw)+'</div>';
   h+='<button type="button" class="pond-stat-open" data-act="pondstats" data-pond="'+esc(p.id)+'">'+si('grid')+' Xem thông tin & thống kê chi tiết <span>›</span></button>';
-  var AD=adviceFor(c,p,s);
+  var AD=visibleAdvice(adviceFor(c,p,s),p.id);
   if(AD.length)h+='<div class="section"><h2 class="sec-h">'+si('bulb')+'Lời khuyên cho ao này</h2><div class="stack">'+AD.map(advCard).join('')+'</div></div>';
   h+=todayInfo(c);
   }
@@ -2330,16 +2520,22 @@ function adviceFor(c,p,s){
   var order={bad:0,warn:1,info:2,good:3};
   return A.sort(function(a,b){return order[a.lv]-order[b.lv];});
 }
+var hiddenAdviceKey='aotom_hidden_advice_v1';
+function hiddenAdviceRead(){try{var v=JSON.parse(localStorage.getItem(hiddenAdviceKey)||'{}');return v&&typeof v==='object'&&!Array.isArray(v)?v:{};}catch(e){return {};}}
+function adviceIdentity(a){return [a.pid||'',a.lv||'',a.t||'',a.s||''].join('|');}
+function visibleAdvice(A,pid){var hidden=hiddenAdviceRead();return A.filter(function(a){a.pid=pid;return !hidden[adviceIdentity(a)];});}
+function dismissAdvice(key){var x=hiddenAdviceRead();x[key]=Date.now();try{localStorage.setItem(hiddenAdviceKey,JSON.stringify(x));}catch(e){}render();toast('Đã ẩn lời khuyên');}
 function advCard(a){
   var open=(a.lv==='bad'||a.lv==='warn')?' open':'';
-  return '<details class="adv '+a.lv+'"'+open+'><summary>'+ai(a.lv)+'<span class="at"><b>'+esc(a.t)+'</b><small>'+esc(a.s)+'</small></span></summary><div class="adv-b"><ul>'+a.steps.map(function(x){return '<li>'+esc(x)+'</li>';}).join('')+'</ul><div class="adv-f"><span>Nguồn: '+esc(a.src)+'</span><button class="link" data-act="topic" data-id="'+a.topic+'">Đọc trong Cẩm nang</button></div></div></details>';
+  var key=encodeURIComponent(adviceIdentity(a));
+  return '<div class="advice-dismissible"><details class="adv '+a.lv+'"'+open+'><summary>'+ai(a.lv)+'<span class="at"><b>'+esc(a.t)+'</b><small>'+esc(a.s)+'</small></span></summary><div class="adv-b"><ul>'+a.steps.map(function(x){return '<li>'+esc(x)+'</li>';}).join('')+'</ul><div class="adv-f"><span>Nguồn: '+esc(a.src)+'</span><button class="link" data-act="topic" data-id="'+a.topic+'">Đọc trong Cẩm nang</button></div></div></details><button type="button" class="advice-dismiss" data-act="dismissadvice" data-id="'+key+'" title="Ẩn lời khuyên này" aria-label="Ẩn lời khuyên này">×</button></div>';
 }
 function adviceView(){
   var h='<div class="top"><div><div class="eyebrow">Dựa trên dữ liệu ao và cẩm nang</div><h1>Lời khuyên</h1></div></div>';
   var any=false;
   PONDS.forEach(function(p){
     var c=activeCrop(p.id);if(!c)return;any=true;
-    var s=stats(c,p),A=adviceFor(c,p,s);
+    var s=stats(c,p),A=visibleAdvice(adviceFor(c,p,s),p.id);
     h+='<div class="section"><h2 class="sec-h">'+si('pond')+p.name+' · ngày '+s.doc+'</h2><div class="stack">'+(A.length?A.map(advCard).join(''):'<div class="alert good">'+ai('good')+'<div><b>Chưa có gì cần xử lý</b></div></div>')+'</div></div>';
   });
   if(!any)h+='<div class="empty">Chưa có ao nào đang nuôi nên chưa có lời khuyên theo dữ liệu. Thả giống để bắt đầu. Trong lúc chờ, đọc mục Chuẩn bị ao và thả giống trong Cẩm nang.</div><button class="cta block" data-act="topic" data-id="chuanbi">Đọc: Chuẩn bị ao và thả giống</button>';
@@ -3126,12 +3322,14 @@ function onClick(ev){
   var el=ev.target.closest('[data-act]');if(!el)return;
   var a=el.getAttribute('data-act'),pid=el.getAttribute('data-pond'),id=el.getAttribute('data-id');
   if(a==='dismissalert'){try{dismissHomeAlert(decodeURIComponent(id||''));}catch(e){toast('Không thể ẩn thông báo');}}
+  else if(a==='dismissadvice'){try{dismissAdvice(decodeURIComponent(id||''));}catch(e){toast('Không thể ẩn lời khuyên');}}
   else if(a==='pondconfig')openPondConfig(pid);
   else if(a==='feedtimes')openFeedTimes(pid);
   else if(a==='addfeedtime'){var list=$('#feed-time-list');if(!list)return;if(list.querySelectorAll('input').length>=8){toast('Tối đa 8 cữ ăn.');return;}list.insertAdjacentHTML('beforeend','<div class="feed-time-row"><input aria-label="Giờ cho ăn" type="time" required><button type="button" data-act="removefeedtime" aria-label="Xóa cữ">×</button></div>');}
   else if(a==='removefeedtime'){var row=el.closest('.feed-time-row');if(row)row.remove();}
   else if(a==='pondstats')openPondStats(pid);
   else if(a==='pondtab'){ui.pondTab=el.getAttribute('data-v')||'overview';ui.endAsk=false;render();window.scrollTo(0,0);}
+  else if(a==='farmsettings')openFarmSettings();
   else if(a==='settings'){ui.view='inventory';ui.menuSection='settings';render();}
   else if(a==='weatherweek'){ui.view='inventory';ui.menuSection='weatherweek';render();if(!weatherLocation)weatherGpsLocate();else if(!weatherData||!weatherData.daily)fetchWeather(true);}
   else if(a==='home-up'||a==='home-down'){var id=el.getAttribute('data-module'),i=homeSettings.order.indexOf(id),j=i+(a==='home-up'?-1:1);if(i>=0&&j>=0&&j<homeSettings.order.length){homeSettings.order.splice(i,1);homeSettings.order.splice(j,0,id);saveHomeSettings();render();}}
