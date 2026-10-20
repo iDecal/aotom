@@ -639,6 +639,55 @@ nav .in{max-width:620px!important;grid-template-columns:1fr 1fr 72px 1fr 1fr!imp
 .weather-week-location-form input{flex:1;min-width:0;border:1px solid #C6DDE6;border-radius:11px;padding:10px;background:white;color:#173B50}
 .weather-week-location-form button{background:#157EAA;color:white}
 
+
+/* Thời tiết trực quan: icon riêng màu sắc nổi bật và thẻ số liệu dễ đọc */
+.home-module-weather .weather-overview{display:flex;flex-direction:column;gap:13px!important}
+.home-module-weather .weather-main-visual{display:flex;align-items:center;gap:14px;padding:13px 15px;border-radius:17px;background:linear-gradient(120deg,#E9F8FF,#F6FCFF)!important}
+.home-module-weather .weather-main-icon{width:70px;height:70px;display:grid;place-items:center;border-radius:18px;background:#D6F0FF;font-size:41px;flex:none}
+.home-module-weather .weather-main-copy{display:flex;flex-direction:column;gap:2px;min-width:0}
+.home-module-weather .weather-main-copy small{color:#4D6A7B;font-size:12px}
+.home-module-weather .weather-main-copy strong{font-size:32px;font-family:var(--font-display);letter-spacing:-.04em;color:#173F5C;line-height:1.2}
+.home-module-weather .weather-main-copy span{color:#58758A;font-size:12px}
+.home-module-weather .weather-summary-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px}
+.home-module-weather .weather-summary-cell{display:flex;flex-direction:column;align-items:flex-start;gap:5px;min-width:0;padding:11px 9px;border-radius:14px;border:0!important}
+.home-module-weather .weather-summary-cell.humidity{background:#EAF2FF!important}
+.home-module-weather .weather-summary-cell.wind{background:#E9F8F4!important}
+.home-module-weather .weather-summary-cell.rain{background:#FFF5E9!important}
+.home-module-weather .weather-metric-icon{font-size:24px;line-height:1.3;display:block}
+.home-module-weather .weather-summary-cell small{font-size:11px;font-weight:650;color:#445B6E!important}
+.home-module-weather .weather-summary-cell strong{font-size:18px;color:#142D43!important;white-space:nowrap;line-height:1.3}
+.home-module-weather .weather-summary-cell strong em{font-size:10px;font-style:normal;font-weight:550}
+.home-module-weather .weather-no-data{padding:12px 0}
+.weather-week-day{border:0!important;box-shadow:0 3px 13px rgba(25,66,88,.055);background:#fff!important}
+.week-day-metrics span{display:flex;align-items:center;justify-content:center;gap:4px;background:#EAF5FD!important;color:#173E58!important}
+.week-day-metrics span:nth-child(2){background:#E7F4FF!important}
+.week-day-metrics span:nth-child(3){background:#E7F8F2!important}
+@media(max-width:375px){.home-module-weather .weather-summary-grid{gap:6px}.home-module-weather .weather-summary-cell{padding:9px 6px}.home-module-weather .weather-summary-cell strong{font-size:16px}.home-module-weather .weather-main-icon{width:60px;height:60px;font-size:34px}}
+
+
+/* Tổng quan: hero tràn viền, ăn liền mép trên; thứ và ngày tháng rõ ràng */
+#app:has(>.overview-hero-edge){padding-top:0!important;}
+#app>.overview-hero-edge{box-sizing:border-box;position:relative;z-index:1;display:block;width:100%;padding:20px 22px 24px!important;margin-top:0!important;border-radius:0 0 25px 25px!important;background:linear-gradient(122deg,#07566F 0%,#087F9A 60%,#0BAEAB 100%)!important;box-shadow:0 10px 24px -20px rgba(2,73,93,.5)!important}
+.hero-topbar{position:relative;z-index:2;display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:23px}
+.hero-brand{display:flex;align-items:center;gap:9px;font-weight:800;font-size:17px;color:#fff}
+.hero-brand-icon{width:36px;height:36px;border-radius:12px;background:rgba(255,255,255,.18);display:grid;place-items:center}
+.hero-brand-icon svg{width:23px;height:23px}
+.hero-sync{display:flex;align-items:center;gap:5px;color:#e2f9f8;font-size:10px;white-space:nowrap}
+.hero-sync i{width:7px;height:7px;border-radius:50%;background:#a5f0ca}
+.hero-date-row{position:relative;z-index:2;display:flex;align-items:center;gap:12px;padding:12px 13px;border:1px solid rgba(255,255,255,.22);border-radius:16px;background:rgba(255,255,255,.14);box-shadow:inset 0 1px rgba(255,255,255,.07)}
+.hero-calendar{display:grid;place-items:center;flex:none;width:43px;height:43px;border-radius:13px;background:#fff3cc;color:#B46A04;box-shadow:0 2px 10px rgba(0,0,0,.09)}
+.hero-date-text{display:flex;flex-direction:column;gap:3px;flex:1;min-width:0}
+.hero-date-text strong{color:#fff;font-weight:800;text-transform:capitalize;font-size:17px;line-height:1.15}
+.hero-date-text span{color:#e6fbfc;font-weight:600;font-size:12px}
+.hero-today-pill{border:1px solid #e7eaa4;background:#eeffcd;color:#37663c;border-radius:999px;padding:5px 9px;font-size:10px;font-weight:800}
+.hero-summary{position:relative;z-index:2;display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:18px}
+#app>.overview-hero-edge .hero-summary p{margin:0!important;font-size:13px;color:#e8faf9;line-height:1.65}
+#app>.overview-hero-edge .overview-hero-icon{width:48px;height:48px;flex:none;border-radius:15px;opacity:.9}
+#app>.overview-hero-edge .overview-hero-icon svg{width:29px;height:29px}
+#app>.overview-hero-edge .overview-metrics{margin-top:17px}
+@media(max-width:700px){#app>.overview-hero-edge{width:100vw!important;margin-left:calc(50% - 50vw)!important;margin-right:calc(50% - 50vw)!important;padding:calc(16px + env(safe-area-inset-top,0px)) 19px 23px!important;border-radius:0 0 23px 23px!important}}
+@media(max-width:370px){.hero-brand{font-size:15px}.hero-sync{font-size:9px}.hero-today-pill{padding:5px 7px}}
+
 </style>
 </head>
 <body>
@@ -1686,8 +1735,13 @@ function weatherWeekView(header){
 function weatherSummaryView(){
  var loc=weatherLocation?esc(weatherLocation.name):'Chưa thiết lập';
  var d=weatherData&&weatherData.current;
- return '<section class="card weather-card"><div class="weather-head"><div><h2>🌦️ Thời tiết khu vực ao</h2><div class="weather-sub">'+loc+'</div></div></div>'+
- (d?'<div class="weather-now"><div><div class="weather-muted">Nhiệt độ hiện tại</div><div class="weather-temp">'+weatherNumber(d.temperature_2m,1)+'°C</div><div class="weather-muted">Độ ẩm '+weatherNumber(d.relative_humidity_2m,0)+'% · Gió '+weatherNumber(d.wind_speed_10m,0)+' km/h</div></div></div>':'<p class="weather-muted">'+esc(weatherError||'Chưa có dữ liệu thời tiết.')+'</p>')+
+ var current=d?'<div class="weather-main-visual"><div class="weather-main-icon" aria-hidden="true">'+(Number(d.precipitation)>0?'🌧️':Number(d.cloud_cover)>70?'☁️':'🌤️')+'</div><div class="weather-main-copy"><small>Nhiệt độ hiện tại</small><strong>'+weatherNumber(d.temperature_2m,1)+'°C</strong><span>Cảm nhận '+weatherNumber(d.apparent_temperature,1)+'°C</span></div></div>'+ 
+ '<div class="weather-summary-grid">'+
+ '<div class="weather-summary-cell humidity"><span class="weather-metric-icon" aria-hidden="true">💧</span><small>Độ ẩm</small><strong>'+weatherNumber(d.relative_humidity_2m,0)+'%</strong></div>'+
+ '<div class="weather-summary-cell wind"><span class="weather-metric-icon" aria-hidden="true">🌬️</span><small>Tốc độ gió</small><strong>'+weatherNumber(d.wind_speed_10m,0)+' <em>km/h</em></strong></div>'+
+ '<div class="weather-summary-cell rain"><span class="weather-metric-icon" aria-hidden="true">🌧️</span><small>Lượng mưa</small><strong>'+weatherNumber(d.precipitation,1)+' <em>mm</em></strong></div></div>':
+ '<div class="weather-muted weather-no-data">'+esc(weatherError||'Chưa có dữ liệu thời tiết. Hãy mở dự báo 7 ngày để chọn khu vực.')+'</div>';
+ return '<section class="card weather-card weather-overview"><div class="weather-head"><div><h2>🌤️ Thời tiết khu vực ao</h2><div class="weather-sub">📍 '+loc+'</div></div></div>'+current+
  '<button class="home-detail-link" data-act="weatherweek">Xem dự báo 7 ngày →</button></section>';
 }
 function homeView(){
@@ -1695,9 +1749,13 @@ function homeView(){
   var al=[],act=0,activeP=[],emptyP=[];
   PONDS.forEach(function(p){var c=activeCrop(p.id);if(c){act++;activeP.push(p);var s=stats(c,p);alertsFor(c,p,s).forEach(function(a){a.pid=p.id;al.push(a);});}else emptyP.push(p);});
   var order={bad:0,warn:1,info:2,good:3};al.sort(function(a,b){return order[a.lv]-order[b.lv];});
-  var h='<div class="top"><div class="brand"><span class="logo">'+ic('shrimp')+'</span><div><div class="eyebrow">'+esc(t)+'</div><h1>Trại tôm thẻ</h1></div></div>'+
-    '<div class="sync '+(mode==='local'?'loc':'')+'"><i></i>'+(mode==='local'?'Trên máy này':'Đã đồng bộ')+'</div></div>';
-  h+='<section class="overview-hero"><div class="overview-hero-top"><div><div class="overview-eyebrow">TỔNG QUAN TRẠI NUÔI</div><h2>Tổng quan trại nuôi</h2><p>Tình trạng ao, thời tiết và công việc cần làm hôm nay.</p></div><div class="overview-hero-icon">'+ic('shrimp')+'</div></div><div class="overview-metrics"><div><small>Ao đang nuôi</small><strong class="num">'+act+'<em> / '+PONDS.length+'</em></strong></div><div><small>Tổng diện tích</small><strong class="num">'+fmt(sum(PONDS,function(p){return p.area;}))+'<em> m²</em></strong></div></div></section>';
+  var weekday=new Date().toLocaleDateString('vi-VN',{weekday:'long'});
+  var dateToday=new Date().toLocaleDateString('vi-VN',{day:'2-digit',month:'2-digit',year:'numeric'});
+  var dateIcon='<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M7 3v4M17 3v4M3 10h18"/><path d="m9 15 2 2 4-4"/></svg>';
+  var h='<section class="overview-hero overview-hero-edge"><div class="hero-topbar"><div class="hero-brand"><span class="hero-brand-icon">'+ic('shrimp')+'</span><span>Trại tôm thẻ</span></div><div class="hero-sync"><i></i>'+(mode==='local'?'Trên máy này':'Đã đồng bộ')+'</div></div>'+
+    '<div class="hero-date-row"><div class="hero-calendar">'+dateIcon+'</div><div class="hero-date-text"><strong>'+esc(weekday)+'</strong><span>'+esc(dateToday)+'</span></div><span class="hero-today-pill">Hôm nay</span></div>'+
+    '<div class="hero-summary"><div><p>Theo dõi tình trạng ao nuôi, thời tiết và thông tin hôm nay.</p></div><div class="overview-hero-icon">'+ic('shrimp')+'</div></div>'+
+    '<div class="overview-metrics"><div><small>Ao đang nuôi</small><strong class="num">'+act+'<em> / '+PONDS.length+'</em></strong></div><div><small>Tổng diện tích</small><strong class="num">'+fmt(sum(PONDS,function(p){return p.area;}))+'<em> m²</em></strong></div></div></section>';
   var homeBlocks={};homeBlocks.weather='<div class="home-module home-module-weather">'+weatherSummaryView()+'</div>';
   var prior=h;h='<div class="section priority-section home-module home-module-alert"><div class="section-heading"><h2 class="sec-h">'+si('bell')+'Cần làm và chú ý</h2><span class="section-counter">'+al.length+' thông báo</span></div>';
   if(!loaded)h+='<div class="empty">Đang tải dữ liệu…</div>';
