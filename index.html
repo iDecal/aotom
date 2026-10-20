@@ -543,6 +543,16 @@ nav .in{max-width:620px!important;grid-template-columns:1fr 1fr 72px 1fr 1fr!imp
 .pond-water-first .wcell{background:#fff}
 @media(max-width:360px){.pond-setting-row{gap:7px}.pond-setting-row button{font-size:11px;padding:8px 5px}}
 
+
+/* Tab điều hướng riêng cho trang Chi tiết ao */
+.pond-page-tabs{position:static!important;display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:5px!important;padding:5px!important;margin:2px 0 6px!important;border:0!important;border-radius:16px!important;background:#EDF5F8!important;box-shadow:none!important;backdrop-filter:none!important;z-index:auto!important;width:100%!important}
+.pond-page-tabs button{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;min-width:0;min-height:62px;padding:7px 2px;border:0;border-radius:12px;background:transparent;color:#576A78;font-size:11px;font-weight:700;white-space:nowrap}
+.pond-page-tabs button span{font-size:20px;line-height:1.1}
+.pond-page-tabs button.active{background:#FFFFFF;color:#087F94;box-shadow:0 2px 8px rgba(6,64,81,.08)}
+.pond-tab-lead{display:flex;flex-direction:column;gap:3px;padding:4px 1px 3px}
+.pond-tab-lead b{font-size:17px;color:var(--ink)}
+.pond-tab-lead small{font-size:12px;color:var(--ink2);line-height:1.5}
+
 </style>
 </head>
 <body>
@@ -1297,7 +1307,7 @@ function lastWaterLine(E){
 }
 /* ---------- dữ liệu và lưu trữ ---------- */
 var crops={}, loaded=false, mode='local', dbh=null, chain={};
-var ui={view:'home',pond:null,logLimit:30,delId:null,endAsk:false,scope:'cur',menuSection:'menu',productFilterText:'',productFilterCategory:'all',productFilterStock:'all',productFilterOpen:false,reportPond:'all',reportScope:'cur',reportType:'profit'};
+var ui={view:'home',pond:null,logLimit:30,delId:null,endAsk:false,scope:'cur',menuSection:'menu',productFilterText:'',productFilterCategory:'all',productFilterStock:'all',productFilterOpen:false,reportPond:'all',reportScope:'cur',reportType:'profit',pondTab:'overview'};
 
 function lsRead(){try{var r=localStorage.getItem(KEY);return r?JSON.parse(r):{};}catch(e){return {};}}
 function lsWrite(){try{localStorage.setItem(KEY,JSON.stringify(crops));}catch(e){}}
@@ -1625,26 +1635,41 @@ function pondView(p){
   h+='<div class="card hero reference-hero"><div class="hero-top"><div class="hero-main"><h1>'+p.name.replace('Ao ','Ao ')+'<small>m²</small></h1><div class="sub">Thả ngày: '+esc(c.stockDate)+' · Mật độ: '+fmt(s.density,0)+' con/m²</div></div><div class="hero-day"><strong class="num">N'+s.doc+'</strong><span>NGÀY NUÔI</span></div></div>'+
    '<div class="hero-stats"><div><span>Tổng giống thả</span><b class="num">'+fmt(c.qty)+' con</b></div><div><span>Tổng thức ăn đã dùng</span><b class="num">'+fmt(s.totalFeed,1)+' kg</b></div></div></div>';
   h+=settings;
+  var tab=ui.pondTab||'overview';
+  h+='<nav class="pond-page-tabs" aria-label="Menu chi tiết ao">'+[
+    ['overview','Tổng quan','◈'],['tasks','Công việc','☑'],['reports','Báo cáo','▥'],['journal','Nhật ký','☷']
+  ].map(function(t){return '<button type="button" data-act="pondtab" data-v="'+t[0]+'" class="'+(tab===t[0]?'active':'')+'" aria-current="'+(tab===t[0]?'page':'false')+'"><span>'+t[2]+'</span>'+t[1]+'</button>';}).join('')+'</nav>';
+  if(tab==='overview'){
   h+='<div class="section pond-water-first"><h2 class="sec-h">'+si('water')+'Chỉ số nước mới nhất</h2>'+lastWaterLine(s.E)+waterCells(lw)+'</div>';
-  h+='<div class="reference-actions">'+[['feed','Cho ăn'],['water','Đo nước'],['abw','Cân mẫu'],['cost','Chi phí']].map(function(a){return '<button class="ref-action" data-k="'+a[0]+'" data-act="form" data-kind="'+a[0]+'" data-pond="'+p.id+'"><span class="ref-action-icon">'+ic(a[0])+'</span><span>'+a[1]+'</span></button>';}).join('')+'</div>';
   h+='<details class="more-details"><summary>'+si('grid')+' Xem thông tin và thống kê chi tiết <span>⌄</span></summary><div class="details-inside"><div class="grid2">'+
    cell('Số tôm thả',fmt(c.qty),'con','shrimp')+cell('Mật độ',fmt(s.density,0),'con/m²','grid')+
    cell('Cỡ tôm',(s.w>=1?fmt(s.w,1):fmt(s.w,2)),'g'+(s.measured?'':' (ước)'),'abw')+cell('Cỡ con/kg',fmt(1000/s.w),'con/kg','abw')+
    cell('Sống ước tính',fmt(s.surv*100,0),'%','heart')+cell('Sinh khối',fmt(s.biomass,0),'kg','abw')+
    cell('Tăng trưởng',s.adg!=null?fmt(s.adg,2):'—','g/ngày','trend')+cell('Thức ăn đã dùng',fmt(s.totalFeed,0),'kg','feed')+
    cell('FCR',s.fcr?fmt(s.fcr,2):'—',s.m.hk?'':'tạm tính','gauge')+cell('Gợi ý hôm nay',fmt(s.rec,1),'kg · đã '+fmt(s.fedToday,1),'feed')+'</div></div></details>';
-  h+=xferInfo(c);
   var AD=adviceFor(c,p,s);
   if(AD.length)h+='<div class="section"><h2 class="sec-h">'+si('bulb')+'Lời khuyên cho ao này</h2><div class="stack">'+AD.map(advCard).join('')+'</div></div>';
   h+=todayInfo(c);
+  }
+  if(tab==='tasks'){
+    h+='<div class="pond-tab-lead"><b>Công việc trong ao</b><small>Ghi nhanh hoạt động chăm sóc và quản lý vụ nuôi.</small></div>';
+  h+='<div class="reference-actions">'+[['feed','Cho ăn'],['water','Đo nước'],['abw','Cân mẫu'],['cost','Chi phí']].map(function(a){return '<button class="ref-action" data-k="'+a[0]+'" data-act="form" data-kind="'+a[0]+'" data-pond="'+p.id+'"><span class="ref-action-icon">'+ic(a[0])+'</span><span>'+a[1]+'</span></button>';}).join('')+'</div>';
   h+='<div class="section"><h2>Thao tác khác</h2><div class="actions">'+['treat',isNur(c)?'xfer':'harvest','death','note'].map(function(k){return '<button class="act" data-k="'+k+'" data-act="'+(k==='xfer'?'xfer':'form')+'" data-kind="'+k+'" data-pond="'+p.id+'">'+ic(k)+TAGN[k]+'</button>';}).join('')+'</div></div>';
+  h+='<div class="section">'+(ui.endAsk?'<div class="card" style="padding:14px;display:flex;flex-direction:column;gap:10px"><b>Kết thúc vụ nuôi ở '+p.name+'?</b><span style="color:var(--ink2);font-size:14px">Dữ liệu vụ này vẫn được giữ trong phần Các vụ trước. Ao sẽ chuyển sang trạng thái trống.</span><div style="display:flex;gap:8px"><button class="cta danger" data-act="endyes">Kết thúc vụ</button><button class="cta ghost" data-act="endno">Hủy</button></div></div>':'<button class="cta ghost block" data-act="endask">Kết thúc vụ nuôi</button>')+'</div>';
+  }
+  if(tab==='reports'){
+    h+='<div class="pond-tab-lead"><b>Báo cáo ao nuôi</b><small>Theo dõi tăng trưởng, lượng thức ăn và lịch sử các vụ.</small></div>';
   h+='<div class="card chartbox"><h3>Trọng lượng tôm</h3><p>Theo ngày nuôi, so với đường tăng trưởng tham khảo.</p>'+abwChart(c,s)+'<div class="legend"><span><i></i>Cân mẫu thực tế</span><span><i class="d"></i>Tham khảo</span></div></div>';
   h+='<div class="card chartbox"><h3>Thức ăn 14 ngày</h3><p>Kg mỗi ngày. Vạch cam là lượng gợi ý hôm nay.</p>'+feedChart(c,s)+'</div>';
   h+='<p class="hint" style="margin:-8px 2px 0">Lượng ăn gợi ý tính theo sinh khối ước tính nhân tỉ lệ cho ăn theo cỡ tôm. Chỉ để tham khảo, hãy điều chỉnh theo sàng ăn và thời tiết.</p>';
 
-  h+='<div class="section">'+(ui.endAsk?'<div class="card" style="padding:14px;display:flex;flex-direction:column;gap:10px"><b>Kết thúc vụ nuôi ở '+p.name+'?</b><span style="color:var(--ink2);font-size:14px">Dữ liệu vụ này vẫn được giữ trong phần Các vụ trước. Ao sẽ chuyển sang trạng thái trống.</span><div style="display:flex;gap:8px"><button class="cta danger" data-act="endyes">Kết thúc vụ</button><button class="cta ghost" data-act="endno">Hủy</button></div></div>':'<button class="cta ghost block" data-act="endask">Kết thúc vụ nuôi</button>')+'</div>';
-  h+=histRows(p.id);
-  h+='<div class="section ref-journal"><h2>Nhật ký ghi chép gần đây</h2>'+logList(s)+'</div>';
+    h+=xferInfo(c);
+    h+=histRows(p.id);
+  }
+  if(tab==='journal'){
+    h+='<div class="pond-tab-lead"><b>Nhật ký ao</b><small>Các hoạt động đã ghi của vụ nuôi đang diễn ra.</small></div>';
+    h+='<div class="section ref-journal"><h2>Nhật ký ghi chép</h2>'+logList(s)+'</div>';
+  }
   return h;
 }
 function cell(l,v,u,i){return '<div class="cell"><span>'+(i?si(i):'')+l+'</span><b class="num">'+v+(u?'<small>'+u+'</small>':'')+'</b></div>';}
@@ -2731,6 +2756,7 @@ function onClick(ev){
   if(a==='feedtimes')openFeedTimes(pid);
   else if(a==='addfeedtime'){var list=$('#feed-time-list');if(!list)return;if(list.querySelectorAll('input').length>=8){toast('Tối đa 8 cữ ăn.');return;}list.insertAdjacentHTML('beforeend','<div class="feed-time-row"><input aria-label="Giờ cho ăn" type="time" required><button type="button" data-act="removefeedtime" aria-label="Xóa cữ">×</button></div>');}
   else if(a==='removefeedtime'){var row=el.closest('.feed-time-row');if(row)row.remove();}
+  else if(a==='pondtab'){ui.pondTab=el.getAttribute('data-v')||'overview';ui.endAsk=false;render();window.scrollTo(0,0);}
   else if(a==='weather-refresh'){weatherFetched=0;fetchWeather(true);}
   else if(a==='weather-edit'){weatherEdit=true;render();}
   else if(a==='weather-cancel'){weatherEdit=false;render();}
@@ -2776,7 +2802,7 @@ function onClick(ev){
   else if(a==='issuedel')removeIssue(id);
   else if(a==='kbgroup'){kbFilter.group=el.getAttribute('data-id')||'all';render();}
   else if(a==='topic'){ui.view='topic';ui.topic=el.getAttribute('data-id');render();window.scrollTo(0,0);}
-  else if(a==='open'){ui.view='pond';ui.pond=pid;ui.logLimit=30;ui.delId=null;ui.endAsk=false;render();window.scrollTo(0,0);}
+  else if(a==='open'){ui.view='pond';ui.pondTab='overview';ui.pond=pid;ui.logLimit=30;ui.delId=null;ui.endAsk=false;render();window.scrollTo(0,0);}
   else if(a==='pick')openPick();
   else if(a==='close')sheetClose();
 
