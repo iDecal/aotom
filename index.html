@@ -1052,6 +1052,46 @@ nav .fab:hover,nav .fab:active{transform:none!important;filter:none!important;bo
 #prodform textarea{width:100%;min-height:66px;padding:12px 13px;border:0;background:transparent;color:var(--ink);resize:vertical;font:13px var(--font-body);line-height:1.5}
 .buy-manual-price:not([hidden]){display:flex;flex-direction:column;gap:6px;margin-top:8px}
 .buy-manual-price .inp{background:#fff}
+
+/* 20/10 - Tổng quan: màu tương phản, không rối mắt, tiêu đề rõ */
+#app:has(.overview-hero){gap:16px}
+#app .overview-hero{background:linear-gradient(125deg,#086D79 0%,#079A96 58%,#21A99A 100%)!important;color:#fff!important;border:0!important;box-shadow:none!important}
+#app .overview-hero h2{color:#FFFFFF!important;font-size:clamp(25px,5vw,31px)!important;line-height:1.22!important;letter-spacing:-.02em}
+#app .overview-hero .overview-eyebrow{color:#E2FFFA!important;font-size:11px!important}
+#app .overview-hero p,#app .overview-metrics small{color:#EDFFFC!important;font-size:13px!important}
+#app .overview-metrics strong,#app .overview-metrics em{color:#FFFFFF!important}
+#app .overview-metrics>div{background:rgba(0,57,61,.20)!important;border:0!important}
+#app .overview-hero-icon{border:0!important;background:rgba(255,255,255,.12)!important}
+#app .home-module{border:0!important;border-left:0!important;box-shadow:none!important;border-radius:20px!important;padding:17px!important;gap:12px!important}
+#app .home-module .section-heading h2,#app .home-module .section-heading .si{font-size:19px!important;font-weight:800!important;color:#172A3B!important}
+#app .home-module .section-counter{background:rgba(255,255,255,.78)!important;border:0!important;color:#253949!important;font-weight:700!important}
+#app .home-module-weather{background:#EFF8FC!important;padding:0!important;overflow:visible!important}
+#app .home-module-weather .weather-card{border:0!important;border-radius:20px!important;background:#F0F8FC!important;padding:18px!important;box-shadow:none!important}
+#app .home-module-weather .weather-head h2{color:#172A3B!important;font-size:19px!important;font-weight:800!important}
+#app .home-module-weather .weather-now{background:#FFFFFF!important;border:0!important;color:#172A3B!important}
+#app .home-module-weather .weather-stat{background:#FFFFFF!important;border:0!important;color:#172A3B!important}
+#app .home-module-weather .weather-temp,#app .home-module-weather .weather-stat b{color:#172A3B!important}
+#app .home-module-weather .weather-sub,#app .home-module-weather .weather-muted,#app .home-module-weather .weather-stat small{color:#526575!important}
+#app .home-module-weather .weather-pill,#app .home-module-weather .weather-btn{border-color:#D1E4EE!important;color:#263B4F!important}
+#app .home-module-alert{background:#FFF0D4!important;color:#172A3B!important}
+#app .home-module-alert .alert{background:rgba(255,255,255,.79)!important;border:0!important;box-shadow:none!important}
+#app .home-module-alert .alert b{color:#172A3B!important}
+#app .home-module-alert .alert small{color:#526575!important}
+#app .home-module-alert .empty{background:rgba(255,255,255,.78)!important;border:0!important;color:#263B4F!important}
+#app .home-module-alert .link{color:#8C5000!important;font-weight:700!important}
+#app .home-module-pond{background:#DDF2E9!important;color:#172A3B!important}
+#app .home-module-pond .pond-section-title h3{color:#172A3B!important;font-weight:800!important;font-size:16px!important}
+#app .home-module-pond .pond-section-title small{color:#415968!important}
+#app .home-module-pond .pond-live,#app .home-module-pond .pond:not(.pond-live){background:#FFFFFF!important;border:0!important;box-shadow:none!important}
+#app .home-module-pond .pond-title-row h2{color:#172A3B!important;font-weight:800!important}
+#app .home-module-pond .pond-meta{color:#526575!important}
+#app .home-module-pond .pond-kpi-card{background:#F1F8FA!important;border:0!important}
+#app .home-module-pond .pond-kpi-card b{color:#14283B!important}
+#app .home-module-pond .pond-kpi-card .label{color:#536575!important}
+#app .home-module-pond .pond-feed-card{background:#F4FAFC!important;border:0!important}
+#app .home-module-pond .add-pond-btn{background:#18775F!important;color:#FFF!important;border:0!important;box-shadow:none!important}
+@media(max-width:390px){#app .home-module{padding:14px!important}#app .home-module-weather{padding:0!important}#app .home-module .section-heading h2{font-size:17px!important}}
+
 </style>
 
 <div id="app"></div>
@@ -1448,10 +1488,6 @@ function homeView(){
     '<div class="sync '+(mode==='local'?'loc':'')+'"><i></i>'+(mode==='local'?'Trên máy này':'Đã đồng bộ')+'</div></div>';
   h+='<section class="overview-hero"><div class="overview-hero-top"><div><div class="overview-eyebrow">TỔNG QUAN TRẠI NUÔI</div><h2>Tổng quan trại nuôi</h2><p>Tình trạng ao, thời tiết và công việc cần làm hôm nay.</p></div><div class="overview-hero-icon">'+ic('shrimp')+'</div></div><div class="overview-metrics"><div><small>Ao đang nuôi</small><strong class="num">'+act+'<em> / '+PONDS.length+'</em></strong></div><div><small>Tổng diện tích</small><strong class="num">'+fmt(sum(PONDS,function(p){return p.area;}))+'<em> m²</em></strong></div></div></section>';
   h+='<div class="home-module home-module-weather">'+weatherView()+'</div>';
-  var emptyWarehouseCats=warehouseCategorySummary().filter(function(g){return g.empty;});
-  if(emptyWarehouseCats.length){
-    h+='<button type="button" class="warehouse-warning-home" data-act="warehousewarning"><span class="warehouse-warning-symbol">⚠</span><span><b>Danh mục vật tư đang trống: '+emptyWarehouseCats.length+'</b><small>'+emptyWarehouseCats.map(function(g){return esc(g.name);}).join(' · ')+'</small><em>Xem Kho vật tư →</em></span></button>';
-  }
   h+='<div class="section priority-section home-module home-module-alert"><div class="section-heading"><h2 class="sec-h">'+si('bell')+'Cần làm và chú ý</h2><span class="section-counter">'+al.length+' thông báo</span></div>';
   if(!loaded)h+='<div class="empty">Đang tải dữ liệu…</div>';
   else if(!act&&PONDS.length)h+='<div class="empty">Chưa có ao nào đang nuôi. Bấm Thả giống ở một ao bên dưới. Sau đó ứng dụng sẽ nhắc đo nước, cho ăn, cân mẫu và báo khi chỉ số nước lệch.</div>';
