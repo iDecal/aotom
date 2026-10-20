@@ -532,6 +532,17 @@ nav .in{max-width:620px!important;grid-template-columns:1fr 1fr 72px 1fr 1fr!imp
 .pond-detail-btn .si{width:17px;height:17px;margin:0}
 @media(max-width:390px){.pond-detail-action{padding:0 14px 14px}}
 
+
+/* Chi tiết ao: hai nút cài đặt, nước lên đầu, nhật ký dưới cùng */
+.pond-setting-row{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:0 0 3px}
+.pond-setting-row button{display:flex;gap:6px;align-items:center;justify-content:center;min-height:46px;padding:9px 7px;border:1px solid #CDE7E3;border-radius:13px;background:#EAF7F5;color:#205F61;font:700 12px var(--font-body);white-space:nowrap}
+.pond-setting-row button:last-child{background:#EFF4FF;border-color:#D8E1F4;color:#375F98}
+.pond-setting-row .si{width:16px;height:16px;margin:0;flex:none}
+.pond-water-first{padding:14px;border-radius:18px;background:#EFF8FC;border:1px solid #DCEEF5;gap:12px}
+.pond-water-first h2{font-size:18px;color:#194C65}
+.pond-water-first .wcell{background:#fff}
+@media(max-width:360px){.pond-setting-row{gap:7px}.pond-setting-row button{font-size:11px;padding:8px 5px}}
+
 </style>
 </head>
 <body>
@@ -1454,7 +1465,7 @@ function openFeedTimes(pid){
  var times=feedTimesFor(pid);
  var fields=(times.length?times:['07:00','11:00','17:00']).map(function(t){return '<div class="feed-time-row"><input aria-label="Giờ cho ăn" type="time" value="'+esc(t)+'" required><button type="button" data-act="removefeedtime" aria-label="Xóa cữ">×</button></div>';}).join('');
  sheetOpen('<div class="panel-h"><div><div class="eyebrow">'+esc(p.name)+'</div><h2>Cài đặt giờ cho ăn</h2></div><button class="x" data-act="close" aria-label="Đóng">×</button></div>'+
- '<form id="feedtimesform" class="stack"><p class="hint">Cài giờ cho từng ao. Các cữ ăn sẽ hiển thị trên Tổng quan và trang chi tiết ao.</p><div class="feed-time-list" id="feed-time-list">'+fields+'</div><button type="button" data-act="addfeedtime" class="feed-add-time">＋ Thêm cữ ăn</button><div class="err" id="feed-time-error"></div><button type="submit" class="cta block">Lưu lịch cho ăn</button></form>');
+ '<form id="feedtimesform" class="stack"><p class="hint">Cài giờ cho từng ao. Các cữ ăn được lưu riêng cho ao; chỉnh sửa lịch tại trang Chi tiết ao.</p><div class="feed-time-list" id="feed-time-list">'+fields+'</div><button type="button" data-act="addfeedtime" class="feed-add-time">＋ Thêm cữ ăn</button><div class="err" id="feed-time-error"></div><button type="submit" class="cta block">Lưu lịch cho ăn</button></form>');
  $('#feedtimesform').onsubmit=function(ev){ev.preventDefault();var a=Array.from(document.querySelectorAll('#feed-time-list input[type=time]')).map(function(x){return x.value;});
  if(a.some(function(x){return !/^([01]\d|2[0-3]):[0-5]\d$/.test(x);})||a.length>8){$('#feed-time-error').textContent='Chọn giờ hợp lệ (tối đa 8 cữ).';return;}
  if(new Set(a).size!==a.length){$('#feed-time-error').textContent='Có giờ bị trùng, hãy chỉnh lại.';return;}
@@ -1604,16 +1615,18 @@ function histRows(pid){
   }).join('')+'</div></div>';
 }
 function pondView(p){
-  var c=activeCrop(p.id),h='<button class="back" data-act="home">'+ic('back').replace('<svg','<svg width="20" height="20"')+'Tổng quan</button><button class="cta ghost" data-act="pondedit" data-pond="'+p.id+'">⚙ Chỉnh sửa thông tin ao</button>';
+  var c=activeCrop(p.id),h='<button class="back" data-act="home">'+ic('back').replace('<svg','<svg width="20" height="20"')+'Tổng quan</button>';
+  var settings='<div class="pond-setting-row"><button type="button" data-act="pondedit" data-pond="'+esc(p.id)+'">'+si('grid')+' Thông tin ao</button><button type="button" data-act="feedtimes" data-pond="'+esc(p.id)+'">'+si('cal')+' Giờ cho ăn</button></div>';
   if(!c){
-    h+='<div class="card hero"><h1>'+esc(p.name)+'</h1><p>Ao đang trống · '+pondSpec(p)+'</p><button class="cta block" data-act="stock" data-pond="'+p.id+'">Thả giống vụ mới</button></div>'+histRows(p.id);
+    h+='<div class="card hero"><h1>'+esc(p.name)+'</h1><p>Ao đang trống · Chưa có vụ nuôi đang hoạt động</p><button class="cta block" data-act="stock" data-pond="'+p.id+'">Thả giống vụ mới</button></div>'+settings+histRows(p.id);
     return h;
   }
   var s=stats(c,p),lw=latestWater(s.E),al=alertsFor(c,p,s).filter(function(a){return a.lv==='bad'||a.lv==='warn';});
   h+='<div class="card hero reference-hero"><div class="hero-top"><div class="hero-main"><h1>'+p.name.replace('Ao ','Ao ')+'<small>m²</small></h1><div class="sub">Thả ngày: '+esc(c.stockDate)+' · Mật độ: '+fmt(s.density,0)+' con/m²</div></div><div class="hero-day"><strong class="num">N'+s.doc+'</strong><span>NGÀY NUÔI</span></div></div>'+
    '<div class="hero-stats"><div><span>Tổng giống thả</span><b class="num">'+fmt(c.qty)+' con</b></div><div><span>Tổng thức ăn đã dùng</span><b class="num">'+fmt(s.totalFeed,1)+' kg</b></div></div></div>';
-  h+='<div class="pond-spec detail-spec">'+pondSpec(p)+'</div>'+feedTimeSummary(p.id)+'<div class="reference-actions">'+[['feed','Cho ăn'],['water','Đo nước'],['abw','Cân mẫu'],['cost','Chi phí']].map(function(a){return '<button class="ref-action" data-k="'+a[0]+'" data-act="form" data-kind="'+a[0]+'" data-pond="'+p.id+'"><span class="ref-action-icon">'+ic(a[0])+'</span><span>'+a[1]+'</span></button>';}).join('')+'</div>';
-  h+='<div class="section ref-journal"><h2>Nhật ký ghi chép gần đây</h2>'+logList(s)+'</div>';
+  h+=settings;
+  h+='<div class="section pond-water-first"><h2 class="sec-h">'+si('water')+'Chỉ số nước mới nhất</h2>'+lastWaterLine(s.E)+waterCells(lw)+'</div>';
+  h+='<div class="reference-actions">'+[['feed','Cho ăn'],['water','Đo nước'],['abw','Cân mẫu'],['cost','Chi phí']].map(function(a){return '<button class="ref-action" data-k="'+a[0]+'" data-act="form" data-kind="'+a[0]+'" data-pond="'+p.id+'"><span class="ref-action-icon">'+ic(a[0])+'</span><span>'+a[1]+'</span></button>';}).join('')+'</div>';
   h+='<details class="more-details"><summary>'+si('grid')+' Xem thông tin và thống kê chi tiết <span>⌄</span></summary><div class="details-inside"><div class="grid2">'+
    cell('Số tôm thả',fmt(c.qty),'con','shrimp')+cell('Mật độ',fmt(s.density,0),'con/m²','grid')+
    cell('Cỡ tôm',(s.w>=1?fmt(s.w,1):fmt(s.w,2)),'g'+(s.measured?'':' (ước)'),'abw')+cell('Cỡ con/kg',fmt(1000/s.w),'con/kg','abw')+
@@ -1625,13 +1638,13 @@ function pondView(p){
   if(AD.length)h+='<div class="section"><h2 class="sec-h">'+si('bulb')+'Lời khuyên cho ao này</h2><div class="stack">'+AD.map(advCard).join('')+'</div></div>';
   h+=todayInfo(c);
   h+='<div class="section"><h2>Thao tác khác</h2><div class="actions">'+['treat',isNur(c)?'xfer':'harvest','death','note'].map(function(k){return '<button class="act" data-k="'+k+'" data-act="'+(k==='xfer'?'xfer':'form')+'" data-kind="'+k+'" data-pond="'+p.id+'">'+ic(k)+TAGN[k]+'</button>';}).join('')+'</div></div>';
-  h+='<div class="section"><h2 class="sec-h">'+si('water')+'Chỉ số nước mới nhất</h2>'+lastWaterLine(s.E)+waterCells(lw)+'</div>';
   h+='<div class="card chartbox"><h3>Trọng lượng tôm</h3><p>Theo ngày nuôi, so với đường tăng trưởng tham khảo.</p>'+abwChart(c,s)+'<div class="legend"><span><i></i>Cân mẫu thực tế</span><span><i class="d"></i>Tham khảo</span></div></div>';
   h+='<div class="card chartbox"><h3>Thức ăn 14 ngày</h3><p>Kg mỗi ngày. Vạch cam là lượng gợi ý hôm nay.</p>'+feedChart(c,s)+'</div>';
   h+='<p class="hint" style="margin:-8px 2px 0">Lượng ăn gợi ý tính theo sinh khối ước tính nhân tỉ lệ cho ăn theo cỡ tôm. Chỉ để tham khảo, hãy điều chỉnh theo sàng ăn và thời tiết.</p>';
 
   h+='<div class="section">'+(ui.endAsk?'<div class="card" style="padding:14px;display:flex;flex-direction:column;gap:10px"><b>Kết thúc vụ nuôi ở '+p.name+'?</b><span style="color:var(--ink2);font-size:14px">Dữ liệu vụ này vẫn được giữ trong phần Các vụ trước. Ao sẽ chuyển sang trạng thái trống.</span><div style="display:flex;gap:8px"><button class="cta danger" data-act="endyes">Kết thúc vụ</button><button class="cta ghost" data-act="endno">Hủy</button></div></div>':'<button class="cta ghost block" data-act="endask">Kết thúc vụ nuôi</button>')+'</div>';
   h+=histRows(p.id);
+  h+='<div class="section ref-journal"><h2>Nhật ký ghi chép gần đây</h2>'+logList(s)+'</div>';
   return h;
 }
 function cell(l,v,u,i){return '<div class="cell"><span>'+(i?si(i):'')+l+'</span><b class="num">'+v+(u?'<small>'+u+'</small>':'')+'</b></div>';}
