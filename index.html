@@ -591,6 +591,25 @@ nav .in{max-width:620px!important;grid-template-columns:1fr 1fr 72px 1fr 1fr!imp
 .pond-stat-facts span{color:#607585}.pond-stat-facts b{text-align:right;color:#17394B}
 @media(max-width:390px){.pond-setting-cards button{padding:10px 7px!important;gap:6px!important}.pond-setting-cards .ps-chevron{display:none}.pond-setting-cards .ps-icon{width:27px;height:27px}}
 
+
+/* Thanh menu chính và cấu hình trang chủ */
+#main-bottom-nav:not(.pond-bottom-mode) .in{display:grid!important;grid-template-columns:1fr 1fr 70px 1fr 1fr!important;align-items:center!important}
+#main-bottom-nav:not(.pond-bottom-mode) .nb{display:flex!important;flex-direction:column;align-items:center;justify-content:center;gap:4px!important;min-width:0;font-size:10px!important}
+#main-bottom-nav:not(.pond-bottom-mode) .nb svg{display:block;width:22px;height:22px}
+#main-bottom-nav:not(.pond-bottom-mode) .fab{display:flex!important;align-items:center;justify-content:center;position:relative}
+.settings-intro,.settings-block{display:flex;flex-direction:column;gap:12px;padding:16px;border-radius:18px;background:var(--surface);border:1px solid var(--line)}
+.settings-intro{background:#E6F5F8}.settings-intro>b{font-size:19px}.settings-intro small,.settings-block p{font-size:12px;color:var(--ink2);margin:0}
+.settings-block h2{font-size:16px}
+#home-sort-list{display:flex;flex-direction:column;gap:8px}
+.home-sort-item{display:flex;align-items:center;gap:8px;padding:10px 9px;border:1px solid var(--line);background:var(--bg);border-radius:12px}
+.drag-grip{font-size:20px;cursor:grab;color:#64748B;touch-action:none}.sort-icon{font-size:20px}.sort-label{font-size:12px;flex:1;font-weight:700;min-width:0}.setting-switch{display:flex;align-items:center;gap:3px;font-size:11px;white-space:nowrap}.setting-switch input{accent-color:#087E94;width:17px;height:17px}.sort-arrows{display:flex;gap:2px}.sort-arrows button{border:0;background:#E0EBF2;border-radius:6px;padding:5px;font-size:13px}
+.settings-ponds{display:flex;flex-direction:column;gap:8px}.settings-pond-row{display:flex;align-items:center;justify-content:space-between;gap:8px;border-radius:11px;padding:12px;background:var(--bg);flex-wrap:wrap}.settings-pond-row b{font-size:13px}.settings-pond-row>div{display:flex;gap:5px}.settings-pond-row button,.settings-create-pond,.settings-gps,.settings-weather-form button{border:0;background:#D6EEF4;color:#135B6C;padding:8px 9px;border-radius:9px;font-size:11px;font-weight:700}
+.settings-weather-form{display:flex;gap:7px}.settings-weather-form input{min-width:0;flex:1;padding:10px;border:1px solid var(--line);border-radius:10px;background:#fff;color:#142C3B}.settings-weather-form button{white-space:nowrap}.setting-current-location{font-size:12px;color:#145D70}
+.weather-week-meta{display:flex;align-items:center;justify-content:space-between;gap:5px;font-size:12px;font-weight:600}.weather-week-meta button{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:7px}
+.weather-week-list{display:flex;flex-direction:column;gap:10px}.weather-week-day{background:var(--surface);border:1px solid var(--line);border-radius:15px;padding:13px;display:flex;flex-direction:column;gap:9px}.week-day-head{display:flex;justify-content:space-between;gap:8px;align-items:center}.week-day-head strong{font-size:13px}.week-day-head span{font-size:10px}.week-risk{color:#AD5E13}.week-normal{color:#468767}.week-day-metrics{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px}.week-day-metrics span{background:#EDF7FB;border-radius:9px;padding:8px 4px;text-align:center;font-size:11px;font-weight:700}.weather-week-day small{font-size:11px;color:#9E641C}
+.home-detail-link{align-self:flex-start;border:0;background:#E3F1F7;color:#11607A;border-radius:10px;padding:9px 13px;font-size:12px;font-weight:700}
+.home-module-pond .pond-detail-btn{display:block;width:100%}.home-module-pond .pond-detail-action{padding:0 12px 12px}
+
 </style>
 </head>
 <body>
@@ -1588,10 +1607,39 @@ function fetchWeather(force){
   if(!weatherLocation||weatherBusy||(!force&&weatherFetched&&Date.now()-weatherFetched<30*60000))return;
   weatherBusy=true;weatherError='';
   var loc=weatherLocation;
-  fetch('https://api.open-meteo.com/v1/forecast?latitude='+encodeURIComponent(loc.lat)+'&longitude='+encodeURIComponent(loc.lon)+'&current=temperature_2m,apparent_temperature,relative_humidity_2m,precipitation,cloud_cover,wind_speed_10m,wind_gusts_10m&hourly=temperature_2m,precipitation,precipitation_probability,wind_gusts_10m&forecast_days=2&timezone=auto').then(function(r){if(!r.ok)throw Error('Không thể tải dự báo');return r.json();}).then(function(d){if(loc!==weatherLocation)return;weatherData=d;weatherFetched=Date.now();weatherBusy=false;if(ui.view==='home')render();}).catch(function(){weatherBusy=false;weatherError='Không tải được thời tiết. Kiểm tra kết nối mạng rồi thử lại.';if(ui.view==='home')render();});
+  fetch('https://api.open-meteo.com/v1/forecast?latitude='+encodeURIComponent(loc.lat)+'&longitude='+encodeURIComponent(loc.lon)+'&current=temperature_2m,apparent_temperature,relative_humidity_2m,precipitation,cloud_cover,wind_speed_10m,wind_gusts_10m&hourly=temperature_2m,precipitation,precipitation_probability,wind_gusts_10m&daily=temperature_2m_max,temperature_2m_min,precipitation_sum,wind_speed_10m_max&forecast_days=7&timezone=auto').then(function(r){if(!r.ok)throw Error('Không thể tải dự báo');return r.json();}).then(function(d){if(loc!==weatherLocation)return;weatherData=d;weatherFetched=Date.now();weatherBusy=false;if(ui.view==='home'||(ui.view==='inventory'&&ui.menuSection==='weatherweek'))render();}).catch(function(){weatherBusy=false;weatherError='Không tải được thời tiết. Kiểm tra kết nối mạng rồi thử lại.';if(ui.view==='home'||(ui.view==='inventory'&&ui.menuSection==='weatherweek'))render();});
 }
 function chooseWeatherCity(city){weatherBusy=true;weatherError='';render();fetch('https://geocoding-api.open-meteo.com/v1/search?name='+encodeURIComponent(city)+'&count=5&language=vi&format=json').then(function(r){if(!r.ok)throw Error();return r.json();}).then(function(d){weatherBusy=false;if(!d.results||!d.results.length)throw Error('Không tìm thấy địa điểm. Thử nhập tên thành phố hoặc huyện gần ao.');var x=d.results[0];saveWeatherLocation({lat:x.latitude,lon:x.longitude,name:[x.name,x.admin1,x.country].filter(Boolean).join(', ')});}).catch(function(e){weatherBusy=false;weatherError=e.message||'Không tìm thấy địa điểm hoặc mất kết nối mạng.';render();});}
 
+var HOME_SETTINGS_KEY='aotom.home.layout.v2';
+var HOME_MODULES=[['weather','Thời tiết','🌦️'],['alert','Cảnh báo & nhắc nhở','🔔'],['pond','Danh sách ao','🦐']];
+function defaultHomeSettings(){return {order:['weather','alert','pond'],visible:{weather:true,alert:true,pond:true}};}
+var homeSettings=defaultHomeSettings();
+try{var _hs=JSON.parse(localStorage.getItem(HOME_SETTINGS_KEY)||'null');if(_hs&&Array.isArray(_hs.order)&&_hs.visible){homeSettings.order=['weather','alert','pond'].sort(function(a,b){var x=_hs.order.indexOf(a),y=_hs.order.indexOf(b);return (x<0?99:x)-(y<0?99:y);});HOME_MODULES.forEach(function(x){homeSettings.visible[x[0]]=_hs.visible[x[0]]!==false;});}}catch(e){}
+function saveHomeSettings(){try{localStorage.setItem(HOME_SETTINGS_KEY,JSON.stringify(homeSettings));}catch(e){toast('Không lưu được tùy chỉnh trên máy này.');}}
+function settingsView(header){
+ return header+'<div class="settings-intro">⚙️ <b>Cài đặt ứng dụng</b><small>Tùy chỉnh ao, thời tiết và thông tin trang Tổng quan.</small></div>'+
+ '<div class="settings-block"><h2>🏡 Hiển thị trang chủ</h2><p>Chọn mục muốn hiển thị; kéo giữ biểu tượng ☰ để đổi thứ tự ưu tiên.</p><div id="home-sort-list">'+homeSettings.order.map(function(id){var meta=HOME_MODULES.filter(function(x){return x[0]===id;})[0];return '<div class="home-sort-item" data-module="'+id+'" draggable="true"><span class="drag-grip" title="Kéo để sắp xếp">☰</span><span class="sort-icon">'+meta[2]+'</span><span class="sort-label">'+meta[1]+'</span><label class="setting-switch"><input type="checkbox" data-role="home-visible" data-module="'+id+'"'+(homeSettings.visible[id]?' checked':'')+'><span>Hiện</span></label><div class="sort-arrows"><button data-act="home-up" data-module="'+id+'" aria-label="Đưa lên">↑</button><button data-act="home-down" data-module="'+id+'" aria-label="Đưa xuống">↓</button></div></div>';}).join('')+'</div></div>'+
+ '<div class="settings-block"><h2>🦐 Cài đặt ao nuôi</h2><p>Chọn ao để chỉnh sửa cấu hình hoặc giờ cho ăn.</p><div class="settings-ponds">'+(PONDS.length?PONDS.map(function(p){return '<div class="settings-pond-row"><b>'+esc(p.name)+'</b><div><button data-act="pondedit" data-pond="'+esc(p.id)+'">Thông tin</button><button data-act="feedtimes" data-pond="'+esc(p.id)+'">Giờ ăn</button></div></div>';}).join(''):'<p>Chưa có ao nào. Vào trang Tổng quan để xem danh sách ao.</p>')+'</div><button data-act="pondadd" class="settings-create-pond">＋ Tạo ao mới</button></div>'+
+ '<div class="settings-block"><h2>🌦️ Cài đặt thời tiết</h2><p>Chọn khu vực nhận dự báo thời tiết 7 ngày.</p>'+weatherLocation?'<div class="setting-current-location">📍 '+esc(weatherLocation.name)+'</div>':'<p>Chưa thiết lập khu vực ao nuôi.</p>'+
+ '<form id="weather-city-form" class="settings-weather-form"><input name="city" required placeholder="Nhập tỉnh / thành phố, ví dụ Cà Mau"><button type="submit">Lưu khu vực</button></form><button data-act="weather-gps" class="settings-gps">📍 Lấy vị trí hiện tại</button></div>';
+}
+function weatherWeekView(header){
+ var html=header+'<div class="news-intro"><b>🌦️ Dự báo thời tiết 7 ngày</b><span>Biến động thời tiết khu vực ao, giúp chủ động lịch cho ăn và quản lý nước.</span></div>';
+ if(!weatherLocation)return html+'<div class="empty">Chưa chọn khu vực. Hãy thiết lập tại Menu → Cài đặt → Thời tiết.</div><button class="cta block" data-act="settings">Mở Cài đặt</button>';
+ html+='<div class="weather-week-meta">📍 '+esc(weatherLocation.name)+' <button data-act="weather-refresh">↻ Làm mới</button></div>';
+ if(!weatherData||!weatherData.daily){html+='<div class="empty">'+(weatherBusy?'Đang tải dự báo…':esc(weatherError||'Đang chờ dữ liệu dự báo.'))+'</div>';return html;}
+ var d=weatherData.daily;
+ html+='<div class="weather-week-list">'+d.time.slice(0,7).map(function(date,i){var rain=Number(d.precipitation_sum[i]||0),wind=Number(d.wind_speed_10m_max[i]||0),risk=rain>=20||wind>=35;return '<div class="weather-week-day"><div class="week-day-head"><strong>'+new Date(date+'T12:00:00').toLocaleDateString('vi-VN',{weekday:'long',day:'numeric',month:'numeric'})+'</strong><span class="'+(risk?'week-risk':'week-normal')+'">'+(risk?'⚠ Cần chú ý':'Dự báo')+'</span></div><div class="week-day-metrics"><span>🌡️ '+weatherNumber(d.temperature_2m_min[i],0)+'–'+weatherNumber(d.temperature_2m_max[i],0)+'°C</span><span>🌧️ '+weatherNumber(rain,1)+' mm</span><span>💨 '+weatherNumber(wind,0)+' km/h</span></div>'+(risk?'<small>Cân nhắc theo dõi oxy, pH và lượng thức ăn khi thời tiết biến động.</small>':'')+'</div>';}).join('')+'</div>';
+ return html+'<p class="report-hint">Nguồn: Open-Meteo. Dự báo có thể thay đổi; cảnh báo dựa trên ngưỡng tham khảo mưa ≥20 mm/ngày hoặc gió ≥35 km/h, không thay thế đo đạc thực tế tại ao.</p>';
+}
+function weatherSummaryView(){
+ var loc=weatherLocation?esc(weatherLocation.name):'Chưa thiết lập';
+ var d=weatherData&&weatherData.current;
+ return '<section class="card weather-card"><div class="weather-head"><div><h2>🌦️ Thời tiết khu vực ao</h2><div class="weather-sub">'+loc+'</div></div></div>'+
+ (d?'<div class="weather-now"><div><div class="weather-muted">Nhiệt độ hiện tại</div><div class="weather-temp">'+weatherNumber(d.temperature_2m,1)+'°C</div><div class="weather-muted">Độ ẩm '+weatherNumber(d.relative_humidity_2m,0)+'% · Gió '+weatherNumber(d.wind_speed_10m,0)+' km/h</div></div></div>':'<p class="weather-muted">'+esc(weatherError||'Chưa có dữ liệu thời tiết.')+'</p>')+
+ '<button class="home-detail-link" data-act="weatherweek">Xem dự báo 7 ngày →</button></section>';
+}
 function homeView(){
   var t=new Date().toLocaleDateString('vi-VN',{weekday:'long',day:'numeric',month:'numeric'});
   var al=[],act=0,activeP=[],emptyP=[];
@@ -1600,15 +1648,15 @@ function homeView(){
   var h='<div class="top"><div class="brand"><span class="logo">'+ic('shrimp')+'</span><div><div class="eyebrow">'+esc(t)+'</div><h1>Trại tôm thẻ</h1></div></div>'+
     '<div class="sync '+(mode==='local'?'loc':'')+'"><i></i>'+(mode==='local'?'Trên máy này':'Đã đồng bộ')+'</div></div>';
   h+='<section class="overview-hero"><div class="overview-hero-top"><div><div class="overview-eyebrow">TỔNG QUAN TRẠI NUÔI</div><h2>Tổng quan trại nuôi</h2><p>Tình trạng ao, thời tiết và công việc cần làm hôm nay.</p></div><div class="overview-hero-icon">'+ic('shrimp')+'</div></div><div class="overview-metrics"><div><small>Ao đang nuôi</small><strong class="num">'+act+'<em> / '+PONDS.length+'</em></strong></div><div><small>Tổng diện tích</small><strong class="num">'+fmt(sum(PONDS,function(p){return p.area;}))+'<em> m²</em></strong></div></div></section>';
-  h+='<div class="home-module home-module-weather">'+weatherView()+'</div>';
-  h+='<div class="section priority-section home-module home-module-alert"><div class="section-heading"><h2 class="sec-h">'+si('bell')+'Cần làm và chú ý</h2><span class="section-counter">'+al.length+' thông báo</span></div>';
+  var homeBlocks={};homeBlocks.weather='<div class="home-module home-module-weather">'+weatherSummaryView()+'</div>';
+  var prior=h;h='<div class="section priority-section home-module home-module-alert"><div class="section-heading"><h2 class="sec-h">'+si('bell')+'Cần làm và chú ý</h2><span class="section-counter">'+al.length+' thông báo</span></div>';
   if(!loaded)h+='<div class="empty">Đang tải dữ liệu…</div>';
   else if(!act&&PONDS.length)h+='<div class="empty">Chưa có ao nào đang nuôi. Bấm Thả giống ở một ao bên dưới. Sau đó ứng dụng sẽ nhắc đo nước, cho ăn, cân mẫu và báo khi chỉ số nước lệch.</div>';
   else if(!act&&!PONDS.length)h+='<div class="empty">Bắt đầu bằng cách thêm thông tin ao nuôi bên dưới.</div>';
   else if(!al.length)h+='<div class="alert good">'+ai('good')+'<div><b>Mọi thứ ổn</b><small>Chưa có chỉ số nào lệch.</small></div></div>';
   else h+='<div class="stack">'+al.slice(0,3).map(function(a){return '<button class="alert '+a.lv+'" data-act="open" data-pond="'+a.pid+'">'+ai(a.lv)+'<div><b>'+esc(a.t)+'</b><small>'+esc(a.s)+'</small></div></button>';}).join('')+'</div>';
   if(act)h+='<button class="link" data-act="advice" style="align-self:flex-start">'+(al.length>3?'Còn '+(al.length-3)+' mục nữa · ':'')+'Xem lời khuyên chi tiết</button>';
-  h+='</div><div class="section pond-section home-module home-module-pond"><div class="section-heading"><h2 class="sec-h">'+si('pond')+'Danh sách ao nuôi</h2><span class="section-counter">'+PONDS.length+' ao</span></div>';
+  h+='</div>';homeBlocks.alert=h;h='<div class="section pond-section home-module home-module-pond"><div class="section-heading"><h2 class="sec-h">'+si('pond')+'Danh sách ao nuôi</h2><span class="section-counter">'+PONDS.length+' ao</span></div>';
   if(activeP.length){
     h+='<div class="pond-section-group"><div class="pond-section-title"><h3>🔵 Ao đang nuôi</h3><small>'+activeP.length+' ao hoạt động</small></div><div class="stack">'+activeP.map(pondCard).join('')+'</div></div>';
   }
@@ -1616,9 +1664,7 @@ function homeView(){
     h+='<div class="pond-section-group"><div class="pond-section-title"><h3>⚪ Ao trống / chờ thả</h3><small>'+emptyP.length+' ao</small></div><div class="stack">'+emptyP.map(pondCard).join('')+'</div></div>';
   }
   if(!PONDS.length)h+='<div class="empty">Chưa có ao nào. Hãy thêm thông tin ao nuôi đầu tiên.</div>';
-  h+='<button class="cta block add-pond-btn" data-act="pondadd"><span class="add-pond-plus">＋</span><span>Thêm ao nuôi</span></button></div>';
-
-  return h;
+  h+='</div>';homeBlocks.pond=h;h=prior;homeSettings.order.forEach(function(id){if(homeSettings.visible[id]&&homeBlocks[id])h+=homeBlocks[id];});return h;
 }
 
 function waterCells(lw){
@@ -2268,7 +2314,7 @@ function fetchShrimpNews(){
 }
 function inventoryView(){
  var section=ui.menuSection||'menu', names=allProducts(),warehouseNames=names.filter(function(n){return stockOf(n).inKg>0;});
- var title=({menu:'Menu',suppliers:'Nhà cung cấp',products:'Sản phẩm',stock:'Kho vật tư',reports:'Báo cáo',news:'Giá tôm & thị trường'}[section]||'Menu');
+ var title=({menu:'Menu',suppliers:'Nhà cung cấp',products:'Sản phẩm',stock:'Kho vật tư',reports:'Báo cáo',news:'Giá tôm & thị trường',settings:'Cài đặt',weatherweek:'Thời tiết 7 ngày'}[section]||'Menu');
  var header=section==='menu'?'<div class="top menu-top"><div><div class="eyebrow">Quản lý trại nuôi</div><h1>Menu</h1></div></div>':'<div class="menu-inline-head"><button class="menu-inline-back" data-act="menuback" aria-label="Quay lại Menu">← Quay lại Menu</button><h1>'+title+'</h1></div>';
  var back='';
  if(section==='menu'){
@@ -2279,9 +2325,13 @@ function inventoryView(){
    ['stock','Kho vật tư','Tồn kho, nhập hàng, công nợ','📦'],
    ['reports','Báo cáo','Lãi lỗ, chi phí, thức ăn…','📈'],
    ['news','Giá tôm & thị trường','Giá thu mua, diễn biến thị trường','🦐'],
-   ['guide','Tài liệu / Cẩm nang','Kiến thức nuôi tôm','📖']
+   ['guide','Tài liệu / Cẩm nang','Kiến thức nuôi tôm','📖'],
+   ['weatherweek','Thời tiết','Dự báo và cảnh báo 7 ngày','🌦️'],
+   ['settings','Cài đặt','Ao nuôi, thời tiết, trang chủ','⚙️']
    ].map(function(m){return '<button class="menu-tile" data-act="menusection" data-section="'+m[0]+'"><span class="menu-emoji">'+m[3]+'</span><span class="menu-tile-text"><b>'+m[1]+'</b><small>'+m[2]+'</small></span><span class="menu-chevron">›</span></button>';}).join('')+'</div>';
  }
+ if(section==='settings')return settingsView(header);
+ if(section==='weatherweek')return weatherWeekView(header);
  if(section==='suppliers'){
    return header+back+'<button class="cta block menu-primary" data-act="supplieradd">＋ Thêm nhà cung cấp</button>'+
    '<div class="section"><h2>Danh sách NCC · '+suppliers.length+'</h2><div class="stack">'+(suppliers.length?suppliers.map(function(v,i){var n=supplierName(v),phone=typeof v==='object'?v.phone||'':'',addr=typeof v==='object'?v.address||'':'';return '<div class="card menu-list-item"><div class="menu-item-body"><b>'+esc(n)+'</b><small>'+(phone?'☎ '+esc(phone):'Chưa có SĐT')+(addr?' · '+esc(addr):'')+' · '+(typeof v==='object'&&v.paymentMethod==='cash'?'Trả thẳng':'Công nợ')+'</small></div><button class="menu-edit" data-act="supplieredit" data-index="'+i+'">✎ <span>Sửa</span></button></div>';}).join(''):'<div class="empty">Chưa có nhà cung cấp. Hãy thêm để chọn nhanh khi nhập hàng.</div>')+'</div></div>';
@@ -2678,7 +2728,7 @@ function render(){
     }).join('');
   }else{
     bottom.classList.remove('pond-bottom-mode');
-    if(!bottom.querySelector('#nb-home'))bottom.querySelector('.in').innerHTML='<button class="nb" data-act="home" id="nb-home"></button><button class="nb" data-act="advice" id="nb-adv"></button><button class="fab" data-act="pick" aria-label="Ghi nhanh"></button><button class="nb" data-act="journal" id="nb-money"></button><button class="nb" data-act="kb" id="nb-kb"></button>';
+    if(!bottom.querySelector('#nb-home'))bottom.querySelector('.in').innerHTML='<button class="nb" data-act="home" id="nb-home">'+ic('home')+'Tổng quan</button><button class="nb" data-act="advice" id="nb-adv">'+ic('bulb')+'Lời khuyên</button><button class="fab" data-act="pick" aria-label="Ghi nhanh"><span class="fab-plus">+</span></button><button class="nb" data-act="journal" id="nb-money">'+ic('note')+'Nhật ký</button><button class="nb" data-act="kb" id="nb-kb">'+ic('grid')+'Menu</button>';
   }
   var cls={home:v==='home'||v==='pond',adv:v==='advice',money:v==='journal',kb:v==='inventory'||v==='kb'||v==='topic'};if(v==='pond'&&ui.pond)return;$('#nb-home').className='nb'+(cls.home?' on':'');$('#nb-adv').className='nb'+(cls.adv?' on':'');$('#nb-money').className='nb'+(cls.money?' on':'');$('#nb-kb').className='nb'+(cls.kb?' on':'');
 }
@@ -2818,6 +2868,9 @@ function onClick(ev){
   else if(a==='removefeedtime'){var row=el.closest('.feed-time-row');if(row)row.remove();}
   else if(a==='pondstats')openPondStats(pid);
   else if(a==='pondtab'){ui.pondTab=el.getAttribute('data-v')||'overview';ui.endAsk=false;render();window.scrollTo(0,0);}
+  else if(a==='settings'){ui.view='inventory';ui.menuSection='settings';render();}
+  else if(a==='weatherweek'){ui.view='inventory';ui.menuSection='weatherweek';render();if(!weatherData||!weatherData.daily)fetchWeather(true);}
+  else if(a==='home-up'||a==='home-down'){var id=el.getAttribute('data-module'),i=homeSettings.order.indexOf(id),j=i+(a==='home-up'?-1:1);if(i>=0&&j>=0&&j<homeSettings.order.length){homeSettings.order.splice(i,1);homeSettings.order.splice(j,0,id);saveHomeSettings();render();}}
   else if(a==='weather-refresh'){weatherFetched=0;fetchWeather(true);}
   else if(a==='weather-edit'){weatherEdit=true;render();}
   else if(a==='weather-cancel'){weatherEdit=false;render();}
@@ -2854,7 +2907,7 @@ function onClick(ev){
   else if(a==='warehousewarning'){ui.view='inventory';ui.menuSection='stock';ui.warehouseTab='stock';render();window.scrollTo(0,0);}
   else if(a==='newsrefresh'){fetchShrimpNews();}
   else if(a==='newscat'){newsState.category=el.getAttribute('data-v')||'all';render();}
-  else if(a==='menusection'){var s=el.getAttribute('data-section');if(s==='buy'){ui.view='inventory';ui.menuSection='stock';ui.warehouseTab='buy';render();window.scrollTo(0,0);}else if(s==='guide'){ui.view='kb';render();window.scrollTo(0,0);}else{ui.menuSection=s;render();window.scrollTo(0,0);if(s==='news'&&(!newsState.updated||Date.now()-newsState.updated>15*60*1000))fetchShrimpNews();}}
+  else if(a==='menusection'){var s=el.getAttribute('data-section');if(s==='buy'){ui.view='inventory';ui.menuSection='stock';ui.warehouseTab='buy';render();window.scrollTo(0,0);}else if(s==='guide'){ui.view='kb';render();window.scrollTo(0,0);}else{ui.menuSection=s;render();window.scrollTo(0,0);if(s==='weatherweek'&&(!weatherData||!weatherData.daily))fetchWeather(true);if(s==='news'&&(!newsState.updated||Date.now()-newsState.updated>15*60*1000))fetchShrimpNews();}}
   else if(a==='issueadd')openIssueForm();
   else if(a==='productinfo')openProductInfo(el.getAttribute('data-name'));
   else if(a==='productuse')openIssueForm(el.getAttribute('data-name'));
@@ -2911,6 +2964,12 @@ document.addEventListener('change',function(ev){
   else if(role==='product-filter-stock'){ui.productFilterStock=t.value||'all'; if(ui.view==='inventory') render();}
 });
 
+document.addEventListener('change',function(e){if(e.target&&e.target.dataset.role==='home-visible'){homeSettings.visible[e.target.dataset.module]=e.target.checked;saveHomeSettings();}});
+var draggedHomeModule=null;
+document.addEventListener('dragstart',function(e){var item=e.target.closest&&e.target.closest('.home-sort-item');if(item){draggedHomeModule=item.dataset.module;e.dataTransfer.effectAllowed='move';}});
+document.addEventListener('dragover',function(e){var item=e.target.closest&&e.target.closest('.home-sort-item');if(item&&draggedHomeModule){e.preventDefault();e.dataTransfer.dropEffect='move';}});
+document.addEventListener('drop',function(e){var item=e.target.closest&&e.target.closest('.home-sort-item');if(item&&draggedHomeModule){e.preventDefault();var from=homeSettings.order.indexOf(draggedHomeModule),to=homeSettings.order.indexOf(item.dataset.module);if(from>=0&&to>=0&&from!==to){homeSettings.order.splice(from,1);homeSettings.order.splice(to,0,draggedHomeModule);saveHomeSettings();render();}draggedHomeModule=null;}});
+document.addEventListener('dragend',function(){draggedHomeModule=null;});
 document.addEventListener('click',onClick);
 document.addEventListener('keydown',function(e){if(e.key==='Escape')sheetClose();});
 
