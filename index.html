@@ -1298,50 +1298,6 @@ body:not(:has(#app>.overview-hero-edge)){background:var(--bg)!important;color:va
 #app:has(>.overview-hero-edge) .home-module-alert .link{color:#FCE3B4!important}
 #app:has(>.overview-hero-edge) .section-counter{background:rgba(245,252,255,.92)!important;color:#1A455C!important}
 
-
-/* Light Mode: icon tiêu đề nổi ở góc trái phía trên, viền và bóng nhẹ */
-#app:has(>.overview-hero-edge) .home-module-alert .sec-h,
-#app:has(>.overview-hero-edge) .home-module-pond .sec-h,
-#app:has(>.overview-hero-edge) .home-module-weather .weather-head h2{
- display:flex!important;align-items:center!important;gap:11px!important;overflow:visible!important;
-}
-#app:has(>.overview-hero-edge) .home-module-alert .sec-h .si,
-#app:has(>.overview-hero-edge) .home-module-pond .sec-h .si{
- display:block!important;width:25px!important;height:25px!important;
- box-sizing:content-box!important;flex:none!important;
- padding:9px!important;margin-left:-12px!important;margin-top:-15px!important;
- border-radius:14px!important;position:relative!important;
- background:linear-gradient(145deg,rgba(255,255,255,.98),rgba(247,251,255,.89))!important;
- border:1.5px solid rgba(172,198,217,.84)!important;
- box-shadow:0 5px 11px rgba(36,83,115,.14),inset 0 1px rgba(255,255,255,.95)!important;
-}
-#app:has(>.overview-hero-edge) .home-module-alert .sec-h .si{color:#B37A23!important;border-color:#EACDA3!important;background:linear-gradient(150deg,#FFFDF6,#FFF1D7)!important}
-#app:has(>.overview-hero-edge) .home-module-pond .sec-h .si{color:#16866D!important;border-color:#A3DAC6!important;background:linear-gradient(150deg,#FFFFFF,#E0F7EE)!important}
-#app:has(>.overview-hero-edge) .home-heading-weather-icon{
- display:inline-flex!important;align-items:center!important;justify-content:center!important;
- width:43px!important;height:43px!important;box-sizing:border-box!important;flex:none!important;
- margin-left:-12px!important;margin-top:-15px!important;
- border-radius:14px!important;background:linear-gradient(150deg,#FFFFFF,#E3F4FF)!important;
- border:1.5px solid #B7DDF3!important;
- box-shadow:0 5px 11px rgba(36,83,115,.14),inset 0 1px rgba(255,255,255,.96)!important;
- font-size:25px!important;line-height:1!important;
-}
-@media(max-width:390px){
- #app:has(>.overview-hero-edge) .home-module-alert .sec-h .si,
- #app:has(>.overview-hero-edge) .home-module-pond .sec-h .si{width:22px!important;height:22px!important;padding:8px!important;margin-left:-9px!important;margin-top:-12px!important;border-radius:12px!important}
- #app:has(>.overview-hero-edge) .home-heading-weather-icon{width:39px!important;height:39px!important;margin-left:-9px!important;margin-top:-12px!important;border-radius:12px!important;font-size:23px!important}
-}
-
-
-/* Icon tiêu đề: giữ nền cũ, bỏ hoàn toàn đường viền, bóng xanh dương dịu */
-#app:has(>.overview-hero-edge) .home-module-alert .sec-h .si,
-#app:has(>.overview-hero-edge) .home-module-pond .sec-h .si,
-#app:has(>.overview-hero-edge) .home-heading-weather-icon{
-  border:0!important;
-  outline:0!important;
-  box-shadow:0 6px 16px rgba(43,132,196,.17),0 2px 5px rgba(43,132,196,.08)!important;
-}
-
 </style>
 </head>
 <body>
@@ -2680,7 +2636,7 @@ function weatherSummaryView(){
  '<div class="weather-summary-cell wind"><span class="weather-metric-icon" aria-hidden="true">🌬️</span><small>Tốc độ gió</small><strong>'+weatherNumber(d.wind_speed_10m,0)+' <em>km/h</em></strong></div>'+
  '<div class="weather-summary-cell rain"><span class="weather-metric-icon" aria-hidden="true">🌧️</span><small>Lượng mưa</small><strong>'+weatherNumber(d.precipitation,1)+' <em>mm</em></strong></div></div>':
  '<div class="weather-muted weather-no-data">'+esc(weatherError||'Chưa có dữ liệu thời tiết. Hãy mở dự báo 7 ngày để chọn khu vực.')+'</div>';
- return '<section class="card weather-card weather-overview"><div class="weather-head"><div><h2><span class="home-heading-weather-icon" aria-hidden="true">🌤️</span>Thời tiết khu vực ao</h2><div class="weather-sub">📍 '+loc+'</div></div></div>'+current+
+ return '<section class="card weather-card weather-overview"><div class="weather-head"><div><h2>🌤️ Thời tiết khu vực ao</h2><div class="weather-sub">📍 '+loc+'</div></div></div>'+current+
  '<button class="home-detail-link" data-act="weatherweek">Xem dự báo 7 ngày →</button></section>';
 }
 /* Chỉ ẩn thông báo theo lựa chọn người dùng; không sửa dữ liệu ao. */
